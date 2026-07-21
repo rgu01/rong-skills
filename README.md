@@ -32,6 +32,14 @@ export ANTHROPIC_API_KEY=...   # or: ant auth login
 python scripts/compare_tokenizers.py claude-opus-4-8 claude-haiku-4-5
 ```
 
+## Knowledge
+
+Study notes and reference write-ups live under `knowledge/`.
+
+| Note | Topic |
+|------|-------|
+| [`llm-tokens-and-attention.md`](knowledge/llm-tokens-and-attention.md) | How LLMs work end to end — tokenization (BPE/WordPiece/Unigram), embeddings, training & gradient descent, positional encoding (RoPE), and attention (Q/K/V, transformer layers, MLP), plus the philosophical limits of what an LLM's output can mean. |
+
 ## Installation
 
 Skills are picked up from a runtime's skills directory. Symlink each skill you want into the directories for the runtimes you use, so a single source stays the source of truth:
