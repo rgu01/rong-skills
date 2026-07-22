@@ -54,4 +54,4 @@ Assess the submission as **pass** or **revision needed**, without numerical poin
 
 Hard revision cases include a fabricated or impossible trace; no real tool evidence; a vacuous proof presented as a guarantee; mixed final-model and result versions; a timed extension with no behaviour change; or a generic AI statement without independent judgment. Do not require one topology or perfect prose.
 
-An optional final `model.xml` run may confirm a concern but is not mandatory when the report is coherent. If XML contradicts the report, record the exact contradiction as evidence and apply the holistic rules. The responsibility declaration in section 8 is a consistency signal, not a substitute for evidence.
+An optional final Extensible Markup Language (XML) `model.xml` run may confirm a concern but is not mandatory when the report is coherent. If XML contradicts the report, record the exact contradiction as evidence and apply the holistic rules. The responsibility declaration in section 8 is a consistency signal, not a substitute for evidence.
