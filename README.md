@@ -7,6 +7,7 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 | Skill | Purpose |
 |-------|---------|
 | [`qna`](skills/qna/SKILL.md) | Pace long answers instead of dumping them — deliver a big explanation one part at a time, checking in with the user before continuing. Invoked with `/qna` (opt-in per question). |
+| [`uppaal`](skills/uppaal/SKILL.md) | Build correct, runnable UPPAAL timed-automata models — networks of TA, clocks/guards/invariants, synchronisation channels, urgent/committed locations, templates, and TCTL queries — emitting a single `.xml` (queries embedded) that loads and verifies in UPPAAL. |
 
 ## Layout
 
@@ -14,6 +15,9 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 skills/
   qna/
     SKILL.md        # one skill per directory; SKILL.md is the entry point
+  uppaal/
+    SKILL.md        # thin launcher
+    reference/      # workflow docs loaded on demand
 ```
 
 Each skill is a directory under `skills/` containing a `SKILL.md` with YAML frontmatter (`name`, `description`) and the skill body.
@@ -50,7 +54,9 @@ REPO="$(pwd)"
 
 for dir in ~/.claude/skills ~/.agents/skills ~/.codex/skills; do
   mkdir -p "$dir"
-  ln -s "$REPO/skills/qna" "$dir/qna"
+  for skill in "$REPO"/skills/*/; do
+    ln -s "$skill" "$dir/$(basename "$skill")"
+  done
 done
 ```
 

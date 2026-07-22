@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Bridge / Viking problem: four people cross a bridge at night.
+// Crossing times (minutes): A=5, B=10, C=20, D=25. The bridge holds at most two,
+// a torch must accompany every crossing, and a pair moves at the slower one's pace.
+// Question: can all four reach the safe side within 60 minutes?
+const int t[4] = {5, 10, 20, 25};
+bool side[4] = {false, false, false, false};   // false = start side, true = safe side
+bool torch = false;                             // torch side (starts on the start side)
+clock total;                                    // total elapsed time
+clock y;                                        // measures the current crossing
+int[0,3] ci, cj;                                // who is currently crossing
+int[0,25] dur;                                  // duration of the current crossing</declaration>
+	<template>
+		<name>Bridge</name>
+		<location id="id0" x="42" y="85">
+			<name x="0" y="51">Idle</name>
+		</location>
+		<location id="id1" x="442" y="85">
+			<name x="450" y="51">Crossing</name>
+			<label kind="invariant" x="459" y="85">y &lt;= dur</label>
+		</location>
+		<init ref="id0"/>
+		<transition id="id2">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="select" x="42" y="-59">i : int[0,3], j : int[0,3]</label>
+			<label kind="guard" x="42" y="-85">i &lt;= j &amp;&amp; side[i] == torch &amp;&amp; side[j] == torch</label>
+			<label kind="assignment" x="42" y="-153">ci := i, cj := j,
+dur := (t[i] &gt; t[j] ? t[i] : t[j]),
+y := 0</label>
+			<nail x="42" y="-34"/>
+			<nail x="442" y="-34"/>
+		</transition>
+		<transition id="id3">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="93" y="59">y == dur</label>
+			<label kind="assignment" x="93" y="93">side[ci] := !torch,
+side[cj] := !torch,
+torch := !torch</label>
+		</transition>
+	</template>
+	<system>// One puzzle process.
+system Bridge;</system>
+	<queries>
+		<option key="--diagnostic" value="2"/>
+		<query>
+			<formula>E&lt;&gt; (side[0] &amp;&amp; side[1] &amp;&amp; side[2] &amp;&amp; side[3] &amp;&amp; total &lt;= 60)</formula>
+			<comment>Schedule exists: all four reach the safe side within 60 minutes.</comment>
+			<result outcome="success" type="quality" timestamp="2026-07-22 10:14:41 +0200">
+				<option key="--diagnostic" value="2"/>
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment>Sanity: the model never gets stuck.</comment>
+			<result outcome="success" type="quality" timestamp="2026-07-22 10:14:27 +0200">
+			</result>
+		</query>
+	</queries>
+</nta>
