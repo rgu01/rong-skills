@@ -136,7 +136,11 @@ Your report must include:
 
 - the accidental defect or controlled change and your prediction;
 - the exact failing query and its exact UPPAAL result;
-- the genuine UPPAAL counterexample;
+- a record of the genuine UPPAAL diagnostic trace tied to the identified
+  failed model/run and UPPAAL version: paste the relevant tool output if your
+  version makes it copyable, or provide a faithful, clearly labelled
+  transcription of the relevant states and transitions exactly as displayed
+  in the UPPAAL simulator;
 - a hand reconstruction of the shortest relevant counterexample trace or
   prefix through the violation, showing component locations, elapsed delays,
   relevant clock values, synchronisations, and important updates at each
@@ -146,7 +150,8 @@ Your report must include:
 - the exact query and result from re-verifying the repaired model.
 
 Explain why the trace demonstrates the violation and why the repair addresses
-its cause.
+its cause. Do not invent the diagnostic record. You do not need a separate
+trace export or conversion tool, and you must not submit a third file.
 
 ## One student-designed timed extension
 

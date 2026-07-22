@@ -81,13 +81,15 @@ Also check whether a superficially correct property is vacuous. If requests cann
 There is no required counterexample sequence. Credible evidence has these characteristics:
 
 - it identifies the exact failed model or run and the exact failing universal safety, bounded-response, or deadlock query;
-- it includes a genuine UPPAAL diagnostic trace excerpt;
+- it includes a genuine, provenance-labelled UPPAAL diagnostic trace record,
+  either pasted output or a faithful transcription of the relevant states and
+  transitions displayed in the simulator;
 - its hand reconstruction follows a shortest relevant prefix, with enough delays and transitions to justify component locations, clock values, synchronisations, and updates;
 - the diagnosis names the modelling cause revealed by the trace rather than merely restating the violated requirement;
 - the repair changes that cause; and
 - re-verification reports the relevant query and result from the repaired/final model.
 
-A false existential reachability query does **not** yield the diagnostic counterexample required here and must not be presented as one. The final repaired model need not reproduce the old trace; without a submitted failed version, trace credibility is judged from the report's captured evidence and internal consistency.
+A false existential reachability query does **not** yield the diagnostic counterexample required here and must not be presented as one. A faithful simulator transcription is acceptable when trace text is not copyable; judge its provenance, names, sequence, and consistency with the separate hand reconstruction. An invented or impossible sequence, or a story without trace provenance, is not acceptable. The final repaired model need not reproduce the old trace; without a submitted failed version, trace credibility is judged from the report's captured evidence and internal consistency.
 
 ## Extension quality
 

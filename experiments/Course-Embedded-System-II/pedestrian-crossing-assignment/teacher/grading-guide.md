@@ -50,9 +50,9 @@ Weak evidence substitutes expected results for actual results, paraphrases rathe
 
 ### 5. Failed trace, diagnosis, and repair
 
-Strong evidence identifies the failed model/version, records a genuine diagnostic trace from that version, reconstructs a short relevant prefix with locations, delays, clocks, synchronisations, and updates, and ties the observed violation to one causal defect. The repair changes that cause, and the same relevant query is rerun on an identified repaired/final version.
+Strong evidence identifies the failed model/run and UPPAAL version and records a genuine diagnostic trace as either pasted output or a faithful, clearly provenance-labelled transcription of the relevant simulator states and transitions. It separately reconstructs a short relevant prefix with locations, delays, clocks, synchronisations, and updates, and ties the observed violation to one causal defect. The repair changes that cause, and the same relevant query is rerun on an identified repaired/final version.
 
-Weak evidence gives a story with no tool-produced trace, a sequence that cannot establish the shown clock values, or a repair unrelated to the violation. Flag trace names absent from the stated failed model, a failed existential reachability check offered as the required diagnostic violation trace, and re-verification performed on an unidentified or different model.
+Weak evidence gives a story with no provenance-labelled diagnostic sequence, a pasted or transcribed sequence inconsistent with the identified failed run, clock values that cannot follow from the recorded sequence, or a repair unrelated to the violation. Flag trace names absent from the stated failed model, a failed existential reachability check offered as the required diagnostic violation trace, and re-verification performed on an unidentified or different model. Do not penalise a faithful simulator transcription merely because the UPPAAL version does not offer copyable trace text.
 
 ### 6. Timed extension
 

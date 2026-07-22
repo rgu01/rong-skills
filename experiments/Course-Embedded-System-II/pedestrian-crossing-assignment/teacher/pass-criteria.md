@@ -24,9 +24,9 @@ Assess the submission as **pass** or **revision needed**, without numerical poin
 
 ## Evidence — report sections 1, 4, 5, 6, and 8
 
-- **Observable report evidence:** The stated UPPAAL version is exact; queries and genuine exact UPPAAL results are copied from identified runs/models; the failed run includes a tool-produced diagnostic excerpt and a plausible hand-reconstructed trace with defensible delays, locations, clock values, synchronisations, and updates; failed, repaired, extension, and final evidence are linked to the correct model versions.
-- **Minor defects tolerated:** A diagnostic excerpt may omit an irrelevant suffix, and a hand trace may omit irrelevant state, provided the shortest relevant prefix still proves the violation and its values can be derived.
-- **Revision triggers:** There is no real tool evidence; evidence is fabricated or impossible; a supposed counterexample comes from a false existential reachability query; reported values cannot arise from the cited model; or final-model and failed-model queries/results are mixed so provenance cannot be recovered.
+- **Observable report evidence:** The stated UPPAAL version is exact; queries and genuine exact UPPAAL results are copied from identified runs/models; the failed run includes a provenance-labelled diagnostic trace record, either pasted output or a faithful transcription of the relevant simulator states and transitions, plus a plausible separate hand reconstruction with defensible delays, locations, clock values, synchronisations, and updates; failed, repaired, extension, and final evidence are linked to the correct model versions.
+- **Minor defects tolerated:** A pasted or transcribed diagnostic record may omit an irrelevant suffix, and a hand trace may omit irrelevant state, provided the relevant sequence still demonstrates the violation and its values can be derived. A faithful transcription is acceptable when the UPPAAL version does not provide copyable trace text.
+- **Revision triggers:** There is no provenance-linked UPPAAL query/result or diagnostic trace evidence; evidence is fabricated or impossible; a supposed counterexample comes from a false existential reachability query; reported values cannot arise from the cited model; or final-model and failed-model queries/results are mixed so provenance cannot be recovered.
 
 ## Diagnosis and repair — report section 5
 
@@ -52,6 +52,6 @@ Assess the submission as **pass** or **revision needed**, without numerical poin
 
 **REVISION** if one or more essential outcomes are missing, contradicted, vacuous, fabricated, or cannot connect to a requirement.
 
-Hard revision cases include a fabricated or impossible trace; no real tool evidence; a vacuous proof presented as a guarantee; mixed final-model and result versions; a timed extension with no behaviour change; or a generic AI statement without independent judgment. Do not require one topology or perfect prose.
+Hard revision cases include a fabricated or impossible trace; no provenance-linked UPPAAL evidence; a vacuous proof presented as a guarantee; mixed final-model and result versions; a timed extension with no behaviour change; or a generic AI statement without independent judgment. Do not require one topology or perfect prose.
 
 An optional final Extensible Markup Language (XML) `model.xml` run may confirm a concern but is not mandatory when the report is coherent. If XML contradicts the report, record the exact contradiction as evidence and apply the holistic rules. The responsibility declaration in section 8 is a consistency signal, not a substitute for evidence.

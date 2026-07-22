@@ -125,7 +125,7 @@ Pre-create rows for reachability, conflicting greens, bounded response, deadlock
 
 - [ ] **Step 4: Add the failed-run and hand-trace tables**
 
-Collect the changed condition, prediction, exact query, actual result, trace source, diagnosis, repair, and re-verification. Use a hand-trace table with:
+Collect the changed condition, prediction, exact query, actual result, trace source, and a genuine diagnostic trace record as pasted output or a faithful, provenance-labelled transcription of the relevant UPPAAL simulator sequence. Keep this record in `report.md`; require no separate export/conversion tool or third submission file. Collect diagnosis, repair, and re-verification separately. Use a hand-trace table for the student's semantic expansion with:
 
 ```text
 Step | Delay/action | Component locations | Relevant clock values | Synchronisation/updates | Why enabled

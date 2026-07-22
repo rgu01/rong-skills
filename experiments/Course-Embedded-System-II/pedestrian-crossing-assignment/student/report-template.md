@@ -1,6 +1,6 @@
 # Pedestrian Crossing Verification Report
 
-**Template convention:** Replace every `[Replace: ...]` marker and delete this instruction before submission. In tables, put exact evidence on one line and escape each vertical bar as `\|`; put multiline evidence in a code block. Copy queries, diagnostic evidence, and results exactly from the identified UPPAAL model/run.
+**Template convention:** Replace every `[Replace: ...]` marker and delete this instruction before submission. In tables, put exact evidence on one line and escape each vertical bar as `\|`; put multiline evidence in a code block. Copy queries and results exactly from the identified UPPAAL model/run, and record diagnostic evidence faithfully with its source.
 
 ## 1. Student and tools
 
@@ -49,21 +49,21 @@ The final `model.xml` must embed every query below using the Timed Computation T
 | Defect/change and scope | [Replace: accidental defect or controlled change; core or extension] |
 | Prediction before run | [Replace: predicted failure and reason] |
 | Failed-model identifier | [Replace: filename, commit/hash, timestamp, or equivalent] |
-| Trace source | [Replace: diagnostic-trace source tied to that model identifier] |
+| Trace source | [Replace: failed model/run, UPPAAL version, simulator location, and whether the record below is pasted output or a faithful transcription] |
 | Exact failing query | [Replace: exact query] |
 | Exact failing result | [Replace: exact UPPAAL result] |
 
-### Exact UPPAAL diagnostic trace excerpt
+### UPPAAL diagnostic trace record
 
-Copy a sufficient verbatim, tool-produced excerpt through the violation; a saved location alone is insufficient.
+Paste the relevant output if your UPPAAL version makes it copyable, or provide a faithful, clearly labelled transcription of the states and transitions displayed in the simulator. Include the relevant sequence through the violation; a saved location or unsupported story alone is insufficient.
 
 ```text
-[Replace: exact diagnostic trace excerpt from the failed model]
+[Replace: pasted UPPAAL output, or clearly labelled faithful simulator transcription, tied to the failed model/run above]
 ```
 
 ### Hand reconstruction
 
-Give the shortest relevant prefix through the violation. Include steps needed to establish clock values and enabled transitions; omit irrelevant suffixes.
+Separately expand the diagnostic record semantically using the shortest relevant prefix through the violation. Include delays, clock values, synchronisations/updates, and enabling reasons needed to explain the sequence; omit irrelevant suffixes.
 
 | Step | Delay/action | Locations | Clocks | Sync/updates | Why enabled |
 |---:|---|---|---|---|---|

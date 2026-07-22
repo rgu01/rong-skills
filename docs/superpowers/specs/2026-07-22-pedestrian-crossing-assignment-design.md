@@ -155,12 +155,18 @@ The report records:
 
 - the deliberate or accidental change;
 - the expected and actual query result;
-- the relevant UPPAAL counterexample;
+- a genuine UPPAAL diagnostic trace record tied to the failed model/run and
+  version, using pasted output when available or a faithful, clearly labelled
+  transcription of the relevant simulator states and transitions;
 - a hand reconstruction of the trace with component locations, delays, clock
   values, synchronisations, and important updates;
 - the diagnosed cause;
 - the repair; and
 - the successful re-verification result.
+
+The trace record stays in `report.md`: no separate export/conversion tool or
+third submission file is required. The hand reconstruction remains a distinct
+semantic expansion with delays, clock values, updates, and enabling reasons.
 
 This requirement tests semantic understanding rather than the ability to
 present a model that happens to pass.
