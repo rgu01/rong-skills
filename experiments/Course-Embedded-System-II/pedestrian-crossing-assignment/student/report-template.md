@@ -60,7 +60,7 @@ Architecture consistency note: `[Replace: explain briefly why requests cannot be
 
 The final `model.xml` must embed every query below using the Timed Computation Tree Logic (TCTL) forms supported by the stated UPPAAL version. Replace each prompt with the exact submitted evidence; do not paraphrase verifier output.
 
-| ID | Informal requirement | Operational interpretation | Exact embedded query | Expected result | Actual UPPAAL result | Engineering meaning and non-vacuity evidence |
+| Requirement identifier | Informal requirement | Operational interpretation | Exact embedded query | Expected result | Actual UPPAAL result | Engineering meaning and non-vacuity evidence |
 |---|---|---|---|---|---|---|
 | R1 | WALK is reachable. | [Replace: identify the observable model condition that means WALK has begun.] | [Replace: copy the exact embedded reachability query.] | [Replace: expected satisfied/not satisfied before running.] | [Replace: copy the exact verifier result.] | [Replace: explain what reachable execution this establishes and why it is meaningful.] |
 | R2 | Vehicle green and pedestrian WALK are never active simultaneously. | [Replace: identify the exact model states representing the two conflicting movements.] | [Replace: copy the exact embedded safety query.] | [Replace: expected result before running.] | [Replace: copy the exact verifier result.] | [Replace: interpret absence of conflicting greens and cite a supporting reachability result showing the relevant phases occur.] |
