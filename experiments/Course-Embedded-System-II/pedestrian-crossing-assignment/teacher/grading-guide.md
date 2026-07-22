@@ -42,11 +42,11 @@ For each row, follow the entire golden-rule chain. Strong evidence gives the exa
 
 - R1 establishes that WALK can be reached.
 - R2 universally excludes simultaneous vehicle green and WALK.
-- R3 measures each newly pending request through WALK entry, including the equality boundary at `MAX_WAIT`.
+- R3 establishes two universal obligations for each newly pending request: eventual service at WALK entry, and service no later than the inclusive `MAX_WAIT` boundary. Strong evidence either supplies separate universal service/liveness and numeric-bound evidence, with a reachable trigger, or uses a sound construction that necessarily exposes every unserved or late request and thereby combines both obligations.
 - R4 uses an explicit network-level deadlock query and does not overstate what deadlock freedom proves.
 - R5 shows that request, service, and other triggers relied on by universal claims can actually occur.
 
-Weak evidence substitutes expected results for actual results, paraphrases rather than copies a query, treats one simulation as proof, or infers all requirements from `A[] not deadlock`. Flag mismatched process/location names, unsupported bounded-response claims, a false existential reachability result described as a counterexample, and universal claims whose antecedent is unreachable.
+Weak evidence substitutes expected results for actual results, paraphrases rather than copies a query, treats one simulation as proof, or infers all requirements from `A[] not deadlock`. For R3, a clock-bound invariant alone is weak: it can allow an unserved request with time stalled or zero-time behaviour at the boundary. Existential service reachability on a different path does not establish universal service. For an observer, check that missed service makes timeout/error unavoidable rather than merely enabling an optional edge; that timeout does not race with valid service at elapsed time exactly equal to `MAX_WAIT`; and that service/timeout ordering and synchronisation implement the inclusive boundary. Flag mismatched process/location names, unsupported bounded-response claims, a false existential reachability result described as a counterexample, and universal claims whose antecedent is unreachable. Deadlock freedom alone does not exclude a zero-time infinite loop or time-lock.
 
 ### 5. Failed trace, diagnosis, and repair
 

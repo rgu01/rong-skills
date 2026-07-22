@@ -39,7 +39,8 @@ Names and clock allocation may vary, but a sound design usually exhibits these c
 - The minimum vehicle-green time is a lower-bound guard on leaving vehicle green. It is not an upper-bound invariant. If vehicle green may continue beyond 10 s, the design must still ensure every pending request can reach WALK by `MAX_WAIT`.
 - An exact-duration phase normally combines an upper-bound location invariant with a matching departure guard. For example, conceptually, a phase clock cannot exceed its duration and the exit is enabled only at that duration. The boundary transition must be available; otherwise an invariant can produce deadlock rather than progress.
 - A request-wait clock starts only when the first request creates pending work. Repeated presses while pending must not reset it.
-- Bounded response may be represented by a directly observable pending/clock condition or by a sound observer synchronised with request creation and WALK entry. The mechanism must measure the correct interval and must not remain active after service.
+- Bounded response has two obligations: every pending request is eventually served, and service occurs no later than the inclusive `MAX_WAIT` boundary. A directly observable pending/clock condition needs universal service/liveness evidence as well as universal numeric-bound evidence and non-vacuity. Alternatively, a sound observer or construction may combine both obligations if every unserved or late request necessarily becomes observable.
+- An observer timeout/error transition must be forced or otherwise unavoidable when service is missed, not an optional edge the model can ignore. Its service and timeout synchronisation/ordering must allow valid service at elapsed time exactly equal to `MAX_WAIT` without an erroneous timeout race, while necessarily exposing service after the boundary or no service at all. The observer must stop measuring after service.
 - Clearance and WALK must have neither early exits nor lingering executions. Exact timing claims require both sides of the bound, not merely a lower-bound guard.
 
 “Within `MAX_WAIT`” includes service exactly when elapsed time equals `MAX_WAIT`. A timeout/error construction must respect that equality boundary: it must distinguish a genuinely late service from a service transition taken at the allowed boundary, including UPPAAL's discrete-transition ordering at the same time instant.
@@ -50,11 +51,11 @@ The report should spell out every acronym on first use, including **Timed Comput
 
 - Reachability: `E<> <controller-is-in-WALK>`.
 - Universal safety: `A[] not (<vehicle-green> and <WALK>)`.
-- Bounded response: a universal invariant excluding `<observer-timeout>`, or a universal condition relating `<request-pending>` to an observable wait clock no greater than `MAX_WAIT`. An unbounded leads-to formula alone does not establish a numeric deadline.
+- Bounded response: either separate universal evidence for eventual service and for the inclusive numeric bound, plus non-vacuity, or a universal check over a sound construction that necessarily exposes every unserved or late request and therefore covers both. A clock-bound invariant alone does not prove eventual service, and existential reachability of service on some other path is insufficient. Conversely, an unbounded service/liveness property alone does not establish a numeric deadline.
 - Deadlock freedom: `A[] not deadlock`.
 - Non-vacuity: one or more existential reachability checks for `<request-created>`, `<request-pending>`, `<service/WALK-entry reached>`, or an extension trigger and outcome.
 
-Process and location placeholders must be replaced by actual model expressions. A passing universal formula needs a reachable trigger. Results establish only the submitted formula over the submitted model; interpretations should remain conservative.
+Process and location placeholders must be replaced by actual model expressions. A passing universal formula needs a reachable trigger. Results establish only the submitted formula over the submitted model; interpretations should remain conservative. `A[] not deadlock` does not by itself exclude a zero-time infinite loop or time-lock, so it cannot fill the eventual-service gap in R3.
 
 ## Frequent failure and vacuity patterns
 
