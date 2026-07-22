@@ -34,11 +34,11 @@ Name concrete structures; do not repeat the semantic explanations above.
 
 The final `model.xml` must embed every query below using the Timed Computation Tree Logic (TCTL) forms supported by the stated UPPAAL version.
 
-| Requirement identifier | Informal requirement | Operational interpretation | Exact embedded query | Expected result | Actual UPPAAL result | Engineering meaning and non-vacuity evidence |
+| Requirement identifier | Informal requirement | Operational interpretation | Exact embedded query / query set | Expected result / result set | Actual UPPAAL result / result set | Engineering meaning and non-vacuity evidence |
 |---|---|---|---|---|---|---|
 | R1 | WALK is reachable. | [Replace: observable WALK condition] | [Replace: exact query] | [Replace: prediction before run] | [Replace: exact result] | [Replace: engineering meaning] |
 | R2 | Vehicle green and WALK are never simultaneous. | [Replace: conflicting model states] | [Replace: exact query] | [Replace: prediction before run] | [Replace: exact result] | [Replace: meaning; reference R5 support] |
-| R3 | Each request is served within `MAX_WAIT`. | [Replace: trigger, endpoint, bound/error meaning] | [Replace: exact query] | [Replace: prediction before run] | [Replace: exact result] | [Replace: meaning; reference R5 trigger evidence] |
+| R3 | Each request is eventually served at WALK entry and no later than the inclusive `MAX_WAIT` boundary. | [Replace: trigger and endpoint; explain how separate universal obligations or a combined construction cover every relevant execution and allow service exactly at equality] | [Replace: exact universal eventual-service and numeric-bound query set, or exact combined query and construction] | [Replace: prediction for each query/result] | [Replace: exact result set] | [Replace: why the evidence is complete for unserved and late executions, respects inclusive equality, and is non-vacuous; reference R5 trigger evidence] |
 | R4 | The model is deadlock-free. | [Replace: network-level meaning] | [Replace: exact query] | [Replace: prediction before run] | [Replace: exact result] | [Replace: meaning and limit] |
 | R5 | Relevant behaviour is non-vacuous/reachable. | [Replace: supported trigger/behaviour] | [Replace: exact supporting query; add rows only if needed] | [Replace: prediction before run] | [Replace: exact result] | [Replace: universal property or behaviour supported] |
 
@@ -107,6 +107,7 @@ No transcript is required.
 - [ ] Exact queries/results are copied from their identified model versions.
 - [ ] The hand trace matches the failed-model diagnostic trace and identifier.
 - [ ] Failed and repaired/final versions are clearly distinguished.
+- [ ] Every claim/result except clearly labelled failed-version evidence refers to the identified submitted final model; failed evidence is clearly labelled.
 - [ ] Final `model.xml` embeds all mandatory, extension, and supporting queries.
 - [ ] The extension genuinely changes timed behaviour.
 - [ ] Submission contains exactly `model.xml` and this completed template renamed `report.md`.

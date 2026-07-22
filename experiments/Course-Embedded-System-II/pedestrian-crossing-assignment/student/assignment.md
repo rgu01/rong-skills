@@ -98,18 +98,23 @@ your engineering interpretation in `report.md`:
 
 1. WALK is reachable.
 2. Vehicle green and pedestrian WALK are never active simultaneously.
-3. Every request issued while WALK is inactive is served within `MAX_WAIT`,
-   measured from the request event to entry into WALK.
+3. Every request issued while WALK is inactive satisfies two universal
+   obligations: it is eventually served when the controller enters WALK, and
+   that service occurs no later than the inclusive `MAX_WAIT` boundary,
+   measured from the request event to entry into WALK. Service exactly at
+   `MAX_WAIT` is allowed.
 4. The model is deadlock-free.
 5. At least one supporting reachability or non-vacuity check demonstrates that
    the behaviours relevant to the properties above can actually occur.
 
-For bounded response, you may introduce an observer that measures from the
-request event and enters an error or timeout location if the bound is missed;
-you can then verify the required outcome for that location. This is only a
-possible technique: design the observer and the corresponding query yourself.
-Do not rely on a passing universal property without checking that its trigger
-is reachable.
+For bounded response, provide either separate universal evidence for eventual
+service and the numeric deadline, or a sound combined construction and query
+set that establishes both obligations. A clock bound alone is insufficient: a
+request could remain unserved. If you use a combined observer, its checked
+properties must expose every execution in which a request is never served or
+is served late, while accepting service exactly at `MAX_WAIT`. An observer is
+optional; choose your own construction and query syntax. Do not rely on a
+passing universal property without checking that its trigger is reachable.
 
 ## One failed run, diagnosis, and repair
 
@@ -189,6 +194,9 @@ Use this compact allocation as a guide:
 Timebox the work. Once you have evidence for the core, one failed-run repair,
 and one extension, **stop expanding the model** and finish the report. The
 report template is supplied separately alongside this assignment.
+
+Keep the report concise: target approximately three pages, plus diagnostic and
+hand-trace material or tables as needed. Prioritise exact evidence over prose.
 
 ## Submission
 
