@@ -7,9 +7,9 @@
 | Field | Value |
 |---|---|
 | Student name | [Replace: full name] |
-| Student ID | [Replace: student ID] |
+| Student identifier | [Replace: student identifier] |
 | UPPAAL version | [Replace: exact version used for the final verification] |
-| AI assistant(s), if any | [Replace: names and versions if known, or “None”] |
+| Artificial intelligence (AI) assistant(s), if any | [Replace: names and versions if known, or “None”] |
 
 ## 2. Timing and requirement interpretation
 
@@ -47,7 +47,7 @@ Bounded response is measured from `[Replace: the precise request event that crea
 
 ## 3. Model architecture
 
-| Template | Responsibility | Locations/modes | Clocks and variables | Interactions |
+| Template | Responsibility | Locations/modes | Clocks/variables | Interactions |
 |---|---|---|---|---|
 | [Replace: environment/button template name] | [Replace: when requests can be issued, how the first request is stored, and how repeated presses merge.] | [Replace: relevant locations/modes and their meanings.] | [Replace: relevant local/shared state, including request storage and waiting-time state.] | [Replace: exact synchronisations/shared updates through which it affects the controller.] |
 | [Replace: controller template name] | [Replace: vehicle operation, exact clearance, exact WALK duration, and return to vehicle operation.] | [Replace: vehicle-green, all-red, WALK, and other relevant locations/modes.] | [Replace: clocks/variables enforcing exactly 2 s clearance, exactly `WALK_TIME`, and at least 10 s vehicle green.] | [Replace: request acceptance, WALK entry/service, and other synchronisations/updates.] |
@@ -80,11 +80,19 @@ The final `model.xml` must embed every query below using the Timed Computation T
 | Exact failing query | [Replace: copy the query exactly.] |
 | Exact failing result | [Replace: copy the UPPAAL result exactly.] |
 
+### Exact UPPAAL diagnostic trace excerpt
+
+Copy a sufficient verbatim, tool-produced excerpt of the genuine diagnostic trace below. It must show the states/transitions through the violation and come from the failed-model version identified above; a filename or saved location alone is not evidence.
+
+```text
+[Replace: exact UPPAAL diagnostic trace excerpt]
+```
+
 ### Hand reconstruction of the diagnostic trace
 
 Reconstruct the shortest relevant counterexample trace or prefix **through the violation** from the genuine UPPAAL diagnostic trace. Include all steps needed to establish clock values and enabled transitions; omit an irrelevant suffix.
 
-| Step | Delay/action | Component locations | Relevant clock values | Synchronisation/updates | Why enabled |
+| Step | Delay/action | Locations | Clocks | Sync/updates | Why enabled |
 |---:|---|---|---|---|---|
 | 0 | [Replace: initial state/action.] | [Replace: location of every relevant component.] | [Replace: relevant initial clock values.] | [Replace: initial values/updates, or none.] | [Replace: initial-state explanation.] |
 | 1 | [Replace: elapsed delay or discrete action.] | [Replace: resulting relevant locations.] | [Replace: clock values before/after as needed.] | [Replace: channel and updates.] | [Replace: guard, invariant, urgency, and enabling state.] |
