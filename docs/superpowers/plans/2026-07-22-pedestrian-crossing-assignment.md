@@ -35,10 +35,17 @@ Write an assignment introduction that states:
 - design pedestrian speed is 1 metre per second;
 - pedestrian start allowance is 1 second;
 - minimum uninterrupted vehicle green is 10 seconds;
-- all-red clearance is 2 seconds before a conflicting movement;
-- students choose `WALK_TIME` in `[7,12]` seconds and `MAX_WAIT` in `[12,30]` seconds.
+- all-red clearance is exactly 2 seconds before a conflicting movement;
+- students choose `WALK_TIME` in `[7,12]` seconds and `MAX_WAIT` in `[14,30]` seconds.
 
-Explain that a request may occur whenever WALK is inactive, repeated presses while one request is pending are merged, and the pending request must be preserved until served.
+Explain that the 14-second lower bound for `MAX_WAIT` covers the
+least-favourable path of 2 seconds clearance + 10 seconds minimum vehicle green
++ 2 seconds clearance before WALK begins.
+
+Explain that a request may occur whenever WALK is inactive, repeated presses
+while one request is pending merge without resetting its wait measurement, and
+the pending request must be preserved until entry into WALK serves and clears
+it. WALK must be request-driven.
 
 - [ ] **Step 3: Write the mandatory modelling and verification work**
 
@@ -47,7 +54,8 @@ Require at least a controller and environment/button timed automaton, while allo
 ```text
 WALK reachability
 no simultaneous vehicle green and pedestrian WALK
-every request issued while WALK is inactive served within MAX_WAIT
+universal eventual service at WALK entry for every request issued while WALK is inactive
+service no later than the inclusive MAX_WAIT boundary, using separate universal evidence or a sound combined construction
 deadlock freedom
 supporting reachability/non-vacuity
 ```
@@ -56,7 +64,7 @@ Describe outcomes rather than prescribing location names or one automaton topolo
 
 - [ ] **Step 4: Write the failure-repair, extension, and AI requirements**
 
-Require one genuine failed run, a prediction, an UPPAAL counterexample, a hand trace, diagnosis, repair, and re-verification. Require a student-designed function that changes timed behavior and is formalised as a safety/invariant, liveness, or reachability property with a non-vacuity check. Require one significant AI suggestion and an explanation of its independent validation.
+Require one genuine failed run, a prediction, an UPPAAL counterexample, a hand trace, diagnosis, repair, and re-verification. Require exactly one student-designed timed extension that changes timed behavior and is formalised as a safety/invariant, liveness, or reachability property with a non-vacuity check. Require one significant AI suggestion and an explanation of its independent validation.
 
 - [ ] **Step 5: Write the submission and timebox instructions**
 
@@ -185,7 +193,7 @@ Tell teachers to verify that the model loads, queries are embedded, results agre
 
 - [ ] **Step 4: Write acceptable solution families**
 
-In `expected-solution-shape.md`, describe a minimal credible controller/environment decomposition, typical phase progression, request-memory choices, observer-based bounded response, suitable query patterns, and why no single XML structure is required.
+In `expected-solution-shape.md`, describe a minimal credible controller/environment decomposition, typical phase progression, request-memory choices, query-relative observer-based bounded response, suitable query patterns, and why no single XML structure is required. Require universal eventual-service and inclusive numeric-deadline evidence, separately or through a sound combined construction.
 
 - [ ] **Step 5: Write common failure and vacuity patterns**
 
@@ -277,7 +285,7 @@ git commit -m "docs: define assignment pass criteria"
 Run:
 
 ```bash
-rg -n "6 metres|1 metre per second|1 second|10 seconds|2 seconds|7.*12|12.*30" experiments/Course-Embedded-System-II/pedestrian-crossing-assignment
+rg -n "6 metres|1 metre per second|1 second|10 seconds|2 seconds|7.*12|14.*30" experiments/Course-Embedded-System-II/pedestrian-crossing-assignment
 ```
 
 Expected: student files state all facts; teacher references repeat them only where needed and never contradict them.
@@ -310,7 +318,7 @@ Read `student/assignment.md` and confirm the required work is exactly:
 one small core model
 five categories of core verification evidence
 one failed-run diagnosis and repair
-one time-related extension
+one timed extension
 one AI-assisted decision
 one concise structured report
 ```

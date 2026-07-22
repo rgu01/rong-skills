@@ -34,7 +34,7 @@ The core crossing behavior and mandatory checks are fixed so that every
 submission has comparable substance. Students retain judgment in two places:
 
 1. choosing and defending a small number of timing parameters; and
-2. designing one additional time-related system function and its property.
+2. designing one additional timed extension and its property.
 
 This avoids both extremes: a trivial generated model and an open-ended project
 that cannot be completed in one short assignment.
@@ -90,8 +90,12 @@ The student chooses and justifies only:
 
 - `WALK_TIME`, between 7 and 12 seconds, using the supplied crossing context;
   and
-- `MAX_WAIT`, between 12 and 30 seconds, measured from the request event to
+- `MAX_WAIT`, between 14 and 30 seconds, measured from the request event to
   entry into WALK.
+
+The 14-second lower bound accounts for the least-favourable request point:
+2 seconds of clearance, 10 seconds of minimum vehicle green, and 2 seconds of
+clearance before WALK begins.
 
 The assignment will use integer time units and state all supplied timing facts
 in one table. Chosen values must be feasible and used consistently throughout
@@ -105,11 +109,14 @@ The submitted model must represent:
   inactive;
 - a controller with vehicle, clearance, and pedestrian phases;
 - preservation of a request until it is served, with repeated presses while a
-  request is pending merged into that pending request;
+  request is pending merged into that pending request without resetting its
+  wait measurement;
+- entry into WALK only in response to a pending request, with that entry
+  serving and clearing the request;
 - a minimum vehicle-green duration before changing phase;
-- an all-red clearance interval after either movement is stopped and before
-  the conflicting movement is enabled;
-- a WALK phase that lasts for the chosen `WALK_TIME`; and
+- an all-red clearance interval of exactly 2 seconds after either movement is
+  stopped and before the conflicting movement is enabled;
+- a WALK phase that lasts for exactly the chosen `WALK_TIME`; and
 - return to normal vehicle operation after serving the request.
 
 The design must contain at least two interacting automata: a controller and an
@@ -123,22 +130,26 @@ The report must include exact embedded UPPAAL queries and results for:
 
 1. reachability of the WALK phase;
 2. absence of simultaneous vehicle green and pedestrian WALK;
-3. service within `MAX_WAIT` of every request issued while WALK is inactive;
+3. universal eventual service at WALK entry, no later than the inclusive
+   `MAX_WAIT` boundary, for every request issued while WALK is inactive;
 4. absence of deadlock; and
 5. at least one non-vacuity or supporting reachability check needed to make the
    preceding results meaningful.
 
-For bounded response, students may encode a monitor/observer and verify that
-its timeout or error location is unreachable. The assignment will explain the
-required outcome without supplying a complete monitor.
+For bounded response, students may use separate universal eventual-service and
+numeric-deadline evidence, or a sound combined construction. An optional
+monitor/observer is judged relative to its query: the checked property must
+detect every unserved or late request while allowing service exactly at
+`MAX_WAIT`. The assignment will explain the required outcome without supplying
+a complete monitor.
 
 ### Required failed run and repair
 
 Every student must document one genuine failed verification run encountered or
 created during development. It may concern a core requirement or the
-student-designed function. If the student's first design passes, they must make
-one controlled, relevant change, predict its effect, and run UPPAAL to obtain a
-real counterexample.
+student-designed timed extension. If the student's first design passes, they
+must make one controlled, relevant change, predict its effect, and run UPPAAL
+to obtain a real counterexample.
 
 The report records:
 
@@ -154,10 +165,10 @@ The report records:
 This requirement tests semantic understanding rather than the ability to
 present a model that happens to pass.
 
-### Student-designed time-related function
+### Student-designed timed extension
 
-The student must add one useful function that changes the model's behavior and
-is not a restatement of a core requirement. The function must:
+The student must add exactly one useful timed extension that changes the model's
+behavior and is not a restatement of a core requirement. The extension must:
 
 - have a time-related condition or effect;
 - require a concrete model change, not only an additional query;
@@ -206,7 +217,7 @@ The report template will contain fixed headings and tables for:
 4. a requirement-to-query traceability matrix with expected result, actual
    result, and engineering interpretation;
 5. failed verification, counterexample, hand trace, diagnosis, and repair;
-6. the student-designed time-related function;
+6. the student-designed timed extension;
 7. one significant AI-assisted decision;
 8. final consistency checks and submission declaration.
 
@@ -239,7 +250,7 @@ single pass. It will cover:
 - internally consistent reported UPPAAL outcomes;
 - a possible and correctly interpreted counterexample trace;
 - a repair that addresses the diagnosed cause;
-- a genuinely new, time-related modeled function; and
+- exactly one genuine timed extension; and
 - a specific example of AI output being checked rather than trusted.
 
 ### Pass boundary
@@ -255,7 +266,7 @@ A submission passes only when all essential learning outcomes are demonstrated:
 4. **Evidence:** results are concrete and plausibly produced by UPPAAL.
 5. **Diagnosis:** the student correctly connects one failing trace to a model or
    requirement defect and explains an effective repair.
-6. **Extension:** the added function changes timed behavior and is meaningfully
+6. **Extension:** the timed extension changes behavior and is meaningfully
    verified.
 7. **AI judgment:** the student shows a specific assistant contribution and an
    independent formal or semantic check of it.
@@ -276,7 +287,7 @@ single answer. It will include:
 - suitable UPPAAL query patterns;
 - common vacuity traps and modelling errors;
 - plausible controlled faults and their symptoms; and
-- examples of acceptable and insufficient student-designed functions.
+- examples of acceptable and insufficient student-designed timed extensions.
 
 It will not contain a golden XML model. The assessment target is the student's
 understanding and evidence chain, not structural similarity to an instructor
