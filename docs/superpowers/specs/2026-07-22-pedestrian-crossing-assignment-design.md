@@ -123,7 +123,7 @@ The report must include exact embedded UPPAAL queries and results for:
 
 1. reachability of the WALK phase;
 2. absence of simultaneous vehicle green and pedestrian WALK;
-3. service of every accepted request within `MAX_WAIT`;
+3. service within `MAX_WAIT` of every request issued while WALK is inactive;
 4. absence of deadlock; and
 5. at least one non-vacuity or supporting reachability check needed to make the
    preceding results meaningful.
