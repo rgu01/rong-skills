@@ -31,8 +31,12 @@ Choose and justify two integer timing constants:
 
 - `WALK_TIME` in the inclusive range **[7, 12] s**. Relate your choice to the
   supplied crossing width, design speed, and start allowance.
-- `MAX_WAIT` in the inclusive range **[12, 30] s**. Explain why it is an
+- `MAX_WAIT` in the inclusive range **[14, 30] s**. Explain why it is an
   appropriate service bound for your design.
+
+The lower end of the `MAX_WAIT` range allows for a request at the least
+favourable point in the cycle: clearance, the minimum vehicle-green interval,
+and clearance again must all fit before WALK begins.
 
 Use the same chosen values in the model, embedded queries, and report.
 
@@ -45,7 +49,10 @@ Use the following interpretation exactly:
 - Repeated button presses while a request is pending merge into the existing
   request; they do not create a queue or restart its waiting-time measurement.
 - The pending request is preserved until it is served.
-- A request is served when the controller **enters WALK**.
+- The controller may enter WALK only while a request is pending; WALK must not
+  occur spontaneously or as an unrequested periodic phase.
+- A request is served when the controller **enters WALK**, and that entry
+  clears the pending request.
 - Bounded response is measured from the request event that created the pending
   request to entry into WALK. The elapsed time must not exceed `MAX_WAIT`.
 
@@ -63,17 +70,24 @@ Your controller must model vehicle, clearance, and pedestrian phases and must
 enforce all of the following behaviour:
 
 - vehicle green remains uninterrupted for at least 10 seconds before it can
-  be stopped;
+  be stopped; it may last longer only if every pending request can still meet
+  `MAX_WAIT`;
 - after either vehicle movement or pedestrian movement is stopped, the system
-  remains all-red for 2 seconds before enabling the conflicting movement;
+  remains all-red for exactly 2 seconds before enabling the conflicting
+  movement: it must neither leave clearance early nor linger there;
 - a pending request remains recorded until service;
-- WALK lasts for the chosen `WALK_TIME`; and
+- the controller enters WALK only in response to that pending request and
+  clears the request on entry;
+- WALK lasts for exactly the chosen `WALK_TIME`; and
 - after serving the request, the controller returns to vehicle operation.
 
 The automata must genuinely interact, for example through synchronisation or
-shared state. You may add an observer automaton, but an observer is optional.
-Choose your own locations, clocks, synchronisations, and updates; justify any
-important modelling decisions in the report.
+shared state, and the request interaction must influence the controller's
+behaviour. The vehicle, clearance, and WALK phases must not be able to delay
+indefinitely in a way that makes bounded response meaningless. You may add an
+observer automaton, but an observer is optional. Choose your own locations,
+clocks, synchronisations, and updates; justify any important modelling
+decisions in the report.
 
 ## Mandatory verification evidence
 
@@ -100,19 +114,28 @@ is reachable.
 ## One failed run, diagnosis, and repair
 
 Document **one genuine failed verification run**. It may be a failure you
-encounter naturally. If your initial model passes, make a controlled, relevant
-change to the core model or your added function, predict what it will break,
-and run the verifier to produce a real failure. Restore or repair the model
-afterwards. Do not invent a trace.
+encounter naturally in either the core or your timed extension; you do not
+need to introduce a separate fault if the extension already gives you a
+suitable failure. If your initial model and extension pass, make one
+controlled, relevant change, predict what it will break, and run the verifier
+to produce a real failure. Restore or repair the model afterwards. Do not
+invent a trace.
+
+Choose a failed query/result for which UPPAAL supplies a diagnostic trace that
+can be reconstructed. A violated universal safety, bounded-response, or
+deadlock property is usually suitable. A false existential reachability query
+is not suitable for the required hand-traced failure because it does not
+provide the diagnostic violation trace this task requires.
 
 Your report must include:
 
 - the accidental defect or controlled change and your prediction;
 - the exact failing query and its exact UPPAAL result;
 - the genuine UPPAAL counterexample;
-- a hand reconstruction of the counterexample, showing component locations,
-  elapsed delays, relevant clock values, synchronisations, and important
-  updates at each step;
+- a hand reconstruction of the shortest relevant counterexample trace or
+  prefix through the violation, showing component locations, elapsed delays,
+  relevant clock values, synchronisations, and important updates at each
+  step; omit any irrelevant suffix;
 - your diagnosis of the cause;
 - the repair; and
 - the exact query and result from re-verifying the repaired model.
@@ -120,11 +143,11 @@ Your report must include:
 Explain why the trace demonstrates the violation and why the repair addresses
 its cause.
 
-## One student-designed timed function
+## One student-designed timed extension
 
-Add one useful function that changes the crossing's timed behaviour. It must
-not merely restate a mandatory requirement or add a query to an unchanged
-model. Your function must:
+Add exactly one useful extension that changes the crossing's timed behaviour.
+It must not merely restate a mandatory requirement or add a query to an
+unchanged model. Your extension must:
 
 - have a time-related condition or effect;
 - require a concrete model change;
@@ -136,7 +159,7 @@ model. Your function must:
 Night operation, an audible signal, button debouncing, and bounded bus
 priority are example **categories, not specifications**. If you use one, you
 must define its precise timed behaviour and property yourself. Keep the
-function small enough to complete and verify within the assignment time.
+extension small enough to complete and verify within the assignment time.
 
 ## AI-assisted work
 
@@ -154,14 +177,18 @@ remain responsible for the model, queries, results, and interpretations.
 
 ## Suggested workflow and timebox
 
-1. Fix and justify `WALK_TIME` and `MAX_WAIT`.
-2. Build the two-automaton core and verify the mandatory properties.
-3. Capture and repair one genuine failed run.
-4. Add and verify one small timed function.
-5. Complete the report and final consistency check.
+Use this compact allocation as a guide:
+
+1. Fix the semantics and justify `WALK_TIME` and `MAX_WAIT`: about 15 minutes.
+2. Build the two-automaton core: 40–50 minutes.
+3. Add and run the mandatory verification properties: 25–30 minutes.
+4. Capture, reconstruct, diagnose, and repair one failed run: 20–25 minutes.
+5. Add and verify exactly one small timed extension: 25–30 minutes.
+6. Complete the report and final consistency check: 15–20 minutes.
 
 Timebox the work. Once you have evidence for the core, one failed-run repair,
-and one extension, **stop expanding the model** and finish the report.
+and one extension, **stop expanding the model** and finish the report. The
+report template is supplied separately alongside this assignment.
 
 ## Submission
 
