@@ -31,7 +31,7 @@ Use the structure below; replace instructional braces and omit unused secondary 
 
 {For Chinese origin: one Chinese sentence only.}
 
-**Sources:** [Primary source]({url}) · [Secondary context]({url})
+**{Sources label in the story's origin language}:** [Primary source]({url}) · [Secondary context]({url})
 
 {Repeat the story block for each selected story.}
 
