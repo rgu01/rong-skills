@@ -6,6 +6,7 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 
 | Skill | Purpose |
 |-------|---------|
+| [`creating-ai-newsletters`](skills/creating-ai-newsletters/SKILL.md) | Research the past seven days of AI news and produce a brief, source-verified English/Simplified-Chinese Markdown newsletter for mixed business and technical readers. |
 | [`qna`](skills/qna/SKILL.md) | Pace long answers instead of dumping them — deliver a big explanation one part at a time, checking in with the user before continuing. Invoked with `/qna` (opt-in per question). |
 | [`uppaal`](skills/uppaal/SKILL.md) | Build correct, runnable UPPAAL timed-automata models — networks of TA, clocks/guards/invariants, synchronisation channels, urgent/committed locations, templates, and TCTL queries — emitting a single `.xml` (queries embedded) that loads and verifies in UPPAAL. |
 
@@ -13,6 +14,10 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 
 ```
 skills/
+  creating-ai-newsletters/
+    SKILL.md
+    agents/openai.yaml
+    references/newsletter-template.md
   qna/
     SKILL.md        # one skill per directory; SKILL.md is the entry point
   uppaal/
