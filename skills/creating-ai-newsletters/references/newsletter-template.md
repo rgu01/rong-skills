@@ -19,10 +19,10 @@ Use the structure below; replace instructional braces and omit unused secondary 
 
 **{What happened label in the story's origin language}**
 
-{For English origin: one English sentence.}
+{For English origin: on the exact underlying event date or date range, state what happened; never substitute an article, report, or disclosure date.}
 {Its Simplified Chinese translation.}
 
-{For Chinese origin: one Chinese sentence only.}
+{For Chinese origin: state the exact underlying event date or date range and what happened in one Chinese sentence only.}
 
 **{Why it matters label in the story's origin language}**
 
@@ -54,11 +54,15 @@ Use the structure below; replace instructional braces and omit unused secondary 
 - Choose one authored language for newsletter-level headings, keep it consistent, and write each heading once.
 - Keep every story headline in its strongest primary source's language.
 - Write each story's labels in that story's origin language.
+- State the exact underlying event date or date range in every story's `What happened` text.
+- Before returning the newsletter, compare every stated story date literally with the coverage dates and delete any story whose date or date range is not wholly inside them.
 - Pair prose by origin language, not by the language of a secondary article.
 - Put each Simplified Chinese translation on the line immediately after its English sentence.
 - Do not repeat a link in a translation.
 - Render each source as one standard `[name](URL)` Markdown link; never nest link syntax.
 - Put clickable links on every story-level source line; the final source list does not replace them.
+- Cite the exact article, announcement, paper, release, filing, or regulator page that supports each story; never cite a category, tag, index, search-result, or homepage as story evidence.
+- Include every selected story's exact primary link in the final source list.
 - Keep the executive brief to two source-grounded sentences.
 - Include five to seven story blocks unless fewer candidates qualify.
 - If publishing fewer than five stories, state in the executive brief that only that number met the date-and-evidence standard.
