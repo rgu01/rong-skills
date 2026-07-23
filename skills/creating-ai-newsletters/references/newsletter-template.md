@@ -17,6 +17,8 @@ Use the structure below; replace instructional braces and omit unused secondary 
 
 ## 1. {Headline in the strongest primary source's language}
 
+**{Underlying event date label in the story's origin language}:** {Exact date or date range of the material event, matching the primary source and frozen manifest}
+
 **{What happened label in the story's origin language}**
 
 {For English origin: on the exact underlying event date or date range, state what happened; never substitute an article, report, or disclosure date.}
@@ -60,9 +62,9 @@ Use the structure below; replace instructional braces and omit unused secondary 
 - Put each Simplified Chinese translation on the line immediately after its English sentence.
 - Do not repeat a link in a translation.
 - Render each source as one standard `[name](URL)` Markdown link; never nest link syntax.
-- Put clickable links on every story-level source line; the final source list does not replace them.
+- Put each selected primary URL once on its story source line and once in the compact final source list; do not duplicate it within either location.
 - Cite the exact article, announcement, paper, release, filing, or regulator page that supports each story; never cite a category, tag, index, search-result, or homepage as story evidence.
-- Include every selected story's exact primary link in the final source list.
+- Include every selected story's exact primary link in the final source list so each selected primary URL appears exactly twice overall.
 - Keep the executive brief to two source-grounded sentences.
 - Include five to seven story blocks unless fewer candidates qualify.
 - If publishing fewer than five stories, state in the executive brief that only that number met the date-and-evidence standard.
