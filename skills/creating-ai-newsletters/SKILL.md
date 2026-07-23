@@ -22,21 +22,21 @@ Unless the user overrides them:
 ## Research
 
 1. State the exact start date, end date, and timezone.
-2. Search in English and Chinese across:
+2. Search in English and Simplified Chinese across:
    - models and research
    - products and tools
    - business and industry
    - policy, safety, and security
-3. Build a private candidate ledger with material event, origin language, exact underlying event date or date range, date-evidence source, earlier material activity and its exact date evidence or `N/A`, `Date gate: PASS/REJECT`, bucket, primary source, useful secondary source, duplicate group, conflicts, and scores.
+3. Build a private candidate ledger with material event, origin language, exact underlying event date or date range, date-evidence source, gating earlier material activity and its exact date evidence or `N/A`, optional non-gating background, `Date gate: PASS/REJECT`, bucket, primary source, useful secondary source, duplicate group, conflicts, and scores.
 4. Open every source used. For each selected story, cite the exact opened article, announcement, paper, repository release, filing, or regulator page that contains its date evidence and material claims. Category pages, tag or index pages, search-result pages, and homepages are discovery aids, not valid story citations. Prefer original sources for English-language material, official company or laboratory channels for Chinese-language material, and established institutional, technology, or business reporting.
 5. Seek strong coverage in both languages when available. Never add a weak source for symmetry.
-6. For a default edition, keep a query audit alongside the ledger: record at least one English-language query and one Chinese-language query for each of models and research, products and tools, business and industry, and policy, safety, and security. Do not score or draft until all eight language-by-bucket query-audit entries exist. For every entry, record the candidates opened and their selection or rejection reasons; a combined search counts only when the audit records a separate query and outcome for each bucket. If no Chinese candidate qualifies, record that outcome rather than add a weak source.
+6. For a default edition, keep a query audit alongside the ledger: run at least one English-language query and one Simplified-Chinese query, written in Simplified Chinese, for each of the four buckets: models and research, products and tools, business and industry, and policy, safety, and security. Open and research candidate results for every query. Do not score or draft until all eight language-by-bucket query-audit entries exist. For every entry, record the exact query, candidates opened, and their selection or rejection reasons; a combined search counts only when the audit records a separate query and outcome for each bucket. If no Chinese candidate qualifies, record that outcome rather than add a weak source. Keep selected titles and source names in their authored language, which may be Traditional Chinese.
 
 Before scoring, apply this eligibility gate to every ledger row:
 
 - Record `Date evidence` as the exact underlying event date or date range, the opened source URL, and the source passage that supports that date.
-- If a story relies on an earlier incident, failure, evaluation, pause, or deployment, record it as `Earlier material activity` with separate exact date evidence. Use `N/A` only when no earlier activity is material to understanding why the story matters.
-- Mark `Date gate: PASS` only when the material event and every earlier material activity have exact date evidence wholly inside the window. Then confirm with a literal ISO-date comparison; otherwise mark `REJECT`. Only `PASS` rows may be scored or selected.
+- If an earlier incident, failure, evaluation, pause, or deployment constitutes the story's material focus or eligibility claim, record it as `Earlier material activity` with separate exact date evidence. Pure historical or contextual background does not gate eligibility: record `N/A` for `Earlier material activity` and, when useful, put that context in the separate `Non-gating background` field.
+- Mark `Date gate: PASS` only when the material event and every gating `Earlier material activity` have exact date evidence wholly inside the window. Then confirm with a literal ISO-date comparison; otherwise mark `REJECT`. Only `PASS` rows may be scored or selected.
 - Reject the row if the date evidence is missing, relative-only, or not wholly inside the window. Do this even when rejection leaves fewer than five stories.
 - Treat an in-window article or disclosure about an undated or older incident as ineligible; its publication or disclosure date cannot become the incident date.
 - A dated partnership or remediation announcement does not make an earlier undated incident eligible. If that incident is the story's material focus, reject the story rather than recast the later response as its underlying event.
@@ -72,6 +72,7 @@ Determine origin language from the strongest primary source:
 - Chinese-origin story: write its headline, story labels, and body in Chinese only; do not back-translate them into English.
 - Write each newsletter-level heading once in its authored language. Keep each story headline in the strongest primary source's language.
 - Keep source names and URLs unchanged. Show each selected primary URL once on its story source line and once in the compact final source list, with no duplicate within either location.
+- Write `Watch Next Week` only as forward-looking implications supported by sources already cited for selected stories. Add no new uncited factual claim and no separate Watch-only source or link; this section does not expand the selected-story source reconciliation set.
 
 Translations must preserve names, model identifiers, numbers, dates, benchmark values, technical terms, confidence, and caveats. Do not add a claim to only one language.
 
@@ -92,6 +93,7 @@ Translations must preserve names, model identifiers, numbers, dates, benchmark v
 - Source-list links carry `[EN]` or `[中文]`.
 - The compact source list includes every selected story's exact primary link.
 - The ledger, query audit, frozen manifest, story blocks, and compact source list reconcile one-for-one on selected headline, exact date, and primary URL.
+- Every `Watch Next Week` implication is supported by an already-cited selected-story source and introduces neither a new factual claim nor a Watch-only source.
 
 If a date or material claim cannot be verified, or credible sources conflict irreconcilably, state the limitation precisely or omit the story.
 

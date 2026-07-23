@@ -477,3 +477,14 @@ Report:
 - Files and commits created
 - Pre-existing user changes left untouched
 ```
+
+---
+
+## Task 4 Evidence-Driven Amendment
+
+Forward testing added four binding controls to the implemented Task 4 scope:
+
+- Keep an eight-entry query audit: English and Simplified-Chinese research for each of the four editorial buckets, including candidates opened and PASS/REJECT reasons.
+- Freeze a selected-story manifest before drafting so the chosen headline, exact material-event date/range, primary URL, and date-gate result cannot drift.
+- Reconcile the query audit, candidate ledger, frozen manifest, story blocks, and compact source list one-for-one; each selected primary URL appears once in its story and once in the final list.
+- Prevent date laundering: exact-date gates apply to the material event and any earlier activity that constitutes the story's material focus or eligibility claim, while pure historical background remains non-gating.

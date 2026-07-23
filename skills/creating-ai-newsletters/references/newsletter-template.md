@@ -33,16 +33,16 @@ Use the structure below; replace instructional braces and omit unused secondary 
 
 {For Chinese origin: one Chinese sentence only.}
 
-**{Sources label in the story's origin language}:** [Primary source]({url}) · [Secondary context]({url})
+**{Sources label in the story's origin language}:** [{Primary source name}]({primary_url}) · [{Secondary context name}]({secondary_url})
 
 {Repeat the story block for each selected story.}
 
 ## {Watch Next Week heading in the newsletter's authored language}
 
-{English-origin sentence.}
+{English-origin forward-looking implication supported by a source already cited for a selected story.}
 {Immediate Simplified Chinese translation.}
 
-{Or one Chinese-origin sentence without translation.}
+{Or one Chinese-origin, source-supported forward-looking implication without translation.}
 
 ## {Sources heading in the newsletter's authored language}
 
@@ -53,6 +53,7 @@ Use the structure below; replace instructional braces and omit unused secondary 
 ## Contract
 
 - Return the completed Markdown newsletter inline as the entire response; do not substitute a file link, completion note, or artifact list.
+- Replace every brace placeholder, including source names and URLs; never emit generic link labels such as `Primary source` or `Secondary context`.
 - Choose one authored language for newsletter-level headings, keep it consistent, and write each heading once.
 - Keep every story headline in its strongest primary source's language.
 - Write each story's labels in that story's origin language.
@@ -68,4 +69,4 @@ Use the structure below; replace instructional braces and omit unused secondary 
 - Keep the executive brief to two source-grounded sentences.
 - Include five to seven story blocks unless fewer candidates qualify.
 - If publishing fewer than five stories, state in the executive brief that only that number met the date-and-evidence standard.
-- Keep `Watch Next Week` short and evidence-based; do not turn speculation into fact.
+- Keep `Watch Next Week` short and limited to forward-looking implications supported by sources already cited for selected stories. Add no new uncited factual claim, separate Watch-only source, or Watch-only link; it does not expand the source-reconciliation set.
