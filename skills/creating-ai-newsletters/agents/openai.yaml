@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI News Newsletter"
+  short_description: "Create a concise bilingual weekly AI digest"
+  default_prompt: "Use $creating-ai-newsletters to research the past seven days of AI news and write a brief Markdown newsletter."
