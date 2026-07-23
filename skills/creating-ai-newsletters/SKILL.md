@@ -31,7 +31,7 @@ Unless the user overrides them:
 4. Open every source used. Prefer original announcements, papers, repositories, filings, laboratories, regulators for English-language material, official company or laboratory channels for Chinese-language material, and established institutional, technology, or business reporting.
 5. Seek strong coverage in both languages when available. Never add a weak source for symmetry.
 
-The underlying event or announcement date controls eligibility. An article published inside the window about an older event is ineligible.
+The underlying event or announcement date controls eligibility. An article published inside the window about an older event is ineligible. A source's in-window publication date or a relative date phrase such as "last week" does not establish eligibility; reject the candidate unless its underlying event date or date range is verified wholly inside the window.
 
 ## Select
 
@@ -46,7 +46,7 @@ Score each remaining candidate from 0 to 2 on:
 | Credibility | unsupported; reject | reputable secondary evidence | direct authoritative evidence |
 | Mixed-audience relevance | little value | business or technical value | clear value to both |
 
-Rank by total score, then apply editorial judgment and reasonable bucket balance. Merge coverage of one event into one story. Select five to seven; use fewer if fewer meet the standard.
+Rank by total score, then apply editorial judgment and reasonable bucket balance. Merge only reports about the same underlying event; keep related but distinct events separate, and never let an eligible event lend its date or evidence to an ineligible one. Select five to seven; use fewer if fewer meet the standard.
 
 ## Write
 
@@ -54,6 +54,7 @@ Read `references/newsletter-template.md` before drafting and follow its order ex
 
 Determine origin language from the strongest primary source:
 
+- When an authoritative source offers parallel language versions, use the original announcement language rather than a translated edition to determine origin.
 - English-origin story: write each body sentence in English, followed immediately on the next line by exactly one faithful Simplified Chinese translation.
 - Chinese-origin story: write its headline, story labels, and body in Chinese only; do not back-translate them into English.
 - Write each newsletter-level heading once in its authored language. Keep each story headline in the strongest primary source's language.

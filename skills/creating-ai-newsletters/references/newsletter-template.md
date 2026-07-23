@@ -50,6 +50,7 @@ Use the structure below; replace instructional braces and omit unused secondary 
 
 ## Contract
 
+- Return the completed Markdown newsletter inline as the entire response; do not substitute a file link, completion note, or artifact list.
 - Choose one authored language for newsletter-level headings, keep it consistent, and write each heading once.
 - Keep every story headline in its strongest primary source's language.
 - Write each story's labels in that story's origin language.
