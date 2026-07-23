@@ -27,11 +27,19 @@ Unless the user overrides them:
    - products and tools
    - business and industry
    - policy, safety, and security
-3. Build a private candidate ledger with event, origin language, underlying event date, bucket, primary source, useful secondary source, duplicate group, conflicts, and scores.
+3. Build a private candidate ledger with event, origin language, exact underlying event date or date range, date-evidence source, bucket, primary source, useful secondary source, duplicate group, conflicts, and scores.
 4. Open every source used. Prefer original announcements, papers, repositories, filings, laboratories, regulators for English-language material, official company or laboratory channels for Chinese-language material, and established institutional, technology, or business reporting.
 5. Seek strong coverage in both languages when available. Never add a weak source for symmetry.
+6. Before selection, record at least one Chinese-language query and every Chinese source or candidate opened with its selection or rejection reason. If none qualifies, record that outcome rather than add a weak source.
 
-The underlying event or announcement date controls eligibility. An article published inside the window about an older event is ineligible. A source's in-window publication date or a relative date phrase such as "last week" does not establish eligibility; reject the candidate unless its underlying event date or date range is verified wholly inside the window.
+Before scoring, apply this eligibility gate to every ledger row:
+
+- Record `Date evidence` as the exact underlying event date or date range, the opened source URL, and the source passage that supports that date.
+- Reject the row if the date evidence is missing, relative-only, or not wholly inside the window. Do this even when rejection leaves fewer than five stories.
+- Treat an in-window article or disclosure about an undated or older incident as ineligible; its publication or disclosure date cannot become the incident date.
+- Do not rename a retrospective disclosure as a new publication, lessons, or update event. If its material claims concern an earlier breach, evaluation, failure, pause, or deployment, date that underlying activity or reject it.
+
+The underlying event date controls eligibility. Use an announcement date only when the announcement itself creates the event, such as launching a model, product, policy, or programme; never use it when a source discloses, reports, or describes an earlier incident. An article published inside the window about an older event is ineligible.
 
 ## Select
 
@@ -54,7 +62,7 @@ Read `references/newsletter-template.md` before drafting and follow its order ex
 
 Determine origin language from the strongest primary source:
 
-- When an authoritative source offers parallel language versions, use the original announcement language rather than a translated edition to determine origin.
+- When an authoritative source offers parallel language versions, use and cite the original announcement language rather than a translated edition to determine origin. For an event from a Chinese institution, an English translation or mirror cannot establish English origin; open the original Chinese announcement when available.
 - English-origin story: write each body sentence in English, followed immediately on the next line by exactly one faithful Simplified Chinese translation.
 - Chinese-origin story: write its headline, story labels, and body in Chinese only; do not back-translate them into English.
 - Write each newsletter-level heading once in its authored language. Keep each story headline in the strongest primary source's language.
@@ -66,6 +74,7 @@ Translations must preserve names, model identifiers, numbers, dates, benchmark v
 
 - Coverage dates and timezone are explicit.
 - Every underlying event date is inside the window.
+- Every selected incident story states its exact underlying event date or date range; a disclosure date alone is insufficient.
 - Every material claim is supported by an opened citation.
 - Original sources lead; secondary sources are clearly contextual.
 - Duplicate events are merged and credible conflicts remain explicit.

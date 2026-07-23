@@ -57,6 +57,9 @@ Use the structure below; replace instructional braces and omit unused secondary 
 - Pair prose by origin language, not by the language of a secondary article.
 - Put each Simplified Chinese translation on the line immediately after its English sentence.
 - Do not repeat a link in a translation.
+- Render each source as one standard `[name](URL)` Markdown link; never nest link syntax.
+- Put clickable links on every story-level source line; the final source list does not replace them.
 - Keep the executive brief to two source-grounded sentences.
 - Include five to seven story blocks unless fewer candidates qualify.
+- If publishing fewer than five stories, state in the executive brief that only that number met the date-and-evidence standard.
 - Keep `Watch Next Week` short and evidence-based; do not turn speculation into fact.
