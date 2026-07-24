@@ -132,6 +132,10 @@ class NewsletterStateTests(unittest.TestCase):
             result["interests"][0]["sources"],
             ["https://example.com/release"],
         )
+        self.assertIn(
+            "The model shipped on 2026-07-23.",
+            result["interests"][0]["story_text"],
+        )
         self.assertEqual(
             result["interests"][0]["relative_link"],
             f"{path.name}#story-example-model-ships",
@@ -291,6 +295,40 @@ class NewsletterStateTests(unittest.TestCase):
         self.assertTrue(old.exists())
         self.assertEqual(destination.read_text(encoding="utf-8"), "existing")
         self.assertTrue(any("already exists" in e for e in result["errors"]))
+
+    def test_cleanup_refuses_symlinked_archive_root(self) -> None:
+        external = self.root / "external-archive"
+        external.mkdir()
+        old = external / "2025-01-01-ai-newsletter.md"
+        old.write_text(edition(), encoding="utf-8")
+        archive_link = self.root / "archive-link"
+        archive_link.symlink_to(external, target_is_directory=True)
+
+        result = newsletter_state.cleanup_archive(
+            archive_link, self.trash, date(2026, 7, 24)
+        )
+
+        self.assertTrue(old.exists())
+        self.assertEqual(result["moved"], [])
+        self.assertTrue(any("archive directory symlink" in e for e in result["errors"]))
+
+    def test_cleanup_refuses_symlinked_trash_root(self) -> None:
+        external = self.root / "external-trash"
+        external.mkdir()
+        old_trash = external / (
+            "TRASHED-2026-01-01--EDITION-2025-01-01-ai-newsletter.md"
+        )
+        old_trash.write_text(edition(), encoding="utf-8")
+        trash_link = self.root / "trash-link"
+        trash_link.symlink_to(external, target_is_directory=True)
+
+        result = newsletter_state.cleanup_archive(
+            self.archive, trash_link, date(2026, 7, 24)
+        )
+
+        self.assertTrue(old_trash.exists())
+        self.assertEqual(result["purged"], [])
+        self.assertTrue(any("trash directory symlink" in e for e in result["errors"]))
 
     def test_prepare_creates_directories_and_returns_post_cleanup_interests(self) -> None:
         archive = self.root / "new/archive"

@@ -1,13 +1,15 @@
 ---
 name: creating-ai-newsletters
-description: Use when a user asks for the latest or past week's AI news, an AI roundup or weekly digest, a Markdown AI newsletter, or an English and Simplified-Chinese AI news brief for mixed business and technical readers.
+description: Use when a user asks for the latest or past week's AI news, an AI roundup or weekly digest, a saved Markdown AI newsletter, or an English and Simplified-Chinese AI news brief for mixed business and technical readers.
 ---
 
 # Creating AI Newsletters
 
 ## Core principle
 
-Research the event, not the headline. Publish fewer stories rather than relax the date, evidence, source-quality, or language rules.
+Research the event, not the headline. Publish fewer stories rather than relax
+the date, evidence, source-quality, or language rules. Follow-ups add a separate
+view of marked interests; they never displace or weaken new-story coverage.
 
 ## Defaults
 
@@ -15,11 +17,69 @@ Unless the user overrides them:
 
 - Audience: mixed business and technical
 - Window: publication date plus the six preceding dates in the user's timezone
-- Length: five to seven stories
+- New stories: five to seven
 - Voice: sharp and professional
-- Format: polished Markdown
+- Format: polished Markdown with stable HTML story anchors
+- Archive: `knowledge/AI-newsletter/`
+- Trash: `knowledge/.AI-newsletter-trash/`
+
+## Preflight: archive and interests
+
+Resolve the repository root and today's date in the user's timezone. The
+ordinary output target is
+`knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`. If that target already
+exists, stop before research; update or replace it only when the user explicitly
+requests that action.
+
+Run from the repository root:
+
+```bash
+python3 skills/creating-ai-newsletters/scripts/newsletter_state.py prepare \
+  --archive knowledge/AI-newsletter \
+  --trash knowledge/.AI-newsletter-trash \
+  --today YYYY-MM-DD
+```
+
+This creates missing directories, moves unmarked editions older than six
+calendar months to recoverable trash, permanently purges newsletter trash
+entries older than 30 days, and returns all active `[x] Interesting` records as
+JSON. It preserves old editions containing a mark. Report every moved or purged
+path in the final response.
+
+A nonzero exit or any returned error blocks generation. Never work around a
+malformed edition, symlink, cleanup collision, or incomplete interest scan.
+
+## Source eligibility
+
+Government agencies, ministries, regulators, legislatures, courts,
+intergovernmental bodies, and state-controlled media are ineligible as primary,
+secondary, date-evidence, or supporting sources in every language. Do not cite
+or rely on them.
+
+Public universities and publicly funded research institutions remain eligible.
+Independent reporting about a government action is eligible only when the
+underlying event date is exact and wholly inside the coverage window and at
+least two reputable, independent, non-government sources confirm every material
+claim. Reject a source when its operational independence is ambiguous.
+
+Company, laboratory, academic, repository, and independent-media sources retain
+the existing evidence hierarchy.
 
 ## Research
+
+### Follow marked interests
+
+Before general discovery, build queries for every active interest returned by
+the helper using its headline, original story text, entities, products, and
+source links. Research every mark; there is no numerical limit.
+
+A follow-up qualifies only when a meaningful new event occurred wholly inside
+the current window and passes the same date, evidence, source, and language
+rules as a new story. A recent article about an unchanged old event is not a
+follow-up. Freeze qualifying results in a separate follow-up manifest. Keep
+marks with no qualifying update for `Tracked Interests`.
+
+### Discover new stories
 
 1. State the exact start date, end date, and timezone.
 2. Search in English and Simplified Chinese across:
@@ -27,28 +87,51 @@ Unless the user overrides them:
    - products and tools
    - business and industry
    - policy, safety, and security
-3. Build a private candidate ledger with material event, origin language, exact underlying event date or date range, date-evidence source, gating earlier material activity and its exact date evidence or `N/A`, optional non-gating background, `Date gate: PASS/REJECT`, bucket, primary source, useful secondary source, duplicate group, conflicts, and scores.
-4. Open every source used. For each selected story, cite the exact opened article, announcement, paper, repository release, filing, or regulator page that contains its date evidence and material claims. Category pages, tag or index pages, search-result pages, and homepages are discovery aids, not valid story citations. Prefer original sources for English-language material, official company or laboratory channels for Chinese-language material, and established institutional, technology, or business reporting.
-5. Seek strong coverage in both languages when available. Never add a weak source for symmetry.
-6. For a default edition, keep a query audit alongside the ledger: run at least one English-language query and one Simplified-Chinese query, written in Simplified Chinese, for each of the four buckets: models and research, products and tools, business and industry, and policy, safety, and security. Open and research candidate results for every query. Do not score or draft until all eight language-by-bucket query-audit entries exist. For every entry, record the exact query, candidates opened, and their selection or rejection reasons; a combined search counts only when the audit records a separate query and outcome for each bucket. If no Chinese candidate qualifies, record that outcome rather than add a weak source. Keep selected titles and source names in their authored language, which may be Traditional Chinese.
+3. Build a private candidate ledger with material event, origin language,
+   exact underlying event date or date range, date-evidence source, gating
+   earlier material activity and its exact date evidence or `N/A`, optional
+   non-gating background, source-operator class, `Date gate: PASS/REJECT`,
+   bucket, primary source, useful secondary source, duplicate group, conflicts,
+   and scores.
+4. Open every source used. Cite the exact article, announcement, paper,
+   repository release, company filing, or independent report containing the
+   date evidence and material claims. Category, tag, index, search-result, and
+   homepage pages are discovery aids, not story citations.
+5. Prefer original company, laboratory, academic, or repository sources and
+   established independent technology or business reporting. Seek strong
+   coverage in both languages when available; never add a weak source for
+   symmetry.
+6. For a default edition, run at least one English query and one
+   Simplified-Chinese query, written in Simplified Chinese, for each of the four
+   buckets. Record the exact query, candidates opened, and selection or
+   rejection reasons for all eight language-by-bucket audit entries before
+   scoring.
 
-Before scoring, apply this eligibility gate to every ledger row:
+Apply this gate to every follow-up and new-story row:
 
-- Record `Date evidence` as the exact underlying event date or date range, the opened source URL, and the source passage that supports that date.
-- If an earlier incident, failure, evaluation, pause, or deployment constitutes the story's material focus or eligibility claim, record it as `Earlier material activity` with separate exact date evidence. Pure historical or contextual background does not gate eligibility: record `N/A` for `Earlier material activity` and, when useful, put that context in the separate `Non-gating background` field.
-- Mark `Date gate: PASS` only when the material event and every gating `Earlier material activity` have exact date evidence wholly inside the window. Then confirm with a literal ISO-date comparison; otherwise mark `REJECT`. Only `PASS` rows may be scored or selected.
-- Reject the row if the date evidence is missing, relative-only, or not wholly inside the window. Do this even when rejection leaves fewer than five stories.
-- Treat an in-window article or disclosure about an undated or older incident as ineligible; its publication or disclosure date cannot become the incident date.
-- A dated partnership or remediation announcement does not make an earlier undated incident eligible. If that incident is the story's material focus, reject the story rather than recast the later response as its underlying event.
-- Do not rename a retrospective disclosure as a new publication, lessons, or update event. If its material claims concern an earlier breach, evaluation, failure, pause, or deployment, date that underlying activity or reject it.
+- Record the exact underlying event date or date range, opened source URL, and
+  source passage supporting that date.
+- If an earlier incident, failure, evaluation, pause, or deployment is material
+  to eligibility, record it separately with exact date evidence. Pure context
+  is non-gating.
+- Mark `Date gate: PASS` only when the event and every gating earlier activity
+  have exact dates wholly inside the window. Confirm with a literal ISO-date
+  comparison.
+- Reject missing, relative-only, undated, partly out-of-window, or
+  publication-date-only evidence, even when fewer stories remain.
+- A dated partnership or remediation does not make an older or undated incident
+  eligible. Never rename a retrospective disclosure as a new event.
 
-The underlying event date controls eligibility. Use an announcement date only when the announcement itself creates the event, such as launching a model, product, policy, or programme; never use it when a source discloses, reports, or describes an earlier incident. An article published inside the window about an older event is ineligible.
+The underlying event date controls eligibility. An announcement date qualifies
+only when the announcement itself creates the event, such as a launch.
 
 ## Select
 
-Reject candidates that are outside the window, inaccessible at the material-claim level, primarily promotional, or duplicates of a stronger entry.
+Reject candidates that are outside the window, inaccessible at the
+material-claim level, primarily promotional, government-operated, or duplicates
+of a stronger entry.
 
-Score each remaining candidate from 0 to 2 on:
+Score each eligible new-story candidate from 0 to 2:
 
 | Dimension | 0 | 1 | 2 |
 |---|---|---|---|
@@ -57,52 +140,98 @@ Score each remaining candidate from 0 to 2 on:
 | Credibility | unsupported; reject | reputable secondary evidence | direct authoritative evidence |
 | Mixed-audience relevance | little value | business or technical value | clear value to both |
 
-Rank by total score, then apply editorial judgment and reasonable bucket balance. Merge only reports about the same underlying event; keep related but distinct events separate, and never let an eligible event lend its date or evidence to an ineligible one. Select five to seven; use fewer if fewer meet the standard.
+Rank by score, editorial judgment, and reasonable bucket balance. Merge only
+reports about the same event. Select five to seven new stories, or fewer when
+fewer meet the standard, independently of the number of follow-ups.
 
-Before drafting, freeze a selected-story manifest containing each selected row's headline, material event, exact date or date range, primary URL, and `Date gate: PASS`. Draft only from that manifest. After drafting, reconcile the ledger, query audit, manifest, story blocks, and compact source list one-for-one; their selected headline/date/primary-URL sets must exactly match.
+Freeze a new-story manifest containing each selected headline, event, exact
+date, primary URL, and `Date gate: PASS`. Reject any new story duplicating a
+selected follow-up. A follow-up never appears in `New Stories`.
 
 ## Write
 
-Read `references/newsletter-template.md` before drafting and follow its order exactly.
+Read `references/newsletter-template.md` completely and follow its fixed section
+order.
 
-Determine origin language from the strongest primary source:
+- Give every new story a unique stable HTML anchor immediately before its
+  headline and `- [ ] Interesting` immediately below it.
+- Do not add interest checkboxes to follow-ups or tracked-interest reminders.
+- Put qualifying updates only in `Follow-ups to Interesting Stories`.
+- List every active mark in `Tracked Interests`, linking to its original
+  anchored story. State whether a qualifying update was found. Otherwise write
+  `No qualifying update found this week`.
+- For a mark older than six months, add a prominent review reminder. Every
+  tracked item tells the user to uncheck the original story to stop tracking it.
 
-- When an authoritative source offers parallel language versions, use and cite the original announcement language rather than a translated edition to determine origin. For an event from a Chinese institution, an English translation or mirror cannot establish English origin; open the original Chinese announcement when available.
-- English-origin story: write each body sentence in English, followed immediately on the next line by exactly one faithful Simplified Chinese translation.
-- Chinese-origin story: write its headline, story labels, and body in Chinese only; do not back-translate them into English.
-- Write each newsletter-level heading once in its authored language. Keep each story headline in the strongest primary source's language.
-- Keep source names and URLs unchanged. Show each selected primary URL once on its story source line and once in the compact final source list, with no duplicate within either location.
-- Write `Watch Next Week` only as forward-looking implications supported by sources already cited for selected stories. Add no new uncited factual claim and no separate Watch-only source or link; this section does not expand the selected-story source reconciliation set.
+Determine origin language from the strongest eligible primary source:
 
-Translations must preserve names, model identifiers, numbers, dates, benchmark values, technical terms, confidence, and caveats. Do not add a claim to only one language.
+- When an eligible authoritative source offers parallel versions, use the
+  original announcement language to determine origin.
+- English-origin story: write each body sentence in English, followed
+  immediately on the next line by exactly one faithful Simplified Chinese
+  translation.
+- Chinese-origin story: write its headline, labels, and body in Chinese only;
+  do not back-translate it into English.
+- Keep newsletter-level headings exactly as the template specifies and every
+  story headline in its primary source's language.
+- Keep source names and URLs unchanged. Show each selected primary URL once in
+  its story and once in the compact source list.
+- `Watch Next Week` contains only forward-looking implications supported by
+  sources already cited in a selected new story or follow-up.
+
+Translations preserve names, identifiers, numbers, dates, benchmarks, technical
+terms, confidence, and caveats. Never add a claim to only one language.
+
+## Save and return
+
+For ordinary generation, write the completed edition to a new output target and
+never overwrite an existing file. When the user explicitly asks to update or
+replace an existing same-day edition, follow that request in place and preserve
+any existing interest marks unless the user explicitly changes them. Then run:
+
+```bash
+python3 skills/creating-ai-newsletters/scripts/newsletter_state.py validate \
+  knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md
+```
+
+If validation fails, report the errors and do not present the edition as
+complete. If it succeeds, first report the cleanup result, then return a
+clickable link to the saved path followed immediately by the complete saved
+newsletter inline.
 
 ## Verify before publishing
 
 - Coverage dates and timezone are explicit.
-- Every underlying event date is inside the window.
-- Every story shows an `Underlying event date` line for its material event, matching the frozen manifest and cited primary page.
-- Every story's `What happened` text states its exact underlying event date or date range.
-- For every selected story, the cited primary page states the exact date or date range of its material underlying activity; a retrospective page's publication date alone cannot satisfy this check.
-- Every selected incident story states its exact underlying event date or date range; a disclosure date alone is insufficient.
-- Every selected story cites an exact opened primary page containing its date evidence and material claims; no category, tag, index, search-result, or homepage URL supports a story.
-- Original sources lead; secondary sources are clearly contextual.
-- Duplicate events are merged and credible conflicts remain explicit.
-- The edition is brief, balanced, and free of unsupported superlatives.
+- Every selected underlying event and gating activity is exactly dated inside
+  the window and supported by an opened eligible source.
+- No government-operated or state-controlled source supports any claim.
+- Every government-action story has two qualifying independent confirmations.
+- New and follow-up manifests are separate; no story appears in both.
+- `New Stories` contains five to seven items unless fewer pass; follow-ups are
+  uncapped and do not affect that count.
+- Every new story has one unique anchor and one unchecked interest checkbox.
+- Every active mark appears in `Tracked Interests` with an original link,
+  status, uncheck instruction, and overdue reminder when applicable.
 - Every English-origin body sentence has one immediate Simplified Chinese pair.
-- Chinese-origin text, headings, headlines, source names, and URLs are not redundantly translated.
-- Source-list links carry `[EN]` or `[中文]`.
-- The compact source list includes every selected story's exact primary link.
-- The ledger, query audit, frozen manifest, story blocks, and compact source list reconcile one-for-one on selected headline, exact date, and primary URL.
-- Every `Watch Next Week` implication is supported by an already-cited selected-story source and introduces neither a new factual claim nor a Watch-only source.
+- Chinese-origin text and unchanged source names and URLs are not redundantly
+  translated.
+- The ledger, query audit, manifests, story blocks, and compact source list
+  reconcile one-for-one on headline, exact date, and primary URL.
+- Every `Watch Next Week` implication uses an already-cited source.
+- The saved file passes helper validation and the inline copy matches it.
 
-If a date or material claim cannot be verified, or credible sources conflict irreconcilably, state the limitation precisely or omit the story.
+If a date, source independence, or material claim cannot be verified, state the
+limitation precisely or omit the story.
 
 ## Common mistakes
 
 | Mistake | Correction |
 |---|---|
-| Using an article's date for an older announcement | Verify and use the underlying event date. |
-| Treating several reports as several stories | Merge them under the strongest primary source. |
+| Treating a regulator page as authoritative evidence | Government-operated sources are excluded; use qualifying independent evidence. |
+| Letting marked stories reduce new coverage | Keep follow-ups in their own uncapped section and still select five to seven new stories. |
+| Dropping a mark when no update exists | Keep it in `Tracked Interests` with the exact no-update status. |
+| Copying a checkbox into a follow-up | Only the original new-story block owns the checkbox. |
+| Deleting an old marked edition | Preserve it and remind the user to review the mark. |
+| Using an article's date for an older event | Verify and use the underlying event date. |
 | Adding weak Chinese coverage for symmetry | Keep only sources that improve evidence or context. |
-| Translating a Chinese-origin story into English | Keep its headline and body Chinese-only. |
-| Counting a translation as a new claim | Keep each language pair semantically identical. |
+| Returning only a saved path | Return the clickable path and the complete saved Markdown. |

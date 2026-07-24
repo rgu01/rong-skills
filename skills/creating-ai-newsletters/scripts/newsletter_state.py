@@ -38,6 +38,7 @@ class Interest:
     anchor: str
     path: str
     relative_link: str
+    story_text: str
     sources: list[str]
     overdue: bool
 
@@ -160,6 +161,7 @@ def _parse_story_interests(
                 anchor=anchor,
                 path=str(path),
                 relative_link=f"{path.name}#{anchor}",
+                story_text=block,
                 sources=sources,
                 overdue=edition_date < subtract_calendar_months(today, 6),
             )
@@ -227,9 +229,25 @@ def _looks_like_newsletter(path: Path) -> bool:
     return path.name.endswith(".md") and "newsletter" in path.name.lower()
 
 
+def _prepare_directory(path: Path, label: str) -> list[str]:
+    if path.is_symlink():
+        return [f"{path}: refusing {label} directory symlink"]
+    if path.exists() and not path.is_dir():
+        return [f"{path}: {label} path is not a directory"]
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        return [f"{path}: cannot create {label} directory: {exc}"]
+    if path.is_symlink():
+        return [f"{path}: refusing {label} directory symlink"]
+    return []
+
+
 def scan_archive(archive: Path, today: date) -> dict[str, object]:
     archive = Path(archive)
-    archive.mkdir(parents=True, exist_ok=True)
+    directory_errors = _prepare_directory(archive, "archive")
+    if directory_errors:
+        return {"interests": [], "errors": directory_errors}
     interests: list[dict[str, object]] = []
     errors: list[str] = []
 
@@ -253,8 +271,14 @@ def _unique(items: list[str]) -> list[str]:
 def cleanup_archive(archive: Path, trash: Path, today: date) -> dict[str, object]:
     archive = Path(archive)
     trash = Path(trash)
-    archive.mkdir(parents=True, exist_ok=True)
-    trash.mkdir(parents=True, exist_ok=True)
+    directory_errors = _prepare_directory(archive, "archive")
+    directory_errors.extend(_prepare_directory(trash, "trash"))
+    if directory_errors:
+        return {
+            "moved": [],
+            "purged": [],
+            "errors": _unique(directory_errors),
+        }
     moved: list[str] = []
     purged: list[str] = []
     errors: list[str] = []
