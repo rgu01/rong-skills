@@ -26,6 +26,10 @@ class NewsletterEmailContractTests(unittest.TestCase):
         self.assertIn("not sent", email_section)
         self.assertIn("do not claim", email_section)
 
+    def test_delivery_precedes_final_response(self) -> None:
+        email_section = self.text.split("## Email delivery", 1)[1]
+        self.assertIn("before composing the final response", email_section)
+
 
 if __name__ == "__main__":
     unittest.main()

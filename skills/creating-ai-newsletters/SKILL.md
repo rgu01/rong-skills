@@ -222,7 +222,9 @@ validated but was **not sent** to `ronggufly@gmail.com` because email delivery
 is unavailable; do not claim delivery. If the connector reports a send error,
 preserve the saved newsletter, report the error, and do not claim delivery.
 Successful delivery must be reported separately from the saved-file link and
-inline newsletter.
+inline newsletter. Attempt delivery before composing the final response; then
+report cleanup, delivery status, the saved-file link, and the complete inline
+newsletter in that response.
 
 ## Verify before publishing
 
