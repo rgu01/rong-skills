@@ -20,24 +20,35 @@ Unless the user overrides them:
 - New stories: five to seven
 - Voice: sharp and professional
 - Format: polished Markdown with stable HTML story anchors
-- Archive: `knowledge/AI-newsletter/`
-- Trash: `knowledge/.AI-newsletter-trash/`
+- Archive: `<rong-skills-repo>/knowledge/AI-newsletter/`
+- Trash: `<rong-skills-repo>/knowledge/.AI-newsletter-trash/`
 - Email recipient: `ronggufly@gmail.com`
 
 ## Preflight: archive and interests
 
-Resolve the repository root and today's date in the user's timezone. The
-ordinary output target is
-`knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`. If that target already
-exists, stop before research; update or replace it only when the user explicitly
-requests that action.
-
-Run from the repository root:
+Always save under the `rong-skills` repository that contains this skill,
+wherever that repo is checked out — never under the current working directory.
+This skill lives at `<rong-skills-repo>/skills/creating-ai-newsletters`, so the
+repo root is two directories above the skill directory. Resolve it by following
+symlinks, for example:
 
 ```bash
-python3 skills/creating-ai-newsletters/scripts/newsletter_state.py prepare \
-  --archive knowledge/AI-newsletter \
-  --trash knowledge/.AI-newsletter-trash \
+REPO_ROOT="$(cd "$(dirname "$(readlink -f "$0")")/../.." && pwd)"   # conceptually
+# In practice, resolve the real path of the creating-ai-newsletters skill
+# directory and take its grandparent as REPO_ROOT.
+```
+
+Resolve that `REPO_ROOT` and today's date in the user's timezone. The ordinary
+output target is `$REPO_ROOT/knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`.
+If that target already exists, stop before research; update or replace it only
+when the user explicitly requests that action.
+
+Run (with `REPO_ROOT` resolved to the rong-skills repo, using absolute paths):
+
+```bash
+python3 "$REPO_ROOT/skills/creating-ai-newsletters/scripts/newsletter_state.py" prepare \
+  --archive "$REPO_ROOT/knowledge/AI-newsletter" \
+  --trash "$REPO_ROOT/knowledge/.AI-newsletter-trash" \
   --today YYYY-MM-DD
 ```
 
@@ -191,8 +202,8 @@ replace an existing same-day edition, follow that request in place and preserve
 any existing interest marks unless the user explicitly changes them. Then run:
 
 ```bash
-python3 skills/creating-ai-newsletters/scripts/newsletter_state.py validate \
-  knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md
+python3 "$REPO_ROOT/skills/creating-ai-newsletters/scripts/newsletter_state.py" validate \
+  "$REPO_ROOT/knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md"
 ```
 
 If validation fails, report the errors and do not present the edition as
