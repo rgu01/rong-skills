@@ -230,16 +230,24 @@ def _looks_like_newsletter(path: Path) -> bool:
 
 
 def _prepare_directory(path: Path, label: str) -> list[str]:
-    if path.is_symlink():
-        return [f"{path}: refusing {label} directory symlink"]
+    for component in (path, *path.parents):
+        if component.is_symlink():
+            return [
+                f"{path}: refusing {label} directory symlink "
+                f"component: {component}"
+            ]
     if path.exists() and not path.is_dir():
         return [f"{path}: {label} path is not a directory"]
     try:
         path.mkdir(parents=True, exist_ok=True)
     except OSError as exc:
         return [f"{path}: cannot create {label} directory: {exc}"]
-    if path.is_symlink():
-        return [f"{path}: refusing {label} directory symlink"]
+    for component in (path, *path.parents):
+        if component.is_symlink():
+            return [
+                f"{path}: refusing {label} directory symlink "
+                f"component: {component}"
+            ]
     return []
 
 

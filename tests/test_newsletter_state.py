@@ -312,6 +312,20 @@ class NewsletterStateTests(unittest.TestCase):
         self.assertEqual(result["moved"], [])
         self.assertTrue(any("archive directory symlink" in e for e in result["errors"]))
 
+    def test_cleanup_refuses_symlinked_archive_parent(self) -> None:
+        external = self.root / "external-parent"
+        external.mkdir()
+        linked_parent = self.root / "linked-parent"
+        linked_parent.symlink_to(external, target_is_directory=True)
+        archive = linked_parent / "AI-newsletter"
+
+        result = newsletter_state.cleanup_archive(
+            archive, self.trash, date(2026, 7, 24)
+        )
+
+        self.assertFalse((external / "AI-newsletter").exists())
+        self.assertTrue(any("archive directory symlink" in e for e in result["errors"]))
+
     def test_cleanup_refuses_symlinked_trash_root(self) -> None:
         external = self.root / "external-trash"
         external.mkdir()
