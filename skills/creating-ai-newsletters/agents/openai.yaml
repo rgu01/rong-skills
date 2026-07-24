@@ -1,4 +1,4 @@
 interface:
   display_name: "AI News Newsletter"
-  short_description: "Save a bilingual AI digest with tracked follow-ups"
-  default_prompt: "Use $creating-ai-newsletters to research the past seven days of AI news, follow my marked interests, and save a brief bilingual Markdown newsletter."
+  short_description: "Save and email a bilingual AI digest with follow-ups"
+  default_prompt: "Use $creating-ai-newsletters to research the past seven days of AI news, follow my marked interests, save the bilingual Markdown newsletter, and email it to ronggufly@gmail.com."

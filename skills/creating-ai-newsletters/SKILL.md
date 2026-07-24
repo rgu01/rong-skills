@@ -22,6 +22,7 @@ Unless the user overrides them:
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `knowledge/AI-newsletter/`
 - Trash: `knowledge/.AI-newsletter-trash/`
+- Email recipient: `ronggufly@gmail.com`
 
 ## Preflight: archive and interests
 
@@ -198,6 +199,30 @@ If validation fails, report the errors and do not present the edition as
 complete. If it succeeds, first report the cleanup result, then return a
 clickable link to the saved path followed immediately by the complete saved
 newsletter inline.
+
+## Email delivery
+
+After the edition is saved and the validation command succeeds, email the exact
+saved Markdown to `ronggufly@gmail.com`:
+
+- Subject: `AI Newsletter — YYYY-MM-DD` using the edition date.
+- Body: the complete saved Markdown, byte-for-byte equivalent to the validated
+  file. Do not send the private ledger, query audit, manifests, or cleanup
+  diagnostics.
+- Attach the saved `.md` file only when the available email connector supports
+  attachments; the Markdown body remains required.
+- Use the available email connector or app tool and follow any required
+  confirmation step. Do not invent an email API, SMTP command, or delivery
+  result when no connector is available.
+- Send only after validation; never email a draft or an edition that failed
+  validation.
+
+If no email connector is available, state that the newsletter was saved and
+validated but was **not sent** to `ronggufly@gmail.com` because email delivery
+is unavailable; do not claim delivery. If the connector reports a send error,
+preserve the saved newsletter, report the error, and do not claim delivery.
+Successful delivery must be reported separately from the saved-file link and
+inline newsletter.
 
 ## Verify before publishing
 
