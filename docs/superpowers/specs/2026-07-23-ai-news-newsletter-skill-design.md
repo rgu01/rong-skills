@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Create a reusable Codex skill that researches the latest artificial intelligence news and produces a brief, polished Markdown newsletter for a mixed business and technical audience.
+Create a reusable skill for AI agents (Claude, Codex, etc.) that researches the latest artificial intelligence news and produces a brief, polished Markdown newsletter for a mixed business and technical audience.
 
-The default edition covers the publication date and the six preceding calendar dates in the user's timezone, contains five to seven strong stories, uses a sharp professional voice, and pairs every English body sentence with an immediate Simplified Chinese translation. Newsletter and story headings remain in English.
+The default edition covers the publication date and the six preceding calendar dates in the user's timezone, contains five to seven strong stories, uses a sharp professional voice, and pairs every English body sentence with an immediate Simplified Chinese translation. If the story is in Chinese itself, no need to translate. Newsletter and story headings remain in the orginal language, English or Chinese.
 
 ## Skill Shape
 
@@ -28,14 +28,14 @@ Search the publication date and the six preceding calendar dates in both English
 1. Models and research
 2. Products and tools
 3. Business and industry
-4. Policy and safety
+4. Policy and safety and security
 
 Treat the date of the underlying event or announcement as the relevant date, not merely the publication date of an article discussing an older event.
 
 Prefer authoritative sources in their original language:
 
 - English sources: official company or laboratory announcements, research papers, repositories, regulators, filings, and established technology or business reporting.
-- Chinese sources: official company or research-laboratory channels, government or regulator publications, major institutional media, and established technology or business publications.
+- Chinese sources: official company or research-laboratory channels, major institutional media, and established technology or business publications.
 
 For each major story, seek strong English and Chinese coverage when available. Never include a weak source merely to create language symmetry. Use the original announcement, paper, filing, or official publication as primary evidence; use high-quality secondary reporting for confirmation, context, or an independent regional perspective.
 
@@ -57,7 +57,7 @@ If fewer than five stories meet the quality threshold, publish a shorter edition
 
 Produce polished Markdown in this order:
 
-1. English title and exact seven-day coverage period
+1. English/Chinese title and exact seven-day coverage period
 2. Two-sentence executive briefing
 3. Five to seven ranked stories
 4. A short `Watch Next Week` section
@@ -65,7 +65,7 @@ Produce polished Markdown in this order:
 
 Each story contains:
 
-- An English-only headline
+- An English/Chinese headline
 - What happened
 - Why it matters to business and/or technical readers
 - A primary-source link and, only when useful, a secondary-source link

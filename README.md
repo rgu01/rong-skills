@@ -48,6 +48,8 @@ Study notes and reference write-ups live under `knowledge/`.
 | Note | Topic |
 |------|-------|
 | [`llm-tokens-and-attention.md`](knowledge/llm-tokens-and-attention.md) | How LLMs work end to end — tokenization (BPE/WordPiece/Unigram), embeddings, training & gradient descent, positional encoding (RoPE), and attention (Q/K/V, transformer layers, MLP), plus the philosophical limits of what an LLM's output can mean. |
+| [`fret-concepts-and-fretish.md`](knowledge/fret-concepts-and-fretish.md) | NASA FRET part 1 — the requirements-formalization mental model, the six-field FRETish language, variables as interface (not implementation), and the AI-assisted "draft → validate" formalization workflow. |
+| [`fret-cli-and-setup.md`](knowledge/fret-cli-and-setup.md) | NASA FRET part 2 — the headless `fretcli` (`formalize`/`realizability`/`list`), the two-tier plan, and the verified no-sudo setup on WSL/Ubuntu 22.04 (Node 20, kind2 v2.2.0, z3 4.14.1). |
 
 ## Installation
 
