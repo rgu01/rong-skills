@@ -8,8 +8,9 @@ description: Use when a user asks for the latest or past week's AI news, an AI r
 ## Core principle
 
 Research the event, not the headline. Publish fewer stories rather than relax
-the date, evidence, source-quality, or language rules. Follow-ups add a separate
-view of marked interests; they never displace or weaken new-story coverage.
+the date, evidence, source-quality, or language rules. Lead with tools for
+building and operating AI agents. Follow-ups add a separate view of marked
+interests; they never displace or weaken either new-story selection.
 
 ## Defaults
 
@@ -17,7 +18,8 @@ Unless the user overrides them:
 
 - Audience: mixed business and technical
 - Window: publication date plus the six preceding dates in the user's timezone
-- New stories: five to seven
+- AI Tools: five to seven
+- Other AI Stories: three to five
 - Voice: sharp and professional
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `<rong-skills-repo>/knowledge/AI-newsletter/`
@@ -91,15 +93,44 @@ rules as a new story. A recent article about an unchanged old event is not a
 follow-up. Freeze qualifying results in a separate follow-up manifest. Keep
 marks with no qualifying update for `Tracked Interests`.
 
-### Discover new stories
+### Discover AI Tools
+
+Treat AI Tools as the primary editorial selection. Qualifying tools help
+developers or operators build, use, integrate, deploy, evaluate, observe,
+secure, govern, or manage AI agents. Prioritize:
+
+- agent orchestration frameworks, SDKs, workflow builders, and multi-agent
+  coordination;
+- tool calling, MCP, A2A, connectors, memory, data access, and reusable skills;
+- agent runtimes, sandboxes, durable execution, checkpointing, deployment, and
+  human approval;
+- registries, identity, permissions, versioning, security, governance, and cost
+  control;
+- tracing, debugging, observability, evaluation, testing, monitoring, and
+  feedback pipelines.
+
+A meaningful launch, release, material update, or ecosystem change must occur
+inside the coverage window. Exclude model releases without agent-development
+capabilities, consumer AI applications, generic developer tools without a
+direct agent-workflow use, minor features marketed as agentic, and the mere
+rediscovery of an existing tool.
+
+### Discover Other AI Stories
+
+Preserve the existing broader AI coverage across:
+
+- models and research
+- non-agent products
+- business and industry
+- policy, safety, and security
+
+### Research both selections
 
 1. State the exact start date, end date, and timezone.
-2. Search in English and Simplified Chinese across:
-   - models and research
-   - products and tools
-   - business and industry
-   - policy, safety, and security
-3. Build a private candidate ledger with material event, origin language,
+2. Search in English and Simplified Chinese for AI Tools and for each of the
+   four Other AI Stories buckets.
+3. Build separate private candidate ledgers for AI Tools and Other AI Stories.
+   Each row records the material event, origin language,
    exact underlying event date or date range, date-evidence source, gating
    earlier material activity and its exact date evidence or `N/A`, optional
    non-gating background, source-operator class, `Date gate: PASS/REJECT`,
@@ -114,12 +145,12 @@ marks with no qualifying update for `Tracked Interests`.
    coverage in both languages when available; never add a weak source for
    symmetry.
 6. For a default edition, run at least one English query and one
-   Simplified-Chinese query, written in Simplified Chinese, for each of the four
-   buckets. Record the exact query, candidates opened, and selection or
-   rejection reasons for all eight language-by-bucket audit entries before
-   scoring.
+   Simplified-Chinese query, written in Simplified Chinese, for AI Tools and
+   each of the four Other AI Stories buckets. Record the exact query, candidates
+   opened, and selection or rejection reasons for all ten language-by-bucket
+   audit entries before scoring.
 
-Apply this gate to every follow-up and new-story row:
+Apply this gate to every follow-up, AI Tools, and Other AI Stories row:
 
 - Record the exact underlying event date or date range, opened source URL, and
   source passage supporting that date.
@@ -143,7 +174,7 @@ Reject candidates that are outside the window, inaccessible at the
 material-claim level, primarily promotional, government-operated, or duplicates
 of a stronger entry.
 
-Score each eligible new-story candidate from 0 to 2:
+Score each eligible candidate from 0 to 2:
 
 | Dimension | 0 | 1 | 2 |
 |---|---|---|---|
@@ -152,21 +183,32 @@ Score each eligible new-story candidate from 0 to 2:
 | Credibility | unsupported; reject | reputable secondary evidence | direct authoritative evidence |
 | Mixed-audience relevance | little value | business or technical value | clear value to both |
 
-Rank by score, editorial judgment, and reasonable bucket balance. Merge only
-reports about the same event. Select five to seven new stories, or fewer when
-fewer meet the standard, independently of the number of follow-ups.
+For AI Tools, also score practical agent-workflow relevance: reject a tool with
+no direct agent-lifecycle use, score 1 for a useful narrow capability, and score
+2 for clear day-to-day value in building or operating agents.
 
-Freeze a new-story manifest containing each selected headline, event, exact
-date, primary URL, and `Date gate: PASS`. Reject any new story duplicating a
-selected follow-up. A follow-up never appears in `New Stories`.
+Rank by score and editorial judgment. Prefer broadly useful agent lifecycle
+infrastructure within AI Tools and reasonable bucket balance within Other AI
+Stories. Merge only reports about the same event. Select five to seven AI Tools
+and three to five Other AI Stories, or fewer in either section when fewer meet
+the standard. The counts are independent and do not change with the number of
+follow-ups.
+
+Freeze separate manifests for AI Tools and Other AI Stories containing each
+selected headline, event, exact date, primary URL, and `Date gate: PASS`.
+Reject any event duplicating a selected follow-up or appearing in the other
+manifest. A follow-up never appears in either new-story section.
 
 ## Write
 
 Read `references/newsletter-template.md` completely and follow its fixed section
 order.
 
-- Give every new story a unique stable HTML anchor immediately before its
-  headline and `- [ ] Interesting` immediately below it.
+- Give every story in `AI Tools` and `Other AI Stories` a unique stable HTML
+  anchor immediately before its headline and `- [ ] Interesting` immediately
+  below it.
+- For every AI Tools item, identify what shipped, the agent-lifecycle problem
+  it addresses, and why it matters to practitioners.
 - Do not add interest checkboxes to follow-ups or tracked-interest reminders.
 - Put qualifying updates only in `Follow-ups to Interesting Stories`.
 - List every active mark in `Tracked Interests`, linking to its original
@@ -244,9 +286,11 @@ newsletter in that response.
   the window and supported by an opened eligible source.
 - No government-operated or state-controlled source supports any claim.
 - Every government-action story has two qualifying independent confirmations.
-- New and follow-up manifests are separate; no story appears in both.
-- `New Stories` contains five to seven items unless fewer pass; follow-ups are
-  uncapped and do not affect that count.
+- AI Tools, Other AI Stories, and follow-up manifests are separate; no event
+  appears in more than one.
+- `AI Tools` contains five to seven items and `Other AI Stories` contains three
+  to five items unless fewer pass. Their counts are independent; follow-ups are
+  uncapped and do not affect either count.
 - Every new story has one unique anchor and one unchecked interest checkbox.
 - Every active mark appears in `Tracked Interests` with an original link,
   status, uncheck instruction, and overdue reminder when applicable.
@@ -266,7 +310,8 @@ limitation precisely or omit the story.
 | Mistake | Correction |
 |---|---|
 | Treating a regulator page as authoritative evidence | Government-operated sources are excluded; use qualifying independent evidence. |
-| Letting marked stories reduce new coverage | Keep follow-ups in their own uncapped section and still select five to seven new stories. |
+| Treating a consumer AI app as an AI Tool | Require a direct use in building, integrating, deploying, evaluating, or operating AI agents. |
+| Letting one selection reduce the other | Select five to seven AI Tools and three to five Other AI Stories independently of follow-ups. |
 | Dropping a mark when no update exists | Keep it in `Tracked Interests` with the exact no-update status. |
 | Copying a checkbox into a follow-up | Only the original new-story block owns the checkbox. |
 | Deleting an old marked edition | Preserve it and remind the user to review the mark. |

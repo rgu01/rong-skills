@@ -21,14 +21,15 @@ TRASH_NAME_RE = re.compile(
 ANCHOR_RE = re.compile(r'^<a id="(?P<anchor>[a-z0-9][a-z0-9-]*)"></a>$')
 CHECKBOX_RE = re.compile(r"^- \[(?P<mark>[ xX])\] Interesting\s*$")
 URL_RE = re.compile(r"\[[^\]]+\]\((https?://[^)\s]+)\)")
-REQUIRED_SECTIONS = (
+COMMON_REQUIRED_SECTIONS = (
     "Executive Brief",
-    "New Stories",
     "Follow-ups to Interesting Stories",
     "Tracked Interests",
     "Watch Next Week",
     "Sources",
 )
+LEGACY_STORY_SECTIONS = ("New Stories",)
+CURRENT_STORY_SECTIONS = ("AI Tools", "Other AI Stories")
 
 
 @dataclass(frozen=True)
@@ -84,9 +85,11 @@ def _previous_nonblank(lines: list[str], start: int) -> int | None:
     return None
 
 
-def _new_stories_bounds(lines: list[str]) -> tuple[int, int] | None:
+def _section_bounds(
+    lines: list[str], section_name: str
+) -> tuple[int, int] | None:
     try:
-        start = lines.index("## New Stories") + 1
+        start = lines.index(f"## {section_name}") + 1
     except ValueError:
         return None
     end = len(lines)
@@ -97,15 +100,39 @@ def _new_stories_bounds(lines: list[str]) -> tuple[int, int] | None:
     return start, end
 
 
-def _parse_story_interests(
+def _story_section_contract(
+    path: Path, lines: list[str]
+) -> tuple[tuple[str, ...], list[str]]:
+    legacy_present = all(f"## {name}" in lines for name in LEGACY_STORY_SECTIONS)
+    current_present = [
+        name for name in CURRENT_STORY_SECTIONS if f"## {name}" in lines
+    ]
+
+    if legacy_present and current_present:
+        return (), [f"{path}: mixed story section contract"]
+    if current_present and len(current_present) != len(CURRENT_STORY_SECTIONS):
+        return (), [f"{path}: incomplete story section contract"]
+    if legacy_present:
+        return LEGACY_STORY_SECTIONS, []
+    if len(current_present) == len(CURRENT_STORY_SECTIONS):
+        positions = [lines.index(f"## {name}") for name in CURRENT_STORY_SECTIONS]
+        if positions != sorted(positions):
+            return (), [f"{path}: incorrect current story section order"]
+        return CURRENT_STORY_SECTIONS, []
+    return (), [f"{path}: missing story section contract"]
+
+
+def _parse_story_section(
     path: Path,
     edition_date: date,
     lines: list[str],
     today: date,
+    section_name: str,
+    anchors_seen: set[str],
 ) -> tuple[list[Interest], list[str]]:
-    bounds = _new_stories_bounds(lines)
+    bounds = _section_bounds(lines, section_name)
     if bounds is None:
-        return [], [f"{path}: missing required section: New Stories"]
+        return [], [f"{path}: missing required section: {section_name}"]
 
     start, end = bounds
     section = lines[start:end]
@@ -114,7 +141,6 @@ def _parse_story_interests(
     ]
     errors: list[str] = []
     interests: list[Interest] = []
-    anchors_seen: set[str] = set()
 
     for heading_position, heading_index in enumerate(headings):
         headline = section[heading_index][4:].strip()
@@ -179,6 +205,32 @@ def _parse_story_interests(
     return interests, errors
 
 
+def _parse_story_interests(
+    path: Path,
+    edition_date: date,
+    lines: list[str],
+    today: date,
+) -> tuple[list[Interest], list[str]]:
+    section_names, errors = _story_section_contract(path, lines)
+    if errors:
+        return [], errors
+
+    interests: list[Interest] = []
+    anchors_seen: set[str] = set()
+    for section_name in section_names:
+        section_interests, section_errors = _parse_story_section(
+            path,
+            edition_date,
+            lines,
+            today,
+            section_name,
+            anchors_seen,
+        )
+        interests.extend(section_interests)
+        errors.extend(section_errors)
+    return interests, errors
+
+
 def parse_edition(path: Path, today: date) -> Edition:
     """Parse one active-edition file without following symlinks."""
     path = Path(path)
@@ -205,7 +257,7 @@ def parse_edition(path: Path, today: date) -> Edition:
     except (OSError, UnicodeError) as exc:
         return Edition(path, edition_date, [], errors + [f"{path}: {exc}"])
 
-    for section in REQUIRED_SECTIONS:
+    for section in COMMON_REQUIRED_SECTIONS:
         if f"## {section}" not in lines:
             errors.append(f"{path}: missing required section: {section}")
 

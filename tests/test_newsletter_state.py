@@ -86,6 +86,21 @@ Watch releases.
 """
 
 
+def current_edition(
+    ai_tools: list[tuple[str, str, bool, str]],
+    other_ai_stories: list[tuple[str, str, bool, str]],
+) -> str:
+    tools_edition = edition(ai_tools).replace("## New Stories", "## AI Tools")
+    other_section = edition(other_ai_stories).split(
+        "## New Stories\n\n", 1
+    )[1].split("## Follow-ups to Interesting Stories", 1)[0]
+    return tools_edition.replace(
+        "## Follow-ups to Interesting Stories",
+        f"## Other AI Stories\n\n{other_section}"
+        "## Follow-ups to Interesting Stories",
+    )
+
+
 class NewsletterStateTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp_dir = tempfile.TemporaryDirectory()
@@ -157,6 +172,69 @@ class NewsletterStateTests(unittest.TestCase):
 
         self.assertEqual([item["headline"] for item in result["interests"]], ["Two"])
         self.assertFalse(result["interests"][0]["overdue"])
+
+    def test_scan_finds_checked_stories_in_both_current_sections(self) -> None:
+        self.write_edition(
+            "2026-07-24",
+            current_edition(
+                [
+                    (
+                        "agent-observability",
+                        "Agent observability ships",
+                        True,
+                        "https://example.com/tool",
+                    )
+                ],
+                [
+                    (
+                        "model-research",
+                        "Model research ships",
+                        True,
+                        "https://example.com/research",
+                    )
+                ],
+            ),
+        )
+
+        result = newsletter_state.scan_archive(self.archive, date(2026, 7, 24))
+
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(
+            [item["headline"] for item in result["interests"]],
+            ["Agent observability ships", "Model research ships"],
+        )
+
+    def test_validate_accepts_legacy_story_section(self) -> None:
+        path = self.write_edition("2026-07-24", edition())
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertTrue(result["valid"])
+
+    def test_validate_rejects_incomplete_current_story_sections(self) -> None:
+        path = self.write_edition(
+            "2026-07-24",
+            edition().replace("## New Stories", "## AI Tools"),
+        )
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertTrue(
+            any("incomplete story section contract" in item for item in result["errors"])
+        )
+
+    def test_validate_rejects_mixed_legacy_and_current_story_sections(self) -> None:
+        content = current_edition(
+            [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+            [("other-story", "Other story", False, "https://example.com/other")],
+        ).replace("## AI Tools", "## New Stories\n\n## AI Tools")
+        path = self.write_edition("2026-07-24", content)
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertTrue(
+            any("mixed story section contract" in item for item in result["errors"])
+        )
 
     def test_checkbox_outside_new_stories_is_not_an_interest(self) -> None:
         content = edition().replace(
