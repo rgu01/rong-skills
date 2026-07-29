@@ -26,6 +26,25 @@ Decision: does explaining an earlier part require a concept from a later part?
 - **Yes → overview first.** Give a brief 2–3 sentence overview so later concepts are named up front, then walk the parts in detail.
   _e.g. a parameterized decorator — no single layer makes sense until the reader knows there are three nested layers, so sketch the shape first._
 
+## Sketch when it clarifies
+Decide within each chunk whether the idea is clearer shown than described.
+
+- Draw a compact sketch for structure, flow, hierarchy, spatial arrangement, state changes, or relationships.
+- Default to an inline ASCII or Unicode sketch. Use Mermaid only when the response environment is known to render it.
+- Keep facts, definitions, and linear explanations in prose.
+
+Introduce the sketch in one sentence. Explain the sketch immediately afterward, then continue the current chunk. Do not put concepts from later chunks into it.
+
+Example:
+
+```text
+request → decorator → wrapper → retry loop
+             │
+             └─ captures configuration
+```
+
+The arrows show call flow; the branch shows where configuration is retained. The sketch belongs only to the current chunk and does not replace the explanation.
+
 ## Example (overview-first)
 > **User:** "Explain this code."
 >
@@ -44,3 +63,4 @@ Then **stop and wait.** Do not write layers 2 and 3 until the user replies.
 | Chunks too large (multiple paragraphs each) | A chunk is a few sentences — one idea. |
 | Ending a part with no checkpoint | Always name what's next and hand control back. |
 | Racing ahead once you've mapped the parts | The map is a promise, not permission — still stop after part 1. |
+| Drawing every idea or leaving a sketch unexplained | Sketch only when relationships are clearer visually, then explain it immediately. |
