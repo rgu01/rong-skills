@@ -14,5 +14,8 @@
 
 ## User Directives
 
-1. **[2026-07-27] Make AI agent tools the newsletter's primary coverage**
+1. **[2026-07-29] Use explanatory sketches when they materially improve understanding**
+   Do instead: add compact text sketches for structure, flow, hierarchy, or relationships, while keeping simple linear explanations in prose.
+
+2. **[2026-07-27] Make AI agent tools the newsletter's primary coverage**
    Do instead: select 5–7 agent-tool stories and 3–5 broader AI stories independently in every edition.
