@@ -47,7 +47,7 @@ and inherits these obligations through that expansion.
 supported samples with different values anywhere in the interval. They do not
 locate the change, do not give its direction, and are false whenever the
 interval intersects the support in one sample or none. An explicit rising
-transition at the current sample is `p && !previous p`; a falling transition is
+transition at the current sample is `p && !(previous p)`; a falling transition is
 `!p && previous p`. Because `previous p` retains the boundary value at sample
 index `0`, no transition is ever detected at the first sample of a signal.
 

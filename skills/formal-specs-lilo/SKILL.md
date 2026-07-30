@@ -20,7 +20,7 @@ Do not guess Lilo syntax or temporal semantics.
 2. Inspect before editing.
 3. Read [requirement-decomposition.md](references/requirement-decomposition.md) and produce an internal field mapping before formalizing any requirement.
 4. Apply the ambiguity gate.
-5. Read [lilo-authoring.md](references/lilo-authoring.md) before authoring; for temporal requirements, also read [lilo-temporal-semantics.md](references/lilo-temporal-semantics.md).
+5. Read [lilo-authoring.md](references/lilo-authoring.md) before authoring; for temporal requirements, also read both [lilo-temporal-semantics.md](references/lilo-temporal-semantics.md) and [lilo-temporal-patterns.md](references/lilo-temporal-patterns.md).
 6. Edit the project files directly after all material ambiguities are resolved.
 7. Perform syntax validation only.
 8. Report mapping, reuse/new declarations, files changed, and parser result.

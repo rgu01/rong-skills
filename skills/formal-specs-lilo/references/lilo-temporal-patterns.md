@@ -157,13 +157,14 @@ Every entry carries the same five fields:
 - **Clarify:** that "becomes" means a transition at this sample rather than a
   persistent condition; the direction (rising or falling); the intended
   behavior at the very beginning of the trace.
-- **Safe Lilo:** `p && !previous p` for a rising edge; `!p && previous p` for a
+- **Safe Lilo:** `p && !(previous p)` for a rising edge; `!p && previous p` for a
   falling edge.
 - **Reading:** `p` holds now and did not hold at the previous sample index.
 - **Mistranslation:** no transition is ever detected at the **first sample**,
   because `previous p` retains the boundary value there. Do not substitute
   `did_change`, which reports variation anywhere in a window instead of an edge
-  at this sample.
+  at this sample. Prefix operators cannot be chained, so the negated form must
+  be parenthesized: `!(previous p)` parses and `!previous p` is a parse error.
 
 ### Rolling extrema
 

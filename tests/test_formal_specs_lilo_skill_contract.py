@@ -193,7 +193,7 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
             "one sample index",
             "`[0, b]`",
             "two distinct supported samples",
-            "`p && !previous p`",
+            "`p && !(previous p)`",
         ):
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, text)
@@ -248,7 +248,7 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
             "`next x`",
             "`will_change [0, b] x`",
             "`did_change [0, b] x`",
-            "`p && !previous p`",
+            "`p && !(previous p)`",
             "`max_past [0, b] x`",
             "`min_future [0, b] x`",
             "`always (p => eventually [0, b] q)`",
