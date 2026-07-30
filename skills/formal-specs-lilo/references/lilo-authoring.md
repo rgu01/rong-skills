@@ -15,6 +15,11 @@ their public declarations before adding a parent-level property.
 
 ## Declaration inventory
 
+This table is the reuse policy. For declaration syntax see
+[lilo-declarations.md](lilo-declarations.md); for expressions see
+[lilo-expressions.md](lilo-expressions.md); for attributes and parameter
+defaults see [lilo-attributes.md](lilo-attributes.md).
+
 | Declaration | Inventory meaning | Reuse rule |
 | --- | --- | --- |
 | `signal` | time-varying system input | Reuse only for the same observable changing value and type/unit. |
@@ -50,29 +55,13 @@ non-temporal, `def` captures a reusable expression, and `spec` is a
 parameterless Boolean property. Use documented `component` declarations only
 when the system structure is already clarified.
 
-## Parameter defaults
+## Documentation and edits
 
-The official installed 0.5.10 pages are:
-
-- `specforge doc lilo-additional-features`
-- `specforge doc lilo-language`
-
-The former defines a default as an attribute immediately before a parameter;
-the latter defines a unit-bearing numeric literal as a value followed
-immediately by `<unit>`. Combine those documented forms only when the user
-supplied or approved the default. For example, write `#[default = 1.0<m>]`
-immediately before `param min_water_level: Float<m>`.
-
-Do not invent a missing default. A default represents the parameter's expected
-typical value; it is not a constant declaration. Use `def` for a true constant.
-
-## Naming, documentation, and edits
-
-Follow the project’s conventions. The documented convention is lowercase
-snake_case for systems, modules, declarations, arguments, and record fields;
-use CamelCase for types. Use `///` docstrings to attach useful requirement
-context to declarations. Edit files directly only after ambiguity resolution;
-make the smallest coherent change and preserve unrelated changes.
+Follow the project's own conventions; see
+[lilo-conventions.md](lilo-conventions.md) for the documented defaults. Use
+`///` docstrings to attach requirement context to declarations. Edit files
+directly only after ambiguity resolution; make the smallest coherent change
+and preserve unrelated changes.
 
 ## Syntax validation only
 

@@ -119,7 +119,7 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
     def test_authoring_documents_approved_unit_bearing_param_defaults(
         self,
     ) -> None:
-        text = " ".join(self.read_required(AUTHORING).split())
+        text = " ".join(self.read_required(ATTRIBUTES).split())
         for phrase in (
             "`specforge doc lilo-additional-features`",
             "`#[default = 1.0<m>]`",
