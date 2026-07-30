@@ -7,6 +7,7 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 | Skill | Purpose |
 |-------|---------|
 | [`creating-ai-newsletters`](skills/creating-ai-newsletters/SKILL.md) | Save and email a source-verified English/Simplified-Chinese weekly AI newsletter, track checkbox-marked interests, and research qualifying follow-ups. |
+| [`formal-specs-lilo`](skills/formal-specs-lilo/SKILL.md) | Formalize natural-language requirements into Lilo by extending an existing SpecForge system or creating a new one, with ambiguity elicitation and syntax-only validation. |
 | [`qna`](skills/qna/SKILL.md) | Pace long answers instead of dumping them — deliver a big explanation one part at a time, checking in with the user before continuing. Invoked with `/qna` (opt-in per question). |
 | [`uppaal`](skills/uppaal/SKILL.md) | Build correct, runnable UPPAAL timed-automata models — networks of TA, clocks/guards/invariants, synchronisation channels, urgent/committed locations, templates, and TCTL queries — emitting a single `.xml` (queries embedded) that loads and verifies in UPPAAL. |
 
@@ -19,6 +20,10 @@ skills/
     agents/openai.yaml
     references/newsletter-template.md
     scripts/newsletter_state.py
+  formal-specs-lilo/
+    SKILL.md
+    agents/openai.yaml
+    references/
   qna/
     SKILL.md        # one skill per directory; SKILL.md is the entry point
   uppaal/
