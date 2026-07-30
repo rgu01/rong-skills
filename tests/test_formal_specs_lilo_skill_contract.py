@@ -10,6 +10,20 @@ DECOMPOSITION = SKILL_DIR / "references/requirement-decomposition.md"
 AUTHORING = SKILL_DIR / "references/lilo-authoring.md"
 TEMPORAL = SKILL_DIR / "references/lilo-temporal-semantics.md"
 PATTERNS = SKILL_DIR / "references/lilo-temporal-patterns.md"
+EXPRESSIONS = SKILL_DIR / "references/lilo-expressions.md"
+DECLARATIONS = SKILL_DIR / "references/lilo-declarations.md"
+MODCOMP = SKILL_DIR / "references/lilo-modules-components.md"
+ATTRIBUTES = SKILL_DIR / "references/lilo-attributes.md"
+STATIC_ANALYSIS = SKILL_DIR / "references/lilo-static-analysis.md"
+CONVENTIONS = SKILL_DIR / "references/lilo-conventions.md"
+NEW_REFS = (
+    EXPRESSIONS,
+    DECLARATIONS,
+    MODCOMP,
+    ATTRIBUTES,
+    STATIC_ANALYSIS,
+    CONVENTIONS,
+)
 DOCS_URL = "https://docs.imiron.io/v/0.5.10/en/index.html"
 
 
@@ -26,7 +40,7 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
             AUTHORING,
             TEMPORAL,
             PATTERNS,
-        ):
+        ) + NEW_REFS:
             with self.subTest(path=path):
                 self.assertTrue(path.is_file(), f"missing required file: {path}")
 
@@ -279,6 +293,206 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
                 self.assertNotIn("eventually (0,", text)
                 self.assertNotIn("max_future [1,", text)
                 self.assertNotIn("min_past [1,", text)
+
+    def flat(self, path: Path) -> str:
+        return " ".join(self.read_required(path).split())
+
+    def assert_all_in(self, path: Path, phrases) -> None:
+        text = self.flat(path)
+        for phrase in phrases:
+            with self.subTest(path=path.name, phrase=phrase):
+                self.assertIn(phrase, text)
+
+    def test_every_reference_names_its_authority(self) -> None:
+        expected = {
+            EXPRESSIONS: "`specforge doc lilo-language`",
+            DECLARATIONS: "`specforge doc lilo-systems`",
+            MODCOMP: "`specforge doc lilo-modules`",
+            ATTRIBUTES: "`specforge doc lilo-additional-features`",
+            STATIC_ANALYSIS: "`specforge doc lilo-static-analysis`",
+            CONVENTIONS: "`specforge doc conventions`",
+        }
+        for path, topic in expected.items():
+            with self.subTest(path=path.name):
+                text = self.flat(path)
+                self.assertIn(DOCS_URL, text)
+                self.assertIn(topic, text)
+
+    def test_expressions_cover_types_units_and_operators(self) -> None:
+        self.assert_all_in(EXPRESSIONS, (
+            "`Bool`", "`Int`", "`Float`", "`String`",
+            "`///`", "`//`", "`/*",
+            "`1.0<cm>`", "`100.0<km/h>`", "`60.0<1/s>`",
+            "`9.81<m*s^-2>`", "`1.0<1/(kg*m)>`",
+            "`m/s*kg`", "`(m/s)*kg`",
+            "`unit km`",
+            "no relation",
+            "`1000.0<m/km>`",
+            "`0 < x <= 10`",
+            "`-(-x)`",
+        ))
+
+    def test_expressions_cover_builtins(self) -> None:
+        self.assert_all_in(EXPRESSIONS, (
+            "`float`", "`time`", "`sqrt`", "`abs`",
+            "`max(x, y)`", "`min(x, y)`",
+            "dimensionless",
+            "units are preserved",
+        ))
+
+    def test_expressions_cover_conditionals_and_cases(self) -> None:
+        self.assert_all_in(EXPRESSIONS, (
+            "`if`", "`then`", "`else`",
+            "mandatory",
+            "pointwise",
+            "`cases {`",
+            "all branches",
+            "exhaustive",
+            "disjoint",
+        ))
+
+    def test_expressions_cover_records_enums_and_bindings(self) -> None:
+        self.assert_all_in(EXPRESSIONS, (
+            "structurally typed",
+            "`{ foo = 42, bar = \"hello\" }`",
+            "`{ foo }`",
+            "`{ status.throttle = 0, status.fault = false }`",
+            "`{ base with status.throttle = 70 }`",
+            "must already exist",
+            "`p.x`",
+            "`c.center.x`",
+            "`enum Color = #Red | #Green | #Blue`",
+            "`#Color::Red`",
+            "`match`",
+            "`let name = expression1; expression2`",
+        ))
+
+    def test_declarations_cover_every_keyword_with_syntax(self) -> None:
+        self.assert_all_in(DECLARATIONS, (
+            "`system Engine`",
+            "match the file name",
+            "`type Point = { x: Float, y: Float }`",
+            "`signal x: Float`",
+            "`param temp_threshold: Float`",
+            "`def foo: Int = 42`",
+            "`def foo(x: Float) = x + 42`",
+            "`def foo(x: Float): Float = x + 42`",
+            "function types",
+            "cannot have parameters",
+            "`assumption`",
+            "circular",
+        ))
+
+    def test_modules_and_components_cover_imports_and_access(self) -> None:
+        self.assert_all_in(MODCOMP, (
+            "`specforge doc lilo-components`",
+            "`module Util`",
+            "`pub`",
+            "`import Util`",
+            "`import Util as U`",
+            "`import Util use { calc }`",
+            "`import Units use { unit m, unit s }`",
+            "`Util::calc(x)`",
+            "`component cell1: BatteryCell`",
+            "lifted",
+            "mapped",
+            "`cell1::voltage`",
+            "`battery::cell1::voltage`",
+            "always public",
+            "`specforge schema`",
+            "`--diff`",
+        ))
+
+    def test_modules_reference_separates_scope_from_projection(self) -> None:
+        text = self.flat(MODCOMP)
+        self.assertIn("record projection", text)
+        self.assertIn("`gps.lat`", text)
+        self.assertIn("`battery::level`", text)
+
+    def test_attributes_cover_every_documented_attribute(self) -> None:
+        self.assert_all_in(ATTRIBUTES, (
+            "immediately precede",
+            "`#[label(\"safety\", \"critical\")]`",
+            "`#[alias(en = ",
+            "`#[field(priority = 1, reviewed = true, owner = \"ops\")]`",
+            "scalar",
+            "`#[default = 25.0]`",
+            "`#[disable(unused)]`",
+            "`#[disable(satisfiability)]`",
+            "`#[disable(redundancy)]`",
+            "`#[timeout(10)]`",
+            "`#[timeout(satisfiability = 20, redundancy = 30)]`",
+            "`#[rigidity = \"soft\"]`",
+            "`null`",
+        ))
+
+    def test_attributes_document_spec_stubs(self) -> None:
+        self.assert_all_in(ATTRIBUTES, (
+            "stub",
+            "without a body",
+            "interpreted as `true`",
+            "`spec error_recovery`",
+            "`assumption height_non_negative`",
+        ))
+
+    def test_attributes_prefer_documented_timeout_spelling(self) -> None:
+        text = self.flat(ATTRIBUTES)
+        self.assertIn("`#[timeout = 10.0]`", text)
+        self.assertIn("not the documented", text)
+
+    def test_static_analysis_covers_three_checks_without_running_them(
+        self,
+    ) -> None:
+        self.assert_all_in(STATIC_ANALYSIS, (
+            "Consistency",
+            "Redundancy",
+            "Guard",
+            "satisfiability",
+            "exhaustiveness",
+            "disjointness",
+            "Do not run",
+        ))
+
+    def test_conventions_cover_naming_and_file_names(self) -> None:
+        self.assert_all_in(CONVENTIONS, (
+            "snake_case",
+            "CamelCase",
+            "must match the file name",
+        ))
+
+    def test_skill_routes_to_every_reference(self) -> None:
+        text = self.flat(SKILL)
+        for name in (
+            "references/lilo-declarations.md",
+            "references/lilo-expressions.md",
+            "references/lilo-modules-components.md",
+            "references/lilo-attributes.md",
+            "references/lilo-static-analysis.md",
+            "references/lilo-conventions.md",
+            "references/lilo-temporal-semantics.md",
+            "references/lilo-temporal-patterns.md",
+            "references/lilo-authoring.md",
+        ):
+            with self.subTest(name=name):
+                self.assertIn(name, text)
+
+    def test_ambiguity_gate_offers_a_stub_before_refusing(self) -> None:
+        text = self.flat(SKILL)
+        self.assertIn("stub", text)
+        self.assertIn("verifies nothing", text)
+        self.assertIn("Do not invent", text)
+
+    def test_no_rule_is_duplicated_across_references(self) -> None:
+        naming = self.flat(AUTHORING)
+        self.assertNotIn("snake_case", naming)
+        self.assertNotIn("#[default", naming)
+
+    def test_references_author_no_undocumented_syntax(self) -> None:
+        for path in NEW_REFS:
+            text = self.read_required(path)
+            with self.subTest(path=path.name):
+                self.assertNotIn("next_with", text)
+                self.assertNotIn("previous_with", text)
 
     def test_openai_metadata_matches_skill(self) -> None:
         text = self.read_required(OPENAI_YAML)
