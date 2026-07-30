@@ -21,6 +21,9 @@
 
 ## Domain Behavior Guardrails
 
+1. **[2026-07-30] Parse every Lilo expression before shipping it in a skill reference**
+   Do instead: build a throwaway `specforge.toml` + `src/*.lilo` project in the scratchpad, wrap each documented form in a `spec`, and run `specforge parse`; it exits 0 even on failure, so grep the output for `parse error`. Lilo prefix operators cannot be chained, so write `!(previous p)`, never `!previous p`.
+
 ## User Directives
 
 1. **[2026-07-29] Pace SpecForge teaching with the `qna` skill**
