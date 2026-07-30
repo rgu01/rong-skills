@@ -94,6 +94,42 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
             self.assertIn(DOCS_URL, text)
         self.assertIn("Do not guess", skill)
 
+    def test_authoring_documents_approved_unit_bearing_param_defaults(
+        self,
+    ) -> None:
+        text = " ".join(self.read_required(AUTHORING).split())
+        for phrase in (
+            "`specforge doc lilo-additional-features`",
+            "`#[default = 1.0<m>]`",
+            "`param min_water_level: Float<m>`",
+            "only when the user supplied or approved",
+        ):
+            self.assertIn(phrase, text)
+
+    def test_skill_does_not_fall_back_when_requested_system_is_missing(
+        self,
+    ) -> None:
+        text = " ".join(self.read_required(SKILL).split())
+        for phrase in (
+            "cannot be located",
+            "ask for the path or correct name",
+            "Do not fall back to new-system mode",
+        ):
+            self.assertIn(phrase, text)
+
+    def test_skill_handles_unsupported_constructs_and_existing_work(
+        self,
+    ) -> None:
+        text = " ".join(self.read_required(SKILL).split())
+        for phrase in (
+            "unsupported or undocumented",
+            "ask for a reformulation",
+            "existing dirty files",
+            "unrelated diagnostics",
+            "introduced parse errors",
+        ):
+            self.assertIn(phrase, text)
+
     def test_temporal_reference_covers_required_distinctions(self) -> None:
         text = self.read_required(TEMPORAL)
         for phrase in (

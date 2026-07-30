@@ -44,6 +44,16 @@ clarified declarations; make observable changing values signals, fixed
 configuration params, repeated/domain expressions defs, and each atomic
 obligation one documented spec.
 
+## Error handling
+
+If a requested existing project or system cannot be located, report the
+missing target and ask for the path or correct name.
+Do not fall back to new-system mode.
+For an unsupported or undocumented construct, do not edit or guess; ask for a
+reformulation or report the documented limitation. Preserve existing dirty
+files and unrelated diagnostics. Distinguish them from introduced parse
+errors, and do not claim to have caused or repaired them.
+
 ## Validation and report
 
 Prefer an already-running SpecForge server's parser diagnostics. Otherwise run

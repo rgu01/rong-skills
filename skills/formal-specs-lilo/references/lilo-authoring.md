@@ -50,6 +50,22 @@ non-temporal, `def` captures a reusable expression, and `spec` is a
 parameterless Boolean property. Use documented `component` declarations only
 when the system structure is already clarified.
 
+## Parameter defaults
+
+The official installed 0.5.10 pages are:
+
+- `specforge doc lilo-additional-features`
+- `specforge doc lilo-language`
+
+The former defines a default as an attribute immediately before a parameter;
+the latter defines a unit-bearing numeric literal as a value followed
+immediately by `<unit>`. Combine those documented forms only when the user
+supplied or approved the default. For example, write `#[default = 1.0<m>]`
+immediately before `param min_water_level: Float<m>`.
+
+Do not invent a missing default. A default represents the parameter's expected
+typical value; it is not a constant declaration. Use `def` for a true constant.
+
 ## Naming, documentation, and edits
 
 Follow the project’s conventions. The documented convention is lowercase
