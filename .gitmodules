@@ -1,0 +1,3 @@
+[submodule "experiments/specforge-examples"]
+	path = experiments/specforge-examples
+	url = https://github.com/imiron-io/specforge-examples.git

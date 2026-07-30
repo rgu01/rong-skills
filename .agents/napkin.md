@@ -8,7 +8,16 @@
 
 ## Execution & Validation (Highest Priority)
 
+1. **[2026-07-30] Detect git execution context before worktree or branch-finishing operations**
+   Do instead: compare the absolute `git rev-parse --git-dir` and `--git-common-dir` results and inspect `git branch --show-current`; skip worktree creation in a linked worktree and treat an empty branch as detached HEAD.
+
+2. **[2026-07-30] Finish detached Codex App work through native controls**
+   Do instead: test and commit locally, then tell the user to use “Create branch” or “Hand off to local,” including suggested branch, commit, and PR text.
+
 ## Shell & Command Reliability
+
+1. **[2026-07-30] Enable multi-agent support before using dispatch skills**
+   Do instead: ensure `[features] multi_agent = true` is present in `~/.codex/config.toml`; keep implementers available through review fix loops and release reviewer slots after their findings return.
 
 ## Domain Behavior Guardrails
 
