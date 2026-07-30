@@ -171,7 +171,7 @@ class FormalSpecsLiloSkillContractTests(unittest.TestCase):
         text = " ".join(self.read_required(SKILL).split())
         self.assertIn("references/lilo-temporal-semantics.md", text)
         self.assertIn("references/lilo-temporal-patterns.md", text)
-        self.assertIn("for temporal requirements, also read", text)
+        self.assertIn("any temporal requirement", text)
 
     def test_temporal_references_keep_authoritative_versioned_url(self) -> None:
         self.assertIn(DOCS_URL, self.read_required(PATTERNS))
