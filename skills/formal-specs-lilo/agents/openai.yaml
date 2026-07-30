@@ -1,0 +1,4 @@
+interface:
+  display_name: "Formal Specs Lilo"
+  short_description: "Formalize natural-language requirements in Lilo"
+  default_prompt: "Use $formal-specs-lilo to formalize these natural-language requirements into Lilo, extending my existing system when provided."
