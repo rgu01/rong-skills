@@ -1,0 +1,43 @@
+system temperature_controller
+
+/// Current measured temperature.
+signal temperature: Float
+
+/// Whether the heater is currently active.
+signal heater_on: Bool
+
+/// Lowest permitted operating temperature.
+#[default = 16.0]
+param min_safe_temperature: Float
+
+/// Highest permitted operating temperature.
+#[default = 28.0]
+param max_safe_temperature: Float
+
+/// Temperature that the controller should reach.
+#[default = 22.0]
+param target_temperature: Float
+
+def below_target: Bool = temperature < target_temperature
+def at_or_above_target: Bool = temperature >= target_temperature
+def inside_safe_range: Bool =
+  min_safe_temperature <= temperature &&
+  temperature <= max_safe_temperature
+
+/// Temperatures outside this broad physical range are excluded from analysis.
+assumption physically_meaningful_temperature =
+  always (-50.0 <= temperature && temperature <= 150.0)
+
+/// The measured temperature must always remain within the configured safe range.
+spec temperature_stays_safe = always inside_safe_range
+
+/// Whenever the temperature is below target, the heater must be active.
+spec heater_engages_below_target = always (below_target => heater_on)
+
+/// Whenever temperature is below target, it must reach target within ten time units.
+spec reaches_target_in_time =
+  always (below_target => eventually[0, 10] at_or_above_target)
+
+/// Deliberately impossible requirement for learning.
+spec impossible_temperature =
+  always (temperature < 0.0 && temperature > 100.0)

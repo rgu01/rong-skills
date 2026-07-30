@@ -1,0 +1,5 @@
+time,temperature,heater_on
+0,18.0,true
+5,20.0,true
+10,21.0,true
+15,22.0,false
