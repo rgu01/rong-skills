@@ -107,4 +107,5 @@ Editing a skill in this repo then propagates to every runtime automatically.
 
 ## License
 
-Personal use.
+[MIT](LICENSE) — use, adapt, and redistribute these skills freely, keeping the copyright notice.
+Provided as is, without warranty.
