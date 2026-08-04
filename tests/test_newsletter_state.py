@@ -12,7 +12,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "skills/creating-ai-newsletters/scripts/newsletter_state.py"
+SCRIPT = ROOT / "skills/ai/creating-ai-newsletters/scripts/newsletter_state.py"
 SPEC = importlib.util.spec_from_file_location("newsletter_state", SCRIPT)
 if SPEC is None or SPEC.loader is None:
     raise RuntimeError(f"cannot load {SCRIPT}")

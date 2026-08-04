@@ -3,10 +3,10 @@ import unittest
 
 
 ROOT = Path(__file__).parents[1]
-SKILL = ROOT / "skills/creating-ai-newsletters/SKILL.md"
+SKILL = ROOT / "skills/ai/creating-ai-newsletters/SKILL.md"
 TEMPLATE = (
     ROOT
-    / "skills/creating-ai-newsletters/references/newsletter-template.md"
+    / "skills/ai/creating-ai-newsletters/references/newsletter-template.md"
 )
 
 

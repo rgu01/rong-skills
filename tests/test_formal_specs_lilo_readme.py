@@ -10,7 +10,7 @@ class FormalSpecsLiloReadmeTests(unittest.TestCase):
     def test_readme_lists_formal_specs_lilo_skill(self) -> None:
         text = README.read_text(encoding="utf-8")
         self.assertIn(
-            "[`formal-specs-lilo`](skills/formal-specs-lilo/SKILL.md)",
+            "[`formal-specs-lilo`](skills/formal-methods/formal-specs-lilo/SKILL.md)",
             text,
         )
         self.assertIn("natural-language requirements", text)
