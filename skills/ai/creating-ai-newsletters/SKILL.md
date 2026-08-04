@@ -22,35 +22,38 @@ Unless the user overrides them:
 - Other AI Stories: three to five
 - Voice: sharp and professional
 - Format: polished Markdown with stable HTML story anchors
-- Archive: `<rong-skills-repo>/knowledge/AI-newsletter/`
-- Trash: `<rong-skills-repo>/knowledge/.AI-newsletter-trash/`
+- Archive: `<rong-skills-repo>/knowledge/ai/AI-newsletter/`
+- Trash: `<rong-skills-repo>/knowledge/ai/.AI-newsletter-trash/`
 - Email recipient: `ronggufly@gmail.com`
 
 ## Preflight: archive and interests
 
 Always save under the `rong-skills` repository that contains this skill,
 wherever that repo is checked out — never under the current working directory.
-This skill lives at `<rong-skills-repo>/skills/creating-ai-newsletters`, so the
-repo root is two directories above the skill directory. Resolve it by following
-symlinks, for example:
+This skill lives at `<rong-skills-repo>/skills/ai/creating-ai-newsletters`, so
+the repo root is three directories above the skill directory — skills are
+grouped by topic (`ai/`, `formal-methods/`, `engineering/`). Resolve it by
+following symlinks, for example:
 
 ```bash
-REPO_ROOT="$(cd "$(dirname "$(readlink -f "$0")")/../.." && pwd)"   # conceptually
+REPO_ROOT="$(cd "$(dirname "$(readlink -f "$0")")/../../.." && pwd)"   # conceptually
 # In practice, resolve the real path of the creating-ai-newsletters skill
-# directory and take its grandparent as REPO_ROOT.
+# directory and take its great-grandparent as REPO_ROOT. Verify the result by
+# checking that "$REPO_ROOT/knowledge" exists before writing anything.
 ```
 
 Resolve that `REPO_ROOT` and today's date in the user's timezone. The ordinary
-output target is `$REPO_ROOT/knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`.
+output target is
+`$REPO_ROOT/knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`.
 If that target already exists, stop before research; update or replace it only
 when the user explicitly requests that action.
 
 Run (with `REPO_ROOT` resolved to the rong-skills repo, using absolute paths):
 
 ```bash
-python3 "$REPO_ROOT/skills/creating-ai-newsletters/scripts/newsletter_state.py" prepare \
-  --archive "$REPO_ROOT/knowledge/AI-newsletter" \
-  --trash "$REPO_ROOT/knowledge/.AI-newsletter-trash" \
+python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.py" prepare \
+  --archive "$REPO_ROOT/knowledge/ai/AI-newsletter" \
+  --trash "$REPO_ROOT/knowledge/ai/.AI-newsletter-trash" \
   --today YYYY-MM-DD
 ```
 
@@ -244,8 +247,8 @@ replace an existing same-day edition, follow that request in place and preserve
 any existing interest marks unless the user explicitly changes them. Then run:
 
 ```bash
-python3 "$REPO_ROOT/skills/creating-ai-newsletters/scripts/newsletter_state.py" validate \
-  "$REPO_ROOT/knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md"
+python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.py" validate \
+  "$REPO_ROOT/knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md"
 ```
 
 If validation fails, report the errors and do not present the edition as

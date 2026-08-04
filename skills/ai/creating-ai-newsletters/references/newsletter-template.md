@@ -148,6 +148,6 @@ edition contract.
 - Keep the executive brief to two source-grounded sentences.
 - `Watch Next Week` introduces no new factual claim or source.
 - For ordinary generation, save the completed Markdown without overwriting at
-  `knowledge/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`, validate it with the
+  `knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`, validate it with the
   state helper, and return a clickable path followed by the complete saved
   Markdown inline.

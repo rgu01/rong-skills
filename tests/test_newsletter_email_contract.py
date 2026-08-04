@@ -2,7 +2,7 @@ from pathlib import Path
 import unittest
 
 
-SKILL = Path(__file__).parents[1] / "skills/creating-ai-newsletters/SKILL.md"
+SKILL = Path(__file__).parents[1] / "skills/ai/creating-ai-newsletters/SKILL.md"
 
 
 class NewsletterEmailContractTests(unittest.TestCase):

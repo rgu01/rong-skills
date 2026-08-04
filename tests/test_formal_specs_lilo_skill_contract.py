@@ -3,7 +3,7 @@ import unittest
 
 
 ROOT = Path(__file__).parents[1]
-SKILL_DIR = ROOT / "skills/formal-specs-lilo"
+SKILL_DIR = ROOT / "skills/formal-methods/formal-specs-lilo"
 SKILL = SKILL_DIR / "SKILL.md"
 OPENAI_YAML = SKILL_DIR / "agents/openai.yaml"
 DECOMPOSITION = SKILL_DIR / "references/requirement-decomposition.md"
