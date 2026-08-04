@@ -56,6 +56,32 @@ Study notes and reference write-ups live under `knowledge/`.
 | [`llm-tokens-and-attention.md`](knowledge/llm-tokens-and-attention.md) | How LLMs work end to end — tokenization (BPE/WordPiece/Unigram), embeddings, training & gradient descent, positional encoding (RoPE), and attention (Q/K/V, transformer layers, MLP), plus the philosophical limits of what an LLM's output can mean. |
 | [`fret-concepts-and-fretish.md`](knowledge/fret-concepts-and-fretish.md) | NASA FRET part 1 — the requirements-formalization mental model, the six-field FRETish language, variables as interface (not implementation), and the AI-assisted "draft → validate" formalization workflow. |
 | [`fret-cli-and-setup.md`](knowledge/fret-cli-and-setup.md) | NASA FRET part 2 — the headless `fretcli` (`formalize`/`realizability`/`list`), the two-tier plan, and the verified no-sudo setup on WSL/Ubuntu 22.04 (Node 20, kind2 v2.2.0, z3 4.14.1). |
+| [`specforge-learning-notes.md`](knowledge/specforge-learning-notes.md) | Imiron SpecForge — the AI-assisted formal-specification platform, its Signal Temporal Logic core, and how LLM-drafted specs pair with deterministic analysis. |
+
+### AI newsletter archive
+
+`knowledge/AI-newsletter/` holds the dated editions produced by the
+[`creating-ai-newsletters`](skills/creating-ai-newsletters/SKILL.md) skill, one file per edition
+(`YYYY-MM-DD-ai-newsletter.md`). The archive is the skill's live state, not just an output log:
+
+- Each story carries a stable HTML anchor and an `- [ ] Interesting` checkbox. Change one to `[x]`
+  to mark that story, and the next edition researches in-window follow-ups for it and lists it
+  under `Tracked Interests` until you uncheck it.
+- The skill's preflight moves unmarked editions older than six months into
+  `knowledge/.AI-newsletter-trash/` (recoverable, purged after 30 days) and never touches an
+  edition that still contains a mark.
+
+```bash
+# preflight: prune the archive and list active interest marks
+python3 skills/creating-ai-newsletters/scripts/newsletter_state.py prepare \
+  --archive knowledge/AI-newsletter \
+  --trash knowledge/.AI-newsletter-trash \
+  --today "$(date +%F)"
+
+# validate a saved edition against the template contract
+python3 skills/creating-ai-newsletters/scripts/newsletter_state.py validate \
+  knowledge/AI-newsletter/2026-08-04-ai-newsletter.md
+```
 
 ## Installation
 
