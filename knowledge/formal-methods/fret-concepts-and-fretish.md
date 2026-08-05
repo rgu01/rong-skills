@@ -5,7 +5,7 @@ A study summary of NASA's **FRET** (Formal Requirements Elicitation Tool,
 how an AI agent can help turn an English requirement into FRETish. Companion
 note: [`fret-cli-and-setup.md`](fret-cli-and-setup.md) covers the CLI and install.
 
-FRET solves the same problem Prover engineers solve by hand: taking a
+FRET solves the same problem industrial formal-methods engineers solve by hand: taking a
 near-natural-language requirement and turning it into precise temporal logic you
 can verify against. It is Apache-2.0, latest release **v3.1.0** (March 2026).
 
@@ -29,7 +29,7 @@ FRETish requirement  ──►  FRET parses & type-checks it
 The reason FRET exists is the **middle branches**: the gloss + diagram let you
 confirm *"did I write what I meant?"* **before** trusting the generated logic.
 That is the classic requirements-ambiguity gap — the same one you close by hand
-turning a GSS requirement into PiSPEC/HLL. The "E" in FRET is **Elicitation**:
+turning a natural-language safety requirement into a formal specification language. The "E" in FRET is **Elicitation**:
 vagueness is the *starting* state it is built to resolve, not a disqualifier.
 
 ---
@@ -119,20 +119,20 @@ The four parts:
    generated logic / gloss, correct, repeat.
 
 Gaps and unclear names become **findings to resolve, not blockers** — consistent
-with the C30 OM methodology.
+with the object-model (OM) methodology.
 
 ---
 
-## How this maps to the Prover / MCP world
+## How this maps to the skill / MCP world
 
-- FRETish ≈ a controlled requirement language like sHLL/PiSPEC front-ends.
+- FRETish ≈ a controlled front-end over a formal specification language.
 - The formalization engine ≈ deterministic **grounding**: FRETish in → LTL out.
   It is a natural **L1 MCP tool** an agent wraps.
 - The AI does the reasoning/synthesis (drafting, decomposition, rendering); the
   tool stays authoritative only for what it explicitly returns.
 - A future **FRET skill** orchestrates the loop (extract → draft → validate →
   render) while the tool/CLI does the executable work — the same two-layer
-  MCP-server + skill design used for iLock.
+  MCP-server + skill design used for other verification toolchains.
 
 See [`fret-cli-and-setup.md`](fret-cli-and-setup.md) for the concrete CLI and the
 verified two-tier setup.

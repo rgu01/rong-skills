@@ -26,14 +26,17 @@
 
 ## User Directives
 
-1. **[2026-07-29] Pace SpecForge teaching with the `qna` skill**
+1. **[2026-08-05] GOLDEN RULE — never mention the user's employer or work account here**
+   Do instead: keep this public repo free of employer/product/tool names, work email addresses, internal hosts, remotes, ticket IDs, and customer or project data; write `P` if the employer must be named at all and genericize proprietary tool/language names; see `AGENTS.md`.
+
+2. **[2026-07-29] Pace SpecForge teaching with the `qna` skill**
    Do instead: teach one short concept at a time, spell out acronyms on first use, and wait for the user's signal before continuing or going deeper.
 
-2. **[2026-07-29] Use explanatory sketches when they materially improve understanding**
+3. **[2026-07-29] Use explanatory sketches when they materially improve understanding**
    Do instead: add compact text sketches for structure, flow, hierarchy, or relationships, while keeping simple linear explanations in prose.
 
-3. **[2026-07-27] Make AI agent tools the newsletter's primary coverage**
+4. **[2026-07-27] Make AI agent tools the newsletter's primary coverage**
    Do instead: select 5–7 agent-tool stories and 3–5 broader AI stories independently in every edition.
 
-4. **[2026-07-29] Cover AI + Formal Methods news in every newsletter edition**
+5. **[2026-07-29] Cover AI + Formal Methods news in every newsletter edition**
    Do instead: run dedicated queries for AI-assisted formal specification/verification tools (e.g. Imiron SpecForge, LLM-to-formal-spec, STL/temporal-logic tooling, AI safety verification) alongside the standard buckets, and follow the tracked SpecForge spotlight (2026-07-29 edition) for Imiron updates.

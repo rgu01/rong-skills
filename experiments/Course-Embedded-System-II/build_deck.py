@@ -334,7 +334,7 @@ para(tf, "Dec 16, 2025", size=13, color=RGBColor(0x9F,0xA8,0xC4), after=0)
 s = slide()
 title(s, "Who am I?")
 bullets(s, 0.98, 1.75, 11.8, [
-    (0, "Rong Gu — Formal Methods Developer at Prover (2025 – now)"),
+    (0, "Rong Gu — Formal Methods Developer at P (2025 – now)"),
     (1, "2010 / 2013: BSc & MSc in Software Engineering, Xi'an Jiaotong University, China"),
     (1, "2013–2017: Embedded software engineer, China"),
     (1, "2022: PhD in Computer Science, Mälardalen University (Seceleanu, Enoiu, Lundqvist)"),
@@ -1057,7 +1057,7 @@ pagenum(s, 42)
 # ---------- speaker notes (delivery script, new verification/validation flow) ----------
 NOTES = [
 "Welcome. This is Formal Modeling and Analysis of Real-Time Systems. We teach it this year with an explicit question running through it: now that AI can build models for us, what is actually worth learning? Short answer — the concepts, and the judgement to check what the AI produces.",
-"A quick word on where I'm coming from: embedded software, a PhD and postdoc on formal modelling and analysis of embedded systems, and now formal methods at Prover.",
+"A quick word on where I'm coming from: embedded software, a PhD and postdoc on formal modelling and analysis of embedded systems, and now formal methods at P.",
 "Start with the basic idea of a model: an abstraction of reality that helps us understand it. The hook on the right is the theme of the course — an LLM is itself a model of the world, but a statistical, non-semantic one. You can't hand it to a prover and get a guarantee. We build models we CAN reason about.",
 "Three perspectives — external, behavioural, structural — and two classic example families. Good discussion prompt: 'is an AI a model?' Yes, but not a verifiable one. That difference is the whole point.",
 "Formal = mathematical semantics: every symbol has a precise meaning. Emphasise the trust anchor framing — semantics is exactly what lets you check someone else's model, including one an AI generated. No semantics, no proof, no basis for trust.",

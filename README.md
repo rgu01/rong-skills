@@ -4,6 +4,15 @@ A small collection of personal [Agent Skills](https://agentskills.io) — reusab
 
 Skills and knowledge are grouped by topic: **formal methods**, **AI**, and **engineering**.
 
+## Golden rule
+
+This repository is personal and public. It carries **no information about the author's
+employer** and **no reference to the author's work account** — no employer or product
+names, no work email addresses, internal hosts, remotes, ticket IDs, or customer/project
+data. Where the employer must be referred to at all, it is written `P`; proprietary tool
+and language names are genericized. The only identity that appears here is
+`ronggufly@gmail.com`. See [`AGENTS.md`](AGENTS.md) for the full rule that agents follow.
+
 ## Skills
 
 ### Formal methods

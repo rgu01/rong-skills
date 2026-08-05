@@ -7,3 +7,6 @@ venv/
 
 # Local isolated development worktrees
 .worktrees/
+
+# Local harness run output (transcripts/logs — never commit)
+runs/
