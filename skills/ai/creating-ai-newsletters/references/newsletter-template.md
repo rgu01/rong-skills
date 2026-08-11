@@ -73,6 +73,36 @@ edition contract.
 
 {Repeat for three to five independent Other AI Stories, or fewer only when fewer qualify.}
 
+## AI at Work
+
+<a id="story-{stable-lowercase-hyphenated-slug}"></a>
+
+### {Headline in the strongest eligible primary source's language}
+
+- [ ] Interesting
+
+**{Stance label in the story's origin language}:** {Encouraging | Discouraging | Disallowing} — {Organization name}
+
+**{Underlying event date label in the story's origin language}:** {Exact material event date or date range}
+
+**{What happened label in the story's origin language}**
+
+{For English origin: state which organization changed its employee AI-use stance, what the stance now is, which employees and tools it covers, and its exact event date, in one English sentence.}
+{Its immediate Simplified Chinese translation.}
+
+{For Chinese origin: the same content in one Chinese sentence only.}
+
+**{Why it matters label in the story's origin language}**
+
+{For English origin: one English sentence on what the stance signals for practitioners and peer organizations.}
+{Its immediate Simplified Chinese translation.}
+
+{For Chinese origin: one Chinese sentence only.}
+
+**{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
+
+{Repeat for two to four independent AI at Work stories, or fewer only when fewer qualify; keep the section heading and state that no qualifying stance change was found when none pass.}
+
 ## Follow-ups to Interesting Stories
 
 ### {Follow-up headline in its origin language}
@@ -120,8 +150,8 @@ edition contract.
 
 ## Contract
 
-- The seven `##` section headings and their order are fixed.
-- Every `AI Tools` and `Other AI Stories` block has one unique stable anchor
+- The eight `##` section headings and their order are fixed.
+- Every `AI Tools`, `Other AI Stories`, and `AI at Work` block has one unique stable anchor
   immediately before its `###` headline and one `- [ ] Interesting`
   immediately after that headline.
   Blank lines may separate these elements; no other nonblank content may.
@@ -131,11 +161,14 @@ edition contract.
   removes the mark.
 - Follow-up and tracked-interest blocks link to the original anchor and never
   contain an interest checkbox.
-- `AI Tools` contains five to seven independent stories and `Other AI Stories`
-  contains three to five independent stories unless fewer pass the evidence
-  gate. These counts are independent, and the follow-up section has no
-  numerical limit.
-- Never publish the same event in both `AI Tools` and `Other AI Stories`.
+- `AI Tools` contains five to seven independent stories, `Other AI Stories`
+  contains three to five, and `AI at Work` contains two to four, unless fewer
+  pass the evidence gate. These counts are independent, and the follow-up
+  section has no numerical limit.
+- Never publish the same event in more than one of `AI Tools`,
+  `Other AI Stories`, and `AI at Work`.
+- Every `AI at Work` story names one organization and classifies its stance as
+  encouraging, discouraging, or disallowing employee AI use.
 - Include every active interest in `Tracked Interests`, even with no update.
 - State the exact underlying event date in every new story and follow-up.
 - Pair English-origin prose sentence by sentence with immediate faithful

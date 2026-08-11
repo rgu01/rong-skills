@@ -95,6 +95,7 @@ Study notes and reference write-ups live under `knowledge/`, grouped by the same
 | Note | Topic |
 |------|-------|
 | [`llm-tokens-and-attention.md`](knowledge/ai/llm-tokens-and-attention.md) | How LLMs work end to end — tokenization (BPE/WordPiece/Unigram), embeddings, training & gradient descent, positional encoding (RoPE), and attention (Q/K/V, transformer layers, MLP), plus the philosophical limits of what an LLM's output can mean. |
+| [`workplace-ai-policy-survey.md`](knowledge/ai/workplace-ai-policy-survey.md) | Baseline record of named employers that encourage, discourage, or disallow their own employees' AI use, from the 2023 bans through the 2026 reversals, with an evidence label per row. Read it before writing the newsletter's `AI at Work` section so a candidate can be judged as a change rather than a restatement. |
 
 ### Engineering
 
@@ -112,6 +113,10 @@ Empty for now; reserved for future engineering notes.
 - The skill's preflight moves unmarked editions older than six months into
   `knowledge/ai/.AI-newsletter-trash/` (recoverable, purged after 30 days) and never touches an
   edition that still contains a mark.
+- The `AI at Work` section keeps its prior state outside the archive, in
+  [`knowledge/ai/workplace-ai-policy-survey.md`](knowledge/ai/workplace-ai-policy-survey.md). Read
+  that file before writing the section and update it after publishing one, so each edition reports
+  a stance *change* rather than a policy that was already in force.
 
 ```bash
 # preflight: prune the archive and list active interest marks

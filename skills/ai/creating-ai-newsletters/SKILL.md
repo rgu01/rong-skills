@@ -9,7 +9,8 @@ description: Use when a user asks for the latest or past week's AI news, an AI r
 
 Research the event, not the headline. Publish fewer stories rather than relax
 the date, evidence, source-quality, or language rules. Lead with tools for
-building and operating AI agents. Follow-ups add a separate view of marked
+building and operating AI agents, and track separately how employers govern
+their own employees' AI use. Follow-ups add a separate view of marked
 interests; they never displace or weaken either new-story selection.
 
 ## Defaults
@@ -20,6 +21,7 @@ Unless the user overrides them:
 - Window: publication date plus the six preceding dates in the user's timezone
 - AI Tools: five to seven
 - Other AI Stories: three to five
+- AI at Work: two to four
 - Voice: sharp and professional
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `<rong-skills-repo>/knowledge/ai/AI-newsletter/`
@@ -127,18 +129,67 @@ Preserve the existing broader AI coverage across:
 - business and industry
 - policy, safety, and security
 
-### Research both selections
+### Discover AI at Work
+
+`AI at Work` tracks how employers govern their own employees' use of AI in daily
+work.
+
+Read `$REPO_ROOT/knowledge/ai/workplace-ai-policy-survey.md` before researching
+this section. It records each employer's already-known stance with an evidence
+label, so a candidate can be judged as a change rather than a restatement of a
+policy that was already in force. After publishing an `AI at Work` story, add or
+update that organization's row there with the new stance, the exact date, and the
+edition that carried it. Never lift a row marked `Single source` or `Unverified`
+into an edition without confirming it independently first.
+
+A qualifying story names one organization and a stance change or first public
+statement of a stance that occurred inside the coverage window:
+
+- **Encouraging** — mandating, funding, licensing, training, incentivizing, or
+  measuring AI use; shipping internal assistants; making AI use part of reviews
+  or hiring criteria.
+- **Discouraging** — restricting AI to approved tools, teams, data classes, or
+  tasks; requiring disclosure or human review; withdrawing licenses; warning
+  employees against use.
+- **Disallowing** — prohibiting AI tools for employees outright or for a named
+  function, business unit, or data class.
+
+Classify by what the organization does to its own workforce, not by its opinion
+about AI in general. Record the stance, the organization, the employee scope,
+the named tools if stated, and whether the measure is enforced by policy or
+merely recommended.
+
+Evidence rules add to the general gate:
+
+- Cite the organization's own memo, policy, handbook, filing, or executive
+  statement when available, or reputable independent reporting that quotes or
+  publishes it.
+- A leaked or reported internal memo qualifies only when the exact memo or
+  effective date is inside the window and at least two reputable, independent,
+  non-government sources confirm its content.
+- A public employer is a government-operated source: report its stance only
+  through two qualifying independent non-government confirmations.
+- Employee anecdotes, recruiter posts, and single anonymous forum claims do not
+  establish an organizational stance.
+
+Exclude vendor-authored adoption marketing, surveys and analyst reports about
+employers in aggregate, national or sector-wide regulation of employers, an
+organization's product decisions about customer-facing AI, and the restatement
+of an existing unchanged policy.
+
+### Research every selection
 
 1. State the exact start date, end date, and timezone.
-2. Search in English and Simplified Chinese for AI Tools and for each of the
-   four Other AI Stories buckets.
-3. Build separate private candidate ledgers for AI Tools and Other AI Stories.
-   Each row records the material event, origin language,
+2. Search in English and Simplified Chinese for AI Tools, for each of the
+   four Other AI Stories buckets, and for AI at Work.
+3. Build separate private candidate ledgers for AI Tools, Other AI Stories, and
+   AI at Work. Each row records the material event, origin language,
    exact underlying event date or date range, date-evidence source, gating
    earlier material activity and its exact date evidence or `N/A`, optional
    non-gating background, source-operator class, `Date gate: PASS/REJECT`,
    bucket, primary source, useful secondary source, duplicate group, conflicts,
-   and scores.
+   and scores. An AI at Work row also records the organization, the stance, the
+   employee scope, and whether the measure is enforced or only recommended.
 4. Open every source used. Cite the exact article, announcement, paper,
    repository release, company filing, or independent report containing the
    date evidence and material claims. Category, tag, index, search-result, and
@@ -148,12 +199,13 @@ Preserve the existing broader AI coverage across:
    coverage in both languages when available; never add a weak source for
    symmetry.
 6. For a default edition, run at least one English query and one
-   Simplified-Chinese query, written in Simplified Chinese, for AI Tools and
-   each of the four Other AI Stories buckets. Record the exact query, candidates
-   opened, and selection or rejection reasons for all ten language-by-bucket
-   audit entries before scoring.
+   Simplified-Chinese query, written in Simplified Chinese, for AI Tools, for
+   each of the four Other AI Stories buckets, and for AI at Work. Record the
+   exact query, candidates opened, and selection or rejection reasons for all
+   twelve language-by-bucket audit entries before scoring.
 
-Apply this gate to every follow-up, AI Tools, and Other AI Stories row:
+Apply this gate to every follow-up, AI Tools, Other AI Stories, and AI at Work
+row:
 
 - Record the exact underlying event date or date range, opened source URL, and
   source passage supporting that date.
@@ -190,28 +242,40 @@ For AI Tools, also score practical agent-workflow relevance: reject a tool with
 no direct agent-lifecycle use, score 1 for a useful narrow capability, and score
 2 for clear day-to-day value in building or operating agents.
 
-Rank by score and editorial judgment. Prefer broadly useful agent lifecycle
-infrastructure within AI Tools and reasonable bucket balance within Other AI
-Stories. Merge only reports about the same event. Select five to seven AI Tools
-and three to five Other AI Stories, or fewer in either section when fewer meet
-the standard. The counts are independent and do not change with the number of
-follow-ups.
+For AI at Work, also score stance clarity: reject a story whose stance or
+employee scope stays ambiguous, score 1 for a stance affecting one team,
+function, or data class, and score 2 for an organization-wide stance with a
+stated scope and enforcement.
 
-Freeze separate manifests for AI Tools and Other AI Stories containing each
-selected headline, event, exact date, primary URL, and `Date gate: PASS`.
-Reject any event duplicating a selected follow-up or appearing in the other
-manifest. A follow-up never appears in either new-story section.
+Rank by score and editorial judgment. Prefer broadly useful agent lifecycle
+infrastructure within AI Tools, reasonable bucket balance within Other AI
+Stories, and a spread across encouraging, discouraging, and disallowing stances
+within AI at Work when candidates allow it — never invent balance by admitting a
+weaker story. Merge only reports about the same event. Select five to seven AI
+Tools, three to five Other AI Stories, and two to four AI at Work items, or
+fewer in any section when fewer meet the standard. The three counts are
+independent and do not change with the number of follow-ups.
+
+Freeze separate manifests for AI Tools, Other AI Stories, and AI at Work
+containing each selected headline, event, exact date, primary URL, and
+`Date gate: PASS`. Reject any event duplicating a selected follow-up or
+appearing in another manifest. A follow-up never appears in any new-story
+section.
 
 ## Write
 
 Read `references/newsletter-template.md` completely and follow its fixed section
 order.
 
-- Give every story in `AI Tools` and `Other AI Stories` a unique stable HTML
-  anchor immediately before its headline and `- [ ] Interesting` immediately
-  below it.
+- Give every story in `AI Tools`, `Other AI Stories`, and `AI at Work` a unique
+  stable HTML anchor immediately before its headline and `- [ ] Interesting`
+  immediately below it.
 - For every AI Tools item, identify what shipped, the agent-lifecycle problem
   it addresses, and why it matters to practitioners.
+- For every AI at Work item, state the organization, the stance as
+  `Encouraging`, `Discouraging`, or `Disallowing`, the employee scope, and
+  whether the measure is enforced or only recommended. Keep the section heading
+  even when no candidate qualifies and say so in place of the story blocks.
 - Do not add interest checkboxes to follow-ups or tracked-interest reminders.
 - Put qualifying updates only in `Follow-ups to Interesting Stories`.
 - List every active mark in `Tracked Interests`, linking to its original
@@ -289,11 +353,16 @@ newsletter in that response.
   the window and supported by an opened eligible source.
 - No government-operated or state-controlled source supports any claim.
 - Every government-action story has two qualifying independent confirmations.
-- AI Tools, Other AI Stories, and follow-up manifests are separate; no event
-  appears in more than one.
-- `AI Tools` contains five to seven items and `Other AI Stories` contains three
-  to five items unless fewer pass. Their counts are independent; follow-ups are
-  uncapped and do not affect either count.
+- AI Tools, Other AI Stories, AI at Work, and follow-up manifests are separate;
+  no event appears in more than one.
+- `AI Tools` contains five to seven items, `Other AI Stories` three to five, and
+  `AI at Work` two to four, unless fewer pass. The counts are independent;
+  follow-ups are uncapped and do not affect any of them.
+- Every `AI at Work` item names one organization, one stance, and an employee
+  scope, and no public employer's stance rests on fewer than two qualifying
+  independent non-government sources.
+- Helper validation reports `"contract": "current"`; an older contract label
+  means a required story section is missing.
 - Every new story has one unique anchor and one unchecked interest checkbox.
 - Every active mark appears in `Tracked Interests` with an original link,
   status, uncheck instruction, and overdue reminder when applicable.
@@ -314,7 +383,10 @@ limitation precisely or omit the story.
 |---|---|
 | Treating a regulator page as authoritative evidence | Government-operated sources are excluded; use qualifying independent evidence. |
 | Treating a consumer AI app as an AI Tool | Require a direct use in building, integrating, deploying, evaluating, or operating AI agents. |
-| Letting one selection reduce the other | Select five to seven AI Tools and three to five Other AI Stories independently of follow-ups. |
+| Letting one selection reduce another | Select five to seven AI Tools, three to five Other AI Stories, and two to four AI at Work items independently of follow-ups. |
+| Filing an employer's AI stance under business and industry | Employee AI-use stances belong in `AI at Work`, one organization and one stance per story. |
+| Treating a survey of employers as an AI at Work story | Require a named organization changing its own employees' AI use inside the window. |
+| Reading a vendor's adoption case study as a stance change | Vendor-authored adoption marketing is excluded; use the employer's own memo or independent reporting. |
 | Dropping a mark when no update exists | Keep it in `Tracked Interests` with the exact no-update status. |
 | Copying a checkbox into a follow-up | Only the original new-story block owns the checkbox. |
 | Deleting an old marked edition | Preserve it and remind the user to review the mark. |

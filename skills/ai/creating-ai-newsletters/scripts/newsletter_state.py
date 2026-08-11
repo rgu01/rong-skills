@@ -29,7 +29,14 @@ COMMON_REQUIRED_SECTIONS = (
     "Sources",
 )
 LEGACY_STORY_SECTIONS = ("New Stories",)
-CURRENT_STORY_SECTIONS = ("AI Tools", "Other AI Stories")
+CURRENT_STORY_SECTIONS = ("AI Tools", "Other AI Stories", "AI at Work")
+# Story-section contracts, newest first. Older shapes stay readable so editions
+# saved before a section was introduced keep validating and keep their marks.
+STORY_SECTION_CONTRACTS = (
+    ("current", CURRENT_STORY_SECTIONS),
+    ("pre-ai-at-work", ("AI Tools", "Other AI Stories")),
+    ("legacy", LEGACY_STORY_SECTIONS),
+)
 
 
 @dataclass(frozen=True)
@@ -50,6 +57,7 @@ class Edition:
     edition_date: date
     interests: list[Interest]
     errors: list[str]
+    contract: str = ""
 
 
 def subtract_calendar_months(value: date, months: int) -> date:
@@ -102,24 +110,28 @@ def _section_bounds(
 
 def _story_section_contract(
     path: Path, lines: list[str]
-) -> tuple[tuple[str, ...], list[str]]:
+) -> tuple[str, tuple[str, ...], list[str]]:
+    present = {
+        name
+        for _, sections in STORY_SECTION_CONTRACTS
+        for name in sections
+        if f"## {name}" in lines
+    }
     legacy_present = all(f"## {name}" in lines for name in LEGACY_STORY_SECTIONS)
-    current_present = [
-        name for name in CURRENT_STORY_SECTIONS if f"## {name}" in lines
-    ]
 
-    if legacy_present and current_present:
-        return (), [f"{path}: mixed story section contract"]
-    if current_present and len(current_present) != len(CURRENT_STORY_SECTIONS):
-        return (), [f"{path}: incomplete story section contract"]
-    if legacy_present:
-        return LEGACY_STORY_SECTIONS, []
-    if len(current_present) == len(CURRENT_STORY_SECTIONS):
-        positions = [lines.index(f"## {name}") for name in CURRENT_STORY_SECTIONS]
+    if legacy_present and present - set(LEGACY_STORY_SECTIONS):
+        return "", (), [f"{path}: mixed story section contract"]
+    if not present:
+        return "", (), [f"{path}: missing story section contract"]
+
+    for label, sections in STORY_SECTION_CONTRACTS:
+        if present != set(sections):
+            continue
+        positions = [lines.index(f"## {name}") for name in sections]
         if positions != sorted(positions):
-            return (), [f"{path}: incorrect current story section order"]
-        return CURRENT_STORY_SECTIONS, []
-    return (), [f"{path}: missing story section contract"]
+            return "", (), [f"{path}: incorrect {label} story section order"]
+        return label, sections, []
+    return "", (), [f"{path}: incomplete story section contract"]
 
 
 def _parse_story_section(
@@ -210,10 +222,10 @@ def _parse_story_interests(
     edition_date: date,
     lines: list[str],
     today: date,
-) -> tuple[list[Interest], list[str]]:
-    section_names, errors = _story_section_contract(path, lines)
+) -> tuple[list[Interest], list[str], str]:
+    contract, section_names, errors = _story_section_contract(path, lines)
     if errors:
-        return [], errors
+        return [], errors, contract
 
     interests: list[Interest] = []
     anchors_seen: set[str] = set()
@@ -228,7 +240,7 @@ def _parse_story_interests(
         )
         interests.extend(section_interests)
         errors.extend(section_errors)
-    return interests, errors
+    return interests, errors, contract
 
 
 def parse_edition(path: Path, today: date) -> Edition:
@@ -261,10 +273,10 @@ def parse_edition(path: Path, today: date) -> Edition:
         if f"## {section}" not in lines:
             errors.append(f"{path}: missing required section: {section}")
 
-    interests, story_errors = _parse_story_interests(
+    interests, story_errors, contract = _parse_story_interests(
         path, edition_date, lines, today
     )
-    return Edition(path, edition_date, interests, errors + story_errors)
+    return Edition(path, edition_date, interests, errors + story_errors, contract)
 
 
 def validate_edition(path: Path) -> dict[str, object]:
@@ -272,6 +284,7 @@ def validate_edition(path: Path) -> dict[str, object]:
     return {
         "path": str(parsed.path),
         "valid": not parsed.errors,
+        "contract": parsed.contract,
         "interests": [asdict(item) for item in parsed.interests],
         "errors": parsed.errors,
     }

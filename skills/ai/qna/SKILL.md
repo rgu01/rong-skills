@@ -10,7 +10,8 @@ disable-model-invocation: true
 A big answer delivered all at once forces the user to wait through — and scroll past — text they may not even need. Deliver it in checkpoints: one part at a time, continuing only when the user signals they're ready.
 
 ## Clarity guardrail
-Never use an acronym without spelling out the full name the first time it appears.
+- Never use an acronym without spelling out the full name the first time it appears.
+- Always talk in ASD-STE100 Simplified Technical English.
 
 ## The shape of a paced answer
 1. Open with a one-line map: name the topic and list the parts you'll cover (e.g. "three parts: X, Y, Z").
