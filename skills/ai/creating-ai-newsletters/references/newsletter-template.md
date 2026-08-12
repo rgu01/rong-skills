@@ -182,5 +182,7 @@ edition contract.
 - `Watch Next Week` introduces no new factual claim or source.
 - For ordinary generation, save the completed Markdown without overwriting at
   `knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`, validate it with the
-  state helper, and return a clickable path followed by the complete saved
-  Markdown inline.
+  state helper, and return the cleanup result, a clickable path, and a digest of
+  headlines with their exact event dates. Paste the complete saved Markdown
+  inline only when the user asks for it. Email it only when the user asks for
+  that.

@@ -26,7 +26,10 @@ Unless the user overrides them:
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `<rong-skills-repo>/knowledge/ai/AI-newsletter/`
 - Trash: `<rong-skills-repo>/knowledge/ai/.AI-newsletter-trash/`
-- Email recipient: `ronggufly@gmail.com`
+- Email delivery: off. Send only when the request asks for it; the recipient is
+  then `ronggufly@gmail.com`
+- Final response: cleanup result, saved-file link, and a headline-and-date digest;
+  the full edition inline only on request
 
 ## Preflight: archive and interests
 
@@ -88,9 +91,15 @@ the existing evidence hierarchy.
 
 ### Follow marked interests
 
-Before general discovery, build queries for every active interest returned by
-the helper using its headline, original story text, entities, products, and
-source links. Research every mark; there is no numerical limit.
+Build queries for every active interest returned by the helper using its
+headline, original story text, entities, products, and source links. Research
+every mark; there is no numerical limit.
+
+Marks and new-story discovery share no data, so this is a completeness
+requirement, not an ordering one: issue mark queries in the same parallel batches
+as discovery queries rather than finishing all marks first. Only the follow-up
+manifest must be frozen before selection, because a follow-up outranks a
+duplicate new story.
 
 A follow-up qualifies only when a meaningful new event occurred wholly inside
 the current window and passes the same date, evidence, source, and language
@@ -119,6 +128,23 @@ inside the coverage window. Exclude model releases without agent-development
 capabilities, consumer AI applications, generic developer tools without a
 direct agent-workflow use, minor features marketed as agentic, and the mere
 rediscovery of an existing tool.
+
+Sweep the dated vendor feeds first, then use open search to fill the gaps. These
+feeds carry their own publication dates, so they satisfy the date gate without a
+second lookup, and they have repeatedly supplied most of a week's selection:
+
+- `claude.com/blog` and `platform.claude.com/docs` changelogs
+- `aws.amazon.com/about-aws/whats-new` and the AgentCore release notes
+- `github.blog/changelog`
+- `blog.cloudflare.com`
+- `langchain.com/blog` and the LangSmith changelog
+- `devblogs.microsoft.com/agent-framework`, `developers.googleblog.com`
+- GitHub releases pages for tools already covered
+
+Aggregator digests and weekly-roundup sites are discovery aids only. Their dates
+and attributions have proven unreliable — a hobby project reported as a
+university study, a June government directive listed under an August date — so
+re-derive every event and date from the primary source before scoring.
 
 ### Discover Other AI Stories
 
@@ -179,6 +205,14 @@ of an existing unchanged policy.
 
 ### Research every selection
 
+Run this work in parallel batches. Every mark query, every language-by-bucket
+query, and every vendor-feed sweep is independent of the others, so issue them as
+concurrent groups in one step and wait once, rather than one call at a time. Only
+two points genuinely serialize: a candidate's primary-source check depends on
+that candidate existing, and scoring depends on the ledgers being complete.
+Serial execution of independent lookups has been the single largest cost in past
+editions.
+
 1. State the exact start date, end date, and timezone.
 2. Search in English and Simplified Chinese for AI Tools, for each of the
    four Other AI Stories buckets, and for AI at Work.
@@ -190,15 +224,23 @@ of an existing unchanged policy.
    bucket, primary source, useful secondary source, duplicate group, conflicts,
    and scores. An AI at Work row also records the organization, the stance, the
    employee scope, and whether the measure is enforced or only recommended.
-4. Open every source used. Cite the exact article, announcement, paper,
-   repository release, company filing, or independent report containing the
-   date evidence and material claims. Category, tag, index, search-result, and
-   homepage pages are discovery aids, not story citations.
-5. Prefer original company, laboratory, academic, or repository sources and
+4. Screen cheaply before verifying expensively. Opening a page costs far more
+   than reading a result, so before spending an open, require a date signal that
+   is compatible with the window: a dated URL path, an explicit date in the
+   snippet, or a dated feed entry. Discard a candidate whose only visible date is
+   already outside the window, and record it as a snippet-level rejection. Open a
+   page with no date signal only when the candidate would otherwise make the
+   selection.
+5. Open every source used for a candidate that survives screening. Cite the
+   exact article, announcement, paper, repository release, company filing, or
+   independent report containing the date evidence and material claims. Category,
+   tag, index, search-result, and homepage pages are discovery aids, not story
+   citations.
+6. Prefer original company, laboratory, academic, or repository sources and
    established independent technology or business reporting. Seek strong
    coverage in both languages when available; never add a weak source for
    symmetry.
-6. For a default edition, run at least one English query and one
+7. For a default edition, run at least one English query and one
    Simplified-Chinese query, written in Simplified Chinese, for AI Tools, for
    each of the four Other AI Stories buckets, and for AI at Work. Record the
    exact query, candidates opened, and selection or rejection reasons for all
@@ -316,35 +358,49 @@ python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.p
 ```
 
 If validation fails, report the errors and do not present the edition as
-complete. If it succeeds, first report the cleanup result, then return a
-clickable link to the saved path followed immediately by the complete saved
-newsletter inline.
+complete. If it succeeds, report in this order:
+
+1. The cleanup result, naming every moved or purged path.
+2. A clickable link to the saved path.
+3. A short digest: the coverage window, the count in each section, every selected
+   headline with its exact event date, and any section that published fewer items
+   than its range with the reason.
+4. Anything the user must act on, such as a validation warning, an unresolved
+   source limitation, or a mark that is now overdue.
+
+Do not paste the complete edition inline by default. The file is the deliverable
+and the link reaches it; a full paste repeats the largest artifact of the run for
+no gain. Paste the complete saved Markdown only when the user asks for it, and
+when they do, paste it once.
 
 ## Email delivery
 
-After the edition is saved and the validation command succeeds, email the exact
-saved Markdown to `ronggufly@gmail.com`:
+Email is **opt-in**. Send the edition only when the user's request for this run
+asks for it — for example "send me an email", "email it to me", or "mail the
+newsletter". Absent such a request, do not send, do not compose a body, and do
+not ask whether to send; the saved file and its link are the delivery.
 
+When the user does ask, first confirm that an email connector or app tool is
+actually available, then compose the body. Composing a full edition body for a
+connector that turns out to be unavailable wastes the largest artifact of the run.
+
+- Send only after the edition is saved and the validation command succeeds; never
+  email a draft or an edition that failed validation.
+- Recipient: `ronggufly@gmail.com` unless the user names another.
 - Subject: `AI Newsletter — YYYY-MM-DD` using the edition date.
 - Body: the complete saved Markdown, byte-for-byte equivalent to the validated
   file. Do not send the private ledger, query audit, manifests, or cleanup
   diagnostics.
-- Attach the saved `.md` file only when the available email connector supports
-  attachments; the Markdown body remains required.
-- Use the available email connector or app tool and follow any required
-  confirmation step. Do not invent an email API, SMTP command, or delivery
-  result when no connector is available.
-- Send only after validation; never email a draft or an edition that failed
-  validation.
+- Attach the saved `.md` file only when the connector supports attachments; the
+  Markdown body remains required.
+- Follow any required confirmation step. Do not invent an email API, SMTP
+  command, or delivery result when no connector is available.
 
-If no email connector is available, state that the newsletter was saved and
-validated but was **not sent** to `ronggufly@gmail.com` because email delivery
-is unavailable; do not claim delivery. If the connector reports a send error,
-preserve the saved newsletter, report the error, and do not claim delivery.
-Successful delivery must be reported separately from the saved-file link and
-inline newsletter. Attempt delivery before composing the final response; then
-report cleanup, delivery status, the saved-file link, and the complete inline
-newsletter in that response.
+If the user asked for email and no connector is available, state that the
+newsletter was saved and validated but was **not sent**, and name the reason; do
+not claim delivery. If the connector reports a send error, preserve the saved
+newsletter, report the error, and do not claim delivery. Report delivery status
+separately from the cleanup result and the saved-file link.
 
 ## Verify before publishing
 
@@ -372,7 +428,10 @@ newsletter in that response.
 - The ledger, query audit, manifests, story blocks, and compact source list
   reconcile one-for-one on headline, exact date, and primary URL.
 - Every `Watch Next Week` implication uses an already-cited source.
-- The saved file passes helper validation and the inline copy matches it.
+- The saved file passes helper validation, and any inline copy the user asked for
+  matches it.
+- Independent lookups ran in parallel batches, and no email was composed or sent
+  unless the user asked for one.
 
 If a date, source independence, or material claim cannot be verified, state the
 limitation precisely or omit the story.
@@ -392,4 +451,10 @@ limitation precisely or omit the story.
 | Deleting an old marked edition | Preserve it and remind the user to review the mark. |
 | Using an article's date for an older event | Verify and use the underlying event date. |
 | Adding weak Chinese coverage for symmetry | Keep only sources that improve evidence or context. |
-| Returning only a saved path | Return the clickable path and the complete saved Markdown. |
+| Returning only a saved path | Return the clickable path plus the cleanup result and a headline-and-date digest. |
+| Pasting the whole edition inline unasked | The link is the deliverable; paste the full Markdown only on request, once. |
+| Running independent searches one at a time | Batch mark queries, bucket queries, and feed sweeps concurrently; only source checks and scoring serialize. |
+| Opening a page to learn a date the snippet already ruled out | Screen on the snippet or URL date first and record a snippet-level rejection. |
+| Trusting an aggregator's date or attribution | Re-derive both from the primary source; aggregators are discovery aids. |
+| Emailing the edition by default | Email is opt-in; send only when this run's request asks for it. |
+| Composing an email body before checking the connector | Confirm the connector exists, then compose. |
