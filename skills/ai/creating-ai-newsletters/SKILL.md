@@ -342,8 +342,22 @@ Determine origin language from the strongest eligible primary source:
 - `Watch Next Week` contains only forward-looking implications supported by
   sources already cited in a selected new story or follow-up.
 
-Translations preserve names, identifiers, numbers, dates, benchmarks, technical
-terms, confidence, and caveats. Never add a claim to only one language.
+Translations preserve names, identifiers, numbers, dates, benchmarks, confidence,
+and caveats. Never add a claim to only one language.
+
+Keep every technical term in English inside the Simplified Chinese translation
+instead of rendering it in Chinese. This covers product, protocol, and standard
+names (`MCP`, `A2A`, `AGENTS.md`, `OAuth`, `eBPF`, `gVisor`), file and API
+identifiers, and the field's working vocabulary — `prompt`, `prompt injection`,
+`token`, `agent`, `sandbox`, `context`, `context window`, `embedding`,
+`checkpoint`, `benchmark`, `fine-tuning`, `inference`, `guardrail`,
+`observability`, `runtime`. Write `prompt injection 风险`, not `提示注入风险`;
+`每个 agent 的 token 支出`, not `每个智能体的令牌支出`; `context window 上限`, not
+`上下文窗口上限`. Inflect the surrounding Chinese around the English term, keep the
+term in its source capitalization, and do not gloss it in parentheses. Translate
+only ordinary prose. This rule governs translations of English-origin prose; a
+Chinese-origin story is written natively and keeps whatever vocabulary its own
+primary source uses.
 
 ## Save and return
 
@@ -423,6 +437,7 @@ separately from the cleanup result and the saved-file link.
 - Every active mark appears in `Tracked Interests` with an original link,
   status, uncheck instruction, and overdue reminder when applicable.
 - Every English-origin body sentence has one immediate Simplified Chinese pair.
+- Every technical term inside a Simplified Chinese translation stayed in English.
 - Chinese-origin text and unchanged source names and URLs are not redundantly
   translated.
 - The ledger, query audit, manifests, story blocks, and compact source list
@@ -451,6 +466,7 @@ limitation precisely or omit the story.
 | Deleting an old marked edition | Preserve it and remind the user to review the mark. |
 | Using an article's date for an older event | Verify and use the underlying event date. |
 | Adding weak Chinese coverage for symmetry | Keep only sources that improve evidence or context. |
+| Rendering a technical term in Chinese, such as `提示注入` for `prompt injection` | Keep the English term inside the Chinese sentence and inflect the Chinese around it. |
 | Returning only a saved path | Return the clickable path plus the cleanup result and a headline-and-date digest. |
 | Pasting the whole edition inline unasked | The link is the deliverable; paste the full Markdown only on request, once. |
 | Running independent searches one at a time | Batch mark queries, bucket queries, and feed sweeps concurrently; only source checks and scoring serialize. |

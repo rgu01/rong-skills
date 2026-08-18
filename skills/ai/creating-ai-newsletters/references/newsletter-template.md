@@ -173,6 +173,9 @@ edition contract.
 - State the exact underlying event date in every new story and follow-up.
 - Pair English-origin prose sentence by sentence with immediate faithful
   Simplified Chinese. Keep Chinese-origin story prose Chinese-only.
+- Keep technical terms in English inside the Simplified Chinese translation —
+  `prompt`, `token`, `agent`, `sandbox`, `context window`, `MCP`, and the like —
+  and inflect the surrounding Chinese around them.
 - Do not repeat links in translations. Render standard `[name](URL)` Markdown.
 - Each selected primary URL appears once in its story block and once in the
   compact source list. Tracked-interest relative links are not source links.
