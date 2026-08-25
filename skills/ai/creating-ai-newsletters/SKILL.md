@@ -21,8 +21,9 @@ Unless the user overrides them:
 - Window: publication date plus the six preceding dates in the user's timezone
 - AI Tools: five to seven
 - Other AI Stories: three to five
-- AI at Work: two to four
-- Voice: sharp and professional
+- AI at Work: every qualifying story; omit the heading when none qualify
+- Voice: sharp and professional, inside the ASD-STE100 rules in
+  `references/writing-style.md`
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `<rong-skills-repo>/knowledge/ai/AI-newsletter/`
 - Trash: `<rong-skills-repo>/knowledge/ai/.AI-newsletter-trash/`
@@ -64,30 +65,49 @@ python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.p
 
 This creates missing directories, moves unmarked editions older than six
 calendar months to recoverable trash, permanently purges newsletter trash
-entries older than 30 days, and returns all active `[x] Interesting` records as
-JSON. It preserves old editions containing a mark. Report every moved or purged
-path in the final response.
+entries older than 30 days, and splits every `[x] Interesting` record into an
+`interests` list and an `expired` list. It preserves every edition that carries
+a mark. Report each moved path, purged path, and expired mark in the final
+response.
+
+A mark expires one calendar month after the edition that carried it, whatever
+the run frequency. Expiry is absolute: a qualifying follow-up reports the update
+and never restarts the clock. Research the `interests` records only. Name each
+`expired` record in the final response and leave its checkbox untouched, so
+re-marking the original story stays a one-line edit.
 
 A nonzero exit or any returned error blocks generation. Never work around a
 malformed edition, symlink, cleanup collision, or incomplete interest scan.
 
-## Source eligibility
+## Evidence
 
-Government agencies, ministries, regulators, legislatures, courts,
-intergovernmental bodies, and state-controlled media are ineligible as primary,
-secondary, date-evidence, or supporting sources in every language. Do not cite
-or rely on them.
+Read `references/evidence-rules.md` before screening the first candidate. It
+owns source eligibility, the date gate, and the scoring table.
 
-Public universities and publicly funded research institutions remain eligible.
-Independent reporting about a government action is eligible only when the
-underlying event date is exact and wholly inside the coverage window and at
-least two reputable, independent, non-government sources confirm every material
-claim. Reject a source when its operational independence is ambiguous.
-
-Company, laboratory, academic, repository, and independent-media sources retain
-the existing evidence hierarchy.
+Two rules decide most rejections. Government-operated and state-controlled
+sources are ineligible in every language. The underlying event date, not the
+publication date, must fall wholly inside the window.
 
 ## Research
+
+### Cover the standing topics
+
+Every edition runs a dedicated query for each standing topic below, in English
+and Simplified Chinese, batched with the mark and bucket queries. A standing
+topic earns its place under the same date, evidence, and source rules as any
+other story. Name each standing topic that found nothing in the final response.
+
+- **AI and formal methods** — AI-assisted formal specification and
+  verification, LLM-to-formal-spec translation, temporal-logic and STL tooling,
+  and formal verification of AI safety properties. Imiron SpecForge is a
+  standing spotlight.
+- **Post-training** — reinforcement learning from verifiable rewards, agentic
+  and tool-use RL, distillation, and post-training-only releases. GLM-5.3 is a
+  standing spotlight, its gains coming from scaled post-training on an
+  unchanged 743B base.
+
+This list is the only home for standing topics. Add one here rather than in a
+napkin entry or a memory note.
 
 ### Follow marked interests
 
@@ -236,34 +256,14 @@ editions.
    independent report containing the date evidence and material claims. Category,
    tag, index, search-result, and homepage pages are discovery aids, not story
    citations.
-6. Prefer original company, laboratory, academic, or repository sources and
-   established independent technology or business reporting. Seek strong
-   coverage in both languages when available; never add a weak source for
-   symmetry.
-7. For a default edition, run at least one English query and one
+6. For a default edition, run at least one English query and one
    Simplified-Chinese query, written in Simplified Chinese, for AI Tools, for
    each of the four Other AI Stories buckets, and for AI at Work. Record the
    exact query, candidates opened, and selection or rejection reasons for all
    twelve language-by-bucket audit entries before scoring.
 
-Apply this gate to every follow-up, AI Tools, Other AI Stories, and AI at Work
-row:
-
-- Record the exact underlying event date or date range, opened source URL, and
-  source passage supporting that date.
-- If an earlier incident, failure, evaluation, pause, or deployment is material
-  to eligibility, record it separately with exact date evidence. Pure context
-  is non-gating.
-- Mark `Date gate: PASS` only when the event and every gating earlier activity
-  have exact dates wholly inside the window. Confirm with a literal ISO-date
-  comparison.
-- Reject missing, relative-only, undated, partly out-of-window, or
-  publication-date-only evidence, even when fewer stories remain.
-- A dated partnership or remediation does not make an older or undated incident
-  eligible. Never rename a retrospective disclosure as a new event.
-
-The underlying event date controls eligibility. An announcement date qualifies
-only when the announcement itself creates the event, such as a launch.
+Apply the date gate in `references/evidence-rules.md` to every follow-up,
+AI Tools, Other AI Stories, and AI at Work row before scoring it.
 
 ## Select
 
@@ -271,32 +271,14 @@ Reject candidates that are outside the window, inaccessible at the
 material-claim level, primarily promotional, government-operated, or duplicates
 of a stronger entry.
 
-Score each eligible candidate from 0 to 2:
+Score and rank the rest with the scoring table in
+`references/evidence-rules.md`.
 
-| Dimension | 0 | 1 | 2 |
-|---|---|---|---|
-| Recency | outside window; reject | first four dates | latest three dates |
-| Impact | narrow update | meaningful sector effect | major technical, market, or policy effect |
-| Credibility | unsupported; reject | reputable secondary evidence | direct authoritative evidence |
-| Mixed-audience relevance | little value | business or technical value | clear value to both |
-
-For AI Tools, also score practical agent-workflow relevance: reject a tool with
-no direct agent-lifecycle use, score 1 for a useful narrow capability, and score
-2 for clear day-to-day value in building or operating agents.
-
-For AI at Work, also score stance clarity: reject a story whose stance or
-employee scope stays ambiguous, score 1 for a stance affecting one team,
-function, or data class, and score 2 for an organization-wide stance with a
-stated scope and enforcement.
-
-Rank by score and editorial judgment. Prefer broadly useful agent lifecycle
-infrastructure within AI Tools, reasonable bucket balance within Other AI
-Stories, and a spread across encouraging, discouraging, and disallowing stances
-within AI at Work when candidates allow it — never invent balance by admitting a
-weaker story. Merge only reports about the same event. Select five to seven AI
-Tools, three to five Other AI Stories, and two to four AI at Work items, or
-fewer in any section when fewer meet the standard. The three counts are
-independent and do not change with the number of follow-ups.
+Select five to seven AI Tools and three to five Other AI Stories, or fewer in
+either section when fewer meet the standard. Publish every AI at Work story
+that passes the gate, and omit that section when none does. The counts are
+independent and do not change with the number of follow-ups or with the size of
+`AI at Work`.
 
 Freeze separate manifests for AI Tools, Other AI Stories, and AI at Work
 containing each selected headline, event, exact date, primary URL, and
@@ -316,48 +298,31 @@ order.
   it addresses, and why it matters to practitioners.
 - For every AI at Work item, state the organization, the stance as
   `Encouraging`, `Discouraging`, or `Disallowing`, the employee scope, and
-  whether the measure is enforced or only recommended. Keep the section heading
-  even when no candidate qualifies and say so in place of the story blocks.
+  whether the measure is enforced or only recommended. Omit the `AI at Work`
+  heading entirely when no candidate qualifies.
 - Do not add interest checkboxes to follow-ups or tracked-interest reminders.
 - Put qualifying updates only in `Follow-ups to Interesting Stories`.
 - List every active mark in `Tracked Interests`, linking to its original
   anchored story. State whether a qualifying update was found. Otherwise write
   `No qualifying update found this week`.
-- For a mark older than six months, add a prominent review reminder. Every
+- Give each tracked item the date it was marked and the date it expires. Every
   tracked item tells the user to uncheck the original story to stop tracking it.
 
-Determine origin language from the strongest eligible primary source:
+Read `references/writing-style.md` completely before writing any prose. It owns
+the ASD-STE100 rules, origin-language handling, and the Chinese term tiers.
 
-- When an eligible authoritative source offers parallel versions, use the
-  original announcement language to determine origin.
-- English-origin story: write each body sentence in English, followed
-  immediately on the next line by exactly one faithful Simplified Chinese
-  translation.
-- Chinese-origin story: write its headline, labels, and body in Chinese only;
-  do not back-translate it into English.
-- Keep newsletter-level headings exactly as the template specifies and every
-  story headline in its primary source's language.
-- Keep source names and URLs unchanged. Show each selected primary URL once in
-  its story and once in the compact source list.
-- `Watch Next Week` contains only forward-looking implications supported by
-  sources already cited in a selected new story or follow-up.
+`newsletter_state.py validate` fails the edition on these caps:
 
-Translations preserve names, identifiers, numbers, dates, benchmarks, confidence,
-and caveats. Never add a claim to only one language.
+- 40 words maximum per English sentence, averaging under 25 across the edition
+- 60 characters maximum per Chinese sentence
+- six sentences maximum per paragraph, counted per language
+- one Chinese sentence per English sentence in every translated pair
 
-Keep every technical term in English inside the Simplified Chinese translation
-instead of rendering it in Chinese. This covers product, protocol, and standard
-names (`MCP`, `A2A`, `AGENTS.md`, `OAuth`, `eBPF`, `gVisor`), file and API
-identifiers, and the field's working vocabulary — `prompt`, `prompt injection`,
-`token`, `agent`, `sandbox`, `context`, `context window`, `embedding`,
-`checkpoint`, `benchmark`, `fine-tuning`, `inference`, `guardrail`,
-`observability`, `runtime`. Write `prompt injection 风险`, not `提示注入风险`;
-`每个 agent 的 token 支出`, not `每个智能体的令牌支出`; `context window 上限`, not
-`上下文窗口上限`. Inflect the surrounding Chinese around the English term, keep the
-term in its source capitalization, and do not gloss it in parentheses. Translate
-only ordinary prose. This rule governs translations of English-origin prose; a
-Chinese-origin story is written natively and keeps whatever vocabulary its own
-primary source uses.
+They cover every headline, body sentence, and list item, with two exemptions:
+the `#` edition title and the `## Sources` list.
+
+`Watch Next Week` contains only forward-looking implications supported by
+sources already cited in a selected new story or follow-up.
 
 ## Save and return
 
@@ -371,16 +336,19 @@ python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.p
   "$REPO_ROOT/knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md"
 ```
 
-If validation fails, report the errors and do not present the edition as
-complete. If it succeeds, report in this order:
+Validation failure blocks the edition. Readability errors name the offending
+sentence: rewrite it and validate again rather than presenting the edition as
+complete. On success, report in this order:
 
 1. The cleanup result, naming every moved or purged path.
 2. A clickable link to the saved path.
-3. A short digest: the coverage window, the count in each section, every selected
-   headline with its exact event date, and any section that published fewer items
-   than its range with the reason.
-4. Anything the user must act on, such as a validation warning, an unresolved
-   source limitation, or a mark that is now overdue.
+3. A short digest: the coverage window, the count in each section, every
+   selected headline with its exact event date, any section that published
+   fewer items than its range with the reason, and any standing topic that
+   found nothing.
+4. Every mark that expired this run, with the story it came from.
+5. Anything else the user must act on, such as a validation warning or an
+   unresolved source limitation.
 
 Do not paste the complete edition inline by default. The file is the deliverable
 and the link reaches it; a full paste repeats the largest artifact of the run for
@@ -425,9 +393,12 @@ separately from the cleanup result and the saved-file link.
 - Every government-action story has two qualifying independent confirmations.
 - AI Tools, Other AI Stories, AI at Work, and follow-up manifests are separate;
   no event appears in more than one.
-- `AI Tools` contains five to seven items, `Other AI Stories` three to five, and
-  `AI at Work` two to four, unless fewer pass. The counts are independent;
+- `AI Tools` contains five to seven items and `Other AI Stories` three to five,
+  unless fewer pass. `AI at Work` carries every qualifying story, and its
+  heading is absent when none qualifies. The counts are independent;
   follow-ups are uncapped and do not affect any of them.
+- Every standing topic ran a query in both languages, and any that found
+  nothing is named in the final response.
 - Every `AI at Work` item names one organization, one stance, and an employee
   scope, and no public employer's stance rests on fewer than two qualifying
   independent non-government sources.
@@ -435,9 +406,14 @@ separately from the cleanup result and the saved-file link.
   means a required story section is missing.
 - Every new story has one unique anchor and one unchecked interest checkbox.
 - Every active mark appears in `Tracked Interests` with an original link,
-  status, uncheck instruction, and overdue reminder when applicable.
+  status, uncheck instruction, and its expiry date.
+- Every mark that expired this run is named in the final response, and its
+  checkbox is untouched.
 - Every English-origin body sentence has one immediate Simplified Chinese pair.
-- Every technical term inside a Simplified Chinese translation stayed in English.
+- Names stayed English inside Simplified Chinese prose, and common technical
+  vocabulary took its settled Chinese equivalent.
+- Every sentence obeys the caps, and the edition passes helper validation with
+  no readability error.
 - Chinese-origin text and unchanged source names and URLs are not redundantly
   translated.
 - The ledger, query audit, manifests, story blocks, and compact source list
@@ -453,24 +429,5 @@ limitation precisely or omit the story.
 
 ## Common mistakes
 
-| Mistake | Correction |
-|---|---|
-| Treating a regulator page as authoritative evidence | Government-operated sources are excluded; use qualifying independent evidence. |
-| Treating a consumer AI app as an AI Tool | Require a direct use in building, integrating, deploying, evaluating, or operating AI agents. |
-| Letting one selection reduce another | Select five to seven AI Tools, three to five Other AI Stories, and two to four AI at Work items independently of follow-ups. |
-| Filing an employer's AI stance under business and industry | Employee AI-use stances belong in `AI at Work`, one organization and one stance per story. |
-| Treating a survey of employers as an AI at Work story | Require a named organization changing its own employees' AI use inside the window. |
-| Reading a vendor's adoption case study as a stance change | Vendor-authored adoption marketing is excluded; use the employer's own memo or independent reporting. |
-| Dropping a mark when no update exists | Keep it in `Tracked Interests` with the exact no-update status. |
-| Copying a checkbox into a follow-up | Only the original new-story block owns the checkbox. |
-| Deleting an old marked edition | Preserve it and remind the user to review the mark. |
-| Using an article's date for an older event | Verify and use the underlying event date. |
-| Adding weak Chinese coverage for symmetry | Keep only sources that improve evidence or context. |
-| Rendering a technical term in Chinese, such as `提示注入` for `prompt injection` | Keep the English term inside the Chinese sentence and inflect the Chinese around it. |
-| Returning only a saved path | Return the clickable path plus the cleanup result and a headline-and-date digest. |
-| Pasting the whole edition inline unasked | The link is the deliverable; paste the full Markdown only on request, once. |
-| Running independent searches one at a time | Batch mark queries, bucket queries, and feed sweeps concurrently; only source checks and scoring serialize. |
-| Opening a page to learn a date the snippet already ruled out | Screen on the snippet or URL date first and record a snippet-level rejection. |
-| Trusting an aggregator's date or attribution | Re-derive both from the primary source; aggregators are discovery aids. |
-| Emailing the edition by default | Email is opt-in; send only when this run's request asks for it. |
-| Composing an email body before checking the connector | Confirm the connector exists, then compose. |
+Read `references/common-mistakes.md` when a judgement call feels close, and
+after any run that produced a validation error.

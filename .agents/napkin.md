@@ -37,9 +37,3 @@
 
 4. **[2026-07-27] Make AI agent tools the newsletter's primary coverage**
    Do instead: select 5–7 agent-tool stories and 3–5 broader AI stories independently in every edition.
-
-5. **[2026-07-29] Cover AI + Formal Methods news in every newsletter edition**
-   Do instead: run dedicated queries for AI-assisted formal specification/verification tools (e.g. Imiron SpecForge, LLM-to-formal-spec, STL/temporal-logic tooling, AI safety verification) alongside the standard buckets, and follow the tracked SpecForge spotlight (2026-07-29 edition) for Imiron updates.
-
-6. **[2026-08-20] Track post-training as a standing newsletter topic**
-   Do instead: run dedicated queries for post-training work (RL from verifiable rewards, agentic/tool-use RL, distillation, post-training-only releases) alongside the standard buckets, and follow up on GLM-5.3, whose gains came purely from scaled post-training on an unchanged 743B base (2026-08-20 edition, anchor `story-glm-5-3-post-training`).

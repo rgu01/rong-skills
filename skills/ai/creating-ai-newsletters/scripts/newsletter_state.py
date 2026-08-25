@@ -29,14 +29,29 @@ COMMON_REQUIRED_SECTIONS = (
     "Sources",
 )
 LEGACY_STORY_SECTIONS = ("New Stories",)
-CURRENT_STORY_SECTIONS = ("AI Tools", "Other AI Stories", "AI at Work")
-# Story-section contracts, newest first. Older shapes stay readable so editions
-# saved before a section was introduced keep validating and keep their marks.
-STORY_SECTION_CONTRACTS = (
-    ("current", CURRENT_STORY_SECTIONS),
-    ("pre-ai-at-work", ("AI Tools", "Other AI Stories")),
-    ("legacy", LEGACY_STORY_SECTIONS),
+# `AI at Work` is optional: an edition omits the heading entirely when no
+# organization changed its employee AI-use stance inside the window.
+CURRENT_REQUIRED_STORY_SECTIONS = ("AI Tools", "Other AI Stories")
+CURRENT_OPTIONAL_STORY_SECTIONS = ("AI at Work",)
+CURRENT_STORY_SECTIONS = (
+    *CURRENT_REQUIRED_STORY_SECTIONS,
+    *CURRENT_OPTIONAL_STORY_SECTIONS,
 )
+KNOWN_STORY_SECTIONS = (*CURRENT_STORY_SECTIONS, *LEGACY_STORY_SECTIONS)
+
+# A mark expires one calendar month after the edition that carried it,
+# whatever the run frequency. Expiry is absolute: a qualifying follow-up
+# reports the update but never restarts the clock.
+INTEREST_EXPIRY_MONTHS = 1
+# Unmarked editions move to recoverable trash after this many calendar months.
+ARCHIVE_RETENTION_MONTHS = 6
+
+# ASD-STE100 writing rules, with the sentence cap relaxed from the
+# specification's ~25 descriptive words to 40.
+MAX_ENGLISH_SENTENCE_WORDS = 40
+MAX_ENGLISH_SENTENCE_AVERAGE = 25.0
+MAX_CHINESE_SENTENCE_CHARS = 60
+MAX_PARAGRAPH_SENTENCES = 6
 
 
 @dataclass(frozen=True)
@@ -48,7 +63,7 @@ class Interest:
     relative_link: str
     story_text: str
     sources: list[str]
-    overdue: bool
+    expired: bool
 
 
 @dataclass(frozen=True)
@@ -58,6 +73,14 @@ class Edition:
     interests: list[Interest]
     errors: list[str]
     contract: str = ""
+
+    @property
+    def active_interests(self) -> list[Interest]:
+        return [item for item in self.interests if not item.expired]
+
+    @property
+    def expired_interests(self) -> list[Interest]:
+        return [item for item in self.interests if item.expired]
 
 
 def subtract_calendar_months(value: date, months: int) -> date:
@@ -111,27 +134,31 @@ def _section_bounds(
 def _story_section_contract(
     path: Path, lines: list[str]
 ) -> tuple[str, tuple[str, ...], list[str]]:
-    present = {
-        name
-        for _, sections in STORY_SECTION_CONTRACTS
-        for name in sections
-        if f"## {name}" in lines
-    }
+    present = {name for name in KNOWN_STORY_SECTIONS if f"## {name}" in lines}
     legacy_present = all(f"## {name}" in lines for name in LEGACY_STORY_SECTIONS)
 
     if legacy_present and present - set(LEGACY_STORY_SECTIONS):
         return "", (), [f"{path}: mixed story section contract"]
     if not present:
         return "", (), [f"{path}: missing story section contract"]
+    if legacy_present:
+        return "legacy", LEGACY_STORY_SECTIONS, []
 
-    for label, sections in STORY_SECTION_CONTRACTS:
-        if present != set(sections):
-            continue
-        positions = [lines.index(f"## {name}") for name in sections]
-        if positions != sorted(positions):
-            return "", (), [f"{path}: incorrect {label} story section order"]
-        return label, sections, []
-    return "", (), [f"{path}: incomplete story section contract"]
+    missing = [
+        name for name in CURRENT_REQUIRED_STORY_SECTIONS if name not in present
+    ]
+    if missing:
+        return (
+            "",
+            (),
+            [f"{path}: missing required section: {name}" for name in missing],
+        )
+
+    sections = tuple(name for name in CURRENT_STORY_SECTIONS if name in present)
+    positions = [lines.index(f"## {name}") for name in sections]
+    if positions != sorted(positions):
+        return "", (), [f"{path}: incorrect current story section order"]
+    return "current", sections, []
 
 
 def _parse_story_section(
@@ -201,7 +228,8 @@ def _parse_story_section(
                 relative_link=f"{path.name}#{anchor}",
                 story_text=block,
                 sources=sources,
-                overdue=edition_date < subtract_calendar_months(today, 6),
+                expired=edition_date
+                < subtract_calendar_months(today, INTEREST_EXPIRY_MONTHS),
             )
         )
 
@@ -279,14 +307,163 @@ def parse_edition(path: Path, today: date) -> Edition:
     return Edition(path, edition_date, interests, errors + story_errors, contract)
 
 
+# --- Readability -----------------------------------------------------------
+# These checks gate publication only. `parse_edition` stays free of them so
+# archive maintenance keeps reading editions written before the rules existed.
+
+CJK_RE = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+MD_LINK_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+INLINE_CODE_RE = re.compile(r"`[^`]*`")
+EMPHASIS_RE = re.compile(r"[*_]{1,3}")
+LIST_MARKER_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+")
+ENGLISH_SENTENCE_RE = re.compile(r"(?<=[.!?])\s+(?=[\"'\u201c(\[]?[A-Z0-9])")
+CHINESE_SENTENCE_RE = re.compile(r"(?<=[\u3002\uff01\uff1f])")
+SKIPPED_PROSE_SECTIONS = ("Sources",)
+
+
+def _is_chinese(text: str) -> bool:
+    return bool(CJK_RE.search(text))
+
+
+def _normalize_prose(line: str) -> str:
+    text = MD_LINK_RE.sub(r"\1", line)
+    text = INLINE_CODE_RE.sub(" ", text)
+    text = LIST_MARKER_RE.sub("", text)
+    text = EMPHASIS_RE.sub("", text)
+    return text.strip()
+
+
+def _split_sentences(text: str) -> list[str]:
+    pattern = CHINESE_SENTENCE_RE if _is_chinese(text) else ENGLISH_SENTENCE_RE
+    return [part.strip() for part in pattern.split(text) if part.strip()]
+
+
+def _sentence_size(sentence: str) -> int:
+    if _is_chinese(sentence):
+        return len("".join(sentence.split()))
+    return len(sentence.split())
+
+
+def _excerpt(text: str, limit: int = 60) -> str:
+    return text if len(text) <= limit else f"{text[:limit]}..."
+
+
+def _measure(path: Path, label: str, text: str, english_words: list[int]) -> list[str]:
+    """Check one prose line or headline, recording English sentence lengths."""
+    errors: list[str] = []
+    for sentence in _split_sentences(text):
+        size = _sentence_size(sentence)
+        if _is_chinese(sentence):
+            if size > MAX_CHINESE_SENTENCE_CHARS:
+                errors.append(
+                    f"{path}: {label} Chinese sentence runs {size} characters "
+                    f"(max {MAX_CHINESE_SENTENCE_CHARS}): {_excerpt(sentence)}"
+                )
+        else:
+            english_words.append(size)
+            if size > MAX_ENGLISH_SENTENCE_WORDS:
+                errors.append(
+                    f"{path}: {label} English sentence runs {size} words "
+                    f"(max {MAX_ENGLISH_SENTENCE_WORDS}): {_excerpt(sentence)}"
+                )
+    return errors
+
+
+def readability_errors(path: Path, lines: list[str]) -> list[str]:
+    """Apply the sentence, paragraph, and translation-parity caps."""
+    errors: list[str] = []
+    english_words: list[int] = []
+    paragraph: list[tuple[str, int]] = []
+    section = ""
+    fenced = False
+
+    def flush() -> None:
+        for language in dict.fromkeys(lang for lang, _ in paragraph):
+            total = sum(n for lang, n in paragraph if lang == language)
+            if total > MAX_PARAGRAPH_SENTENCES:
+                errors.append(
+                    f"{path}: paragraph holds {total} {language} sentences "
+                    f"(max {MAX_PARAGRAPH_SENTENCES})"
+                )
+        for index in range(len(paragraph) - 1):
+            language, count = paragraph[index]
+            next_language, next_count = paragraph[index + 1]
+            if language == "English" and next_language == "Chinese":
+                if count != next_count:
+                    errors.append(
+                        f"{path}: {count} English sentences paired with "
+                        f"{next_count} Chinese sentences"
+                    )
+        paragraph.clear()
+
+    for raw in lines:
+        line = raw.rstrip()
+        if line.strip().startswith("```"):
+            fenced = not fenced
+            flush()
+            continue
+        if fenced:
+            continue
+        if line.startswith("## "):
+            flush()
+            section = line[3:].strip()
+            continue
+        if section in SKIPPED_PROSE_SECTIONS:
+            continue
+        if not line.strip():
+            flush()
+            continue
+        if line.startswith("# "):
+            continue
+        if line.startswith("### "):
+            flush()
+            errors.extend(
+                _measure(path, "headline", line[4:].strip(), english_words)
+            )
+            continue
+        if (
+            ANCHOR_RE.fullmatch(line)
+            or CHECKBOX_RE.fullmatch(line)
+            or line.lstrip().startswith(("|", ">", "<"))
+        ):
+            continue
+        text = _normalize_prose(line)
+        if not text:
+            continue
+        sentences = _split_sentences(text)
+        errors.extend(_measure(path, "prose", text, english_words))
+        paragraph.append(
+            ("Chinese" if _is_chinese(text) else "English", len(sentences))
+        )
+    flush()
+
+    if english_words:
+        average = sum(english_words) / len(english_words)
+        if average >= MAX_ENGLISH_SENTENCE_AVERAGE:
+            errors.append(
+                f"{path}: English sentences average {average:.1f} words "
+                f"(target below {MAX_ENGLISH_SENTENCE_AVERAGE:.0f})"
+            )
+    return errors
+
+
 def validate_edition(path: Path) -> dict[str, object]:
-    parsed = parse_edition(Path(path), date.today())
+    path = Path(path)
+    parsed = parse_edition(path, date.today())
+    errors = list(parsed.errors)
+    if path.is_file() and not path.is_symlink():
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except (OSError, UnicodeError):
+            lines = []
+        errors.extend(readability_errors(path, lines))
     return {
         "path": str(parsed.path),
-        "valid": not parsed.errors,
+        "valid": not errors,
         "contract": parsed.contract,
-        "interests": [asdict(item) for item in parsed.interests],
-        "errors": parsed.errors,
+        "interests": [asdict(item) for item in parsed.active_interests],
+        "expired": [asdict(item) for item in parsed.expired_interests],
+        "errors": errors,
     }
 
 
@@ -322,6 +499,7 @@ def scan_archive(archive: Path, today: date) -> dict[str, object]:
     if directory_errors:
         return {"interests": [], "errors": directory_errors}
     interests: list[dict[str, object]] = []
+    expired: list[dict[str, object]] = []
     errors: list[str] = []
 
     for path in sorted(archive.iterdir(), key=lambda item: item.name):
@@ -331,10 +509,11 @@ def scan_archive(archive: Path, today: date) -> dict[str, object]:
             errors.append(f"{path}: malformed newsletter filename")
             continue
         parsed = parse_edition(path, today)
-        interests.extend(asdict(item) for item in parsed.interests)
+        interests.extend(asdict(item) for item in parsed.active_interests)
+        expired.extend(asdict(item) for item in parsed.expired_interests)
         errors.extend(parsed.errors)
 
-    return {"interests": interests, "errors": errors}
+    return {"interests": interests, "expired": expired, "errors": errors}
 
 
 def _unique(items: list[str]) -> list[str]:
@@ -355,7 +534,7 @@ def cleanup_archive(archive: Path, trash: Path, today: date) -> dict[str, object
     moved: list[str] = []
     purged: list[str] = []
     errors: list[str] = []
-    expiry_boundary = subtract_calendar_months(today, 6)
+    expiry_boundary = subtract_calendar_months(today, ARCHIVE_RETENTION_MONTHS)
     purge_boundary = today - timedelta(days=30)
 
     for path in sorted(trash.iterdir(), key=lambda item: item.name):
@@ -392,6 +571,8 @@ def cleanup_archive(archive: Path, trash: Path, today: date) -> dict[str, object
             continue
         parsed = parse_edition(path, today)
         errors.extend(parsed.errors)
+        # Expiry stops the research work, not the archiving: an edition that
+        # carries any mark, active or expired, stays out of the trash.
         if parsed.errors or parsed.edition_date >= expiry_boundary or parsed.interests:
             continue
         destination = trash / (
@@ -418,6 +599,7 @@ def prepare(archive: Path, trash: Path, today: date) -> dict[str, object]:
         "moved": cleanup["moved"],
         "purged": cleanup["purged"],
         "interests": scan["interests"],
+        "expired": scan["expired"],
         "errors": _unique(cleanup["errors"] + scan["errors"]),
     }
 

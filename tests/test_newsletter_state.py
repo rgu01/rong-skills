@@ -138,24 +138,19 @@ class NewsletterStateTests(unittest.TestCase):
 
         result = newsletter_state.scan_archive(self.archive, date(2026, 7, 24))
 
+        # The mark is far older than one calendar month, so it reports as
+        # expired rather than active, with its extracted fields intact.
         self.assertEqual(result["errors"], [])
-        self.assertEqual(result["interests"][0]["headline"], "Example model ships")
+        self.assertEqual(result["interests"], [])
+        mark = result["expired"][0]
+        self.assertEqual(mark["headline"], "Example model ships")
+        self.assertEqual(mark["anchor"], "story-example-model-ships")
+        self.assertEqual(mark["sources"], ["https://example.com/release"])
+        self.assertIn("The model shipped on 2026-07-23.", mark["story_text"])
         self.assertEqual(
-            result["interests"][0]["anchor"], "story-example-model-ships"
+            mark["relative_link"], f"{path.name}#story-example-model-ships"
         )
-        self.assertEqual(
-            result["interests"][0]["sources"],
-            ["https://example.com/release"],
-        )
-        self.assertIn(
-            "The model shipped on 2026-07-23.",
-            result["interests"][0]["story_text"],
-        )
-        self.assertEqual(
-            result["interests"][0]["relative_link"],
-            f"{path.name}#story-example-model-ships",
-        )
-        self.assertTrue(result["interests"][0]["overdue"])
+        self.assertTrue(mark["expired"])
 
     def test_scan_ignores_unchecked_and_accepts_uppercase_mark(self) -> None:
         self.write_edition(
@@ -171,7 +166,8 @@ class NewsletterStateTests(unittest.TestCase):
         result = newsletter_state.scan_archive(self.archive, date(2026, 7, 24))
 
         self.assertEqual([item["headline"] for item in result["interests"]], ["Two"])
-        self.assertFalse(result["interests"][0]["overdue"])
+        self.assertFalse(result["interests"][0]["expired"])
+        self.assertEqual(result["expired"], [])
 
     def test_scan_finds_checked_stories_in_both_current_sections(self) -> None:
         self.write_edition(
@@ -220,7 +216,11 @@ class NewsletterStateTests(unittest.TestCase):
         result = newsletter_state.validate_edition(path)
 
         self.assertTrue(
-            any("incomplete story section contract" in item for item in result["errors"])
+            any(
+                "missing required section: Other AI Stories" in item
+                for item in result["errors"]
+            ),
+            result["errors"],
         )
 
     def test_validate_rejects_mixed_legacy_and_current_story_sections(self) -> None:
@@ -298,7 +298,7 @@ class NewsletterStateTests(unittest.TestCase):
         self.assertTrue(boundary.exists())
         self.assertTrue(recent.exists())
 
-    def test_cleanup_preserves_expired_marked_edition(self) -> None:
+    def test_cleanup_preserves_old_edition_whose_mark_has_expired(self) -> None:
         marked = self.write_edition(
             "2025-12-01",
             edition(
@@ -432,7 +432,13 @@ class NewsletterStateTests(unittest.TestCase):
         self.assertTrue(trash.is_dir())
         self.assertEqual(
             result,
-            {"moved": [], "purged": [], "interests": [], "errors": []},
+            {
+                "moved": [],
+                "purged": [],
+                "interests": [],
+                "expired": [],
+                "errors": [],
+            },
         )
 
     def test_cli_scan_prints_json(self) -> None:

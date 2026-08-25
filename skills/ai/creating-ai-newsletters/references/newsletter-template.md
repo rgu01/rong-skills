@@ -101,7 +101,7 @@ edition contract.
 
 **{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
 
-{Repeat for two to four independent AI at Work stories, or fewer only when fewer qualify; keep the section heading and state that no qualifying stance change was found when none pass.}
+{Repeat for every qualifying AI at Work story. Omit this heading and all of its blocks when no organization qualifies.}
 
 ## Follow-ups to Interesting Stories
 
@@ -131,7 +131,7 @@ edition contract.
 
 ## Tracked Interests
 
-- **[{Original headline}]({relative_newsletter_path}#{original_anchor})** — Marked {original_edition_date}. {`Qualifying follow-up included above` or `No qualifying update found this week`}. {If older than six months: `Review reminder: this interest has been tracked for more than six months.`} Uncheck `Interesting` in the original story to stop tracking it.
+- **[{Original headline}]({relative_newsletter_path}#{original_anchor})** — Marked {original_edition_date}. {`Qualifying follow-up included above` or `No qualifying update found this week`}. Expires {expiry_date}. Uncheck `Interesting` in the original story to stop tracking it.
 
 {Repeat once for every active mark; state that there are no active interests when the helper returns none.}
 
@@ -150,7 +150,8 @@ edition contract.
 
 ## Contract
 
-- The eight `##` section headings and their order are fixed.
+- The `##` section headings and their order are fixed. `AI at Work` is the one
+  optional heading: include it only when a story qualifies.
 - Every `AI Tools`, `Other AI Stories`, and `AI at Work` block has one unique stable anchor
   immediately before its `###` headline and one `- [ ] Interesting`
   immediately after that headline.
@@ -161,21 +162,28 @@ edition contract.
   removes the mark.
 - Follow-up and tracked-interest blocks link to the original anchor and never
   contain an interest checkbox.
-- `AI Tools` contains five to seven independent stories, `Other AI Stories`
-  contains three to five, and `AI at Work` contains two to four, unless fewer
-  pass the evidence gate. These counts are independent, and the follow-up
-  section has no numerical limit.
+- `AI Tools` contains five to seven independent stories and `Other AI Stories`
+  contains three to five, unless fewer pass the evidence gate. `AI at Work`
+  carries every qualifying story. These counts are independent, and the
+  follow-up section has no numerical limit.
 - Never publish the same event in more than one of `AI Tools`,
   `Other AI Stories`, and `AI at Work`.
 - Every `AI at Work` story names one organization and classifies its stance as
   encouraging, discouraging, or disallowing employee AI use.
-- Include every active interest in `Tracked Interests`, even with no update.
+- Include every active interest in `Tracked Interests`, even with no update,
+  and give each one its expiry date. A mark expires one calendar month after
+  the edition that carried it, whatever the run frequency.
 - State the exact underlying event date in every new story and follow-up.
 - Pair English-origin prose sentence by sentence with immediate faithful
   Simplified Chinese. Keep Chinese-origin story prose Chinese-only.
-- Keep technical terms in English inside the Simplified Chinese translation —
-  `prompt`, `token`, `agent`, `sandbox`, `context window`, `MCP`, and the like —
-  and inflect the surrounding Chinese around them.
+- Names stay English inside Simplified Chinese prose — product, protocol, and
+  standard names, file and API identifiers such as `MCP`, `AGENTS.md`, and
+  `Agent Skills`. Common technical vocabulary takes its settled Chinese
+  equivalent: `agent` is 智能体, `allowlist` is 白名单, `sandbox` is 沙箱. See
+  `writing-style.md`.
+- Every sentence obeys the caps in `writing-style.md`: 40 words maximum in
+  English averaging under 25, 60 characters maximum in Chinese, six sentences
+  maximum per paragraph, and one Chinese sentence per English sentence.
 - Do not repeat links in translations. Render standard `[name](URL)` Markdown.
 - Each selected primary URL appears once in its story block and once in the
   compact source list. Tracked-interest relative links are not source links.

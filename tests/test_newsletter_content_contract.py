@@ -47,10 +47,7 @@ class NewsletterContentContractTests(unittest.TestCase):
         self.assertNotIn("## New Stories", self.template)
 
     def test_contract_forbids_cross_section_duplicates(self) -> None:
-        self.assertIn(
-            "same event in both `AI Tools` and `Other AI Stories`",
-            self.template,
-        )
+        self.assertIn("same event in more than one of", self.template)
 
 
 if __name__ == "__main__":
