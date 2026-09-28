@@ -117,6 +117,13 @@ Empty for now; reserved for future engineering notes.
   [`knowledge/ai/workplace-ai-policy-survey.md`](knowledge/ai/workplace-ai-policy-survey.md). Read
   that file before writing the section and update it after publishing one, so each edition reports
   a stance *change* rather than a policy that was already in force.
+- One organization — typically your employer — can be watched by name through an optional
+  watchlist at `knowledge/ai/.employer-watch/watchlist.local.md`. That directory is gitignored,
+  and the watch writes its stories to a local edition beside the watchlist, never to the committed
+  archive: the repository rule in [`AGENTS.md`](AGENTS.md) keeps employer information out of git,
+  and a story's own URLs and source titles would carry the name even if the prose did not. See
+  [`references/employer-watch.md`](skills/ai/creating-ai-newsletters/references/employer-watch.md)
+  for the watchlist format and the leakage guard. With no watchlist, the track stays off.
 
 ```bash
 # preflight: prune the archive and list active interest marks

@@ -11,7 +11,8 @@ Research the event, not the headline. Publish fewer stories rather than relax
 the date, evidence, source-quality, or language rules. Lead with tools for
 building and operating AI agents, and track separately how employers govern
 their own employees' AI use. Follow-ups add a separate view of marked
-interests; they never displace or weaken either new-story selection.
+interests; they never displace or weaken either new-story selection. One
+organization can be watched by name, but only outside the committed edition.
 
 ## Defaults
 
@@ -22,11 +23,14 @@ Unless the user overrides them:
 - AI Tools: five to seven
 - Other AI Stories: three to five
 - AI at Work: every qualifying story; omit the heading when none qualify
+- Employer watch: on only when a local watchlist exists, and local-only always;
+  see `references/employer-watch.md`
 - Voice: sharp and professional, inside the ASD-STE100 rules in
   `references/writing-style.md`
 - Format: polished Markdown with stable HTML story anchors
 - Archive: `<rong-skills-repo>/knowledge/ai/AI-newsletter/`
 - Trash: `<rong-skills-repo>/knowledge/ai/.AI-newsletter-trash/`
+- Employer watch (gitignored): `<rong-skills-repo>/knowledge/ai/.employer-watch/`
 - Email delivery: off. Send only when the request asks for it; the recipient is
   then `ronggufly@gmail.com`
 - Final response: cleanup result, saved-file link, and a headline-and-date digest;
@@ -78,6 +82,18 @@ re-marking the original story stays a one-line edit.
 
 A nonzero exit or any returned error blocks generation. Never work around a
 malformed edition, symlink, cleanup collision, or incomplete interest scan.
+
+Then check for the optional local watchlist:
+
+```bash
+cat "$REPO_ROOT/knowledge/ai/.employer-watch/watchlist.local.md" 2>/dev/null
+```
+
+A watchlist turns on the employer watch described in
+`references/employer-watch.md`. Read that reference before running its queries.
+No watchlist means the track is off for this run: run no employer queries, write
+no local edition, and report one line saying the watch was skipped. A missing
+watchlist is normal and never blocks generation.
 
 ## Evidence
 
@@ -223,6 +239,28 @@ employers in aggregate, national or sector-wide regulation of employers, an
 organization's product decisions about customer-facing AI, and the restatement
 of an existing unchanged policy.
 
+### Watch one organization, locally
+
+This track exists only when the preflight found a watchlist. It reports the AI
+news about one named organization, usually the reader's employer.
+
+It is not a standing topic and it never reaches the committed edition. This
+repository forbids employer information, and the archive under
+`knowledge/ai/AI-newsletter/` is committed and public, so an employer-watch
+story is written to the gitignored
+`$REPO_ROOT/knowledge/ai/.employer-watch/YYYY-MM-DD-employer-watch.local.md`
+instead. Genericizing the name does not make such a story publishable, because
+the cited URLs, source names, and article titles still carry it.
+
+`references/employer-watch.md` owns the watchlist format, the query shapes, the
+two extra rejections — name collision and AI-as-decoration — the local edition
+format, and the leakage guard. The window, date gate, source eligibility, and
+independence rules are the same ones the edition uses.
+
+Issue these queries inside the same parallel batches as the mark, bucket, and
+vendor-feed queries. The employer watch has no item count and never changes the
+`AI Tools`, `Other AI Stories`, or `AI at Work` counts.
+
 ### Research every selection
 
 Run this work in parallel batches. Every mark query, every language-by-bucket
@@ -338,7 +376,23 @@ python3 "$REPO_ROOT/skills/ai/creating-ai-newsletters/scripts/newsletter_state.p
 
 Validation failure blocks the edition. Readability errors name the offending
 sentence: rewrite it and validate again rather than presenting the edition as
-complete. On success, report in this order:
+complete.
+
+When a watchlist exists, save the local edition to
+`$REPO_ROOT/knowledge/ai/.employer-watch/YYYY-MM-DD-employer-watch.local.md`,
+then run the leakage guard from `references/employer-watch.md` with the terms
+read from the watchlist and expect no output:
+
+```bash
+grep -inE "{term}|{alias}|{domain}" \
+  "$REPO_ROOT/knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md"
+```
+
+Any hit blocks the edition until the organization is removed from it. Do not run
+`newsletter_state.py` against the local file, and never commit it or name its
+terms in a commit message.
+
+On success, report in this order:
 
 1. The cleanup result, naming every moved or purged path.
 2. A clickable link to the saved path.
@@ -347,7 +401,11 @@ complete. On success, report in this order:
    fewer items than its range with the reason, and any standing topic that
    found nothing.
 4. Every mark that expired this run, with the story it came from.
-5. Anything else the user must act on, such as a validation warning or an
+5. The employer watch: skipped for want of a watchlist, or the local edition
+   path, its item count, and the leakage-guard result. Never restate the
+   watchlist terms in a tracked file; the response is the only place they
+   belong.
+6. Anything else the user must act on, such as a validation warning or an
    unresolved source limitation.
 
 Do not paste the complete edition inline by default. The file is the deliverable
@@ -423,6 +481,9 @@ separately from the cleanup result and the saved-file link.
   matches it.
 - Independent lookups ran in parallel batches, and no email was composed or sent
   unless the user asked for one.
+- The employer watch ran when a watchlist exists, its stories live only in the
+  gitignored local edition, and the leakage guard found no watchlist term in the
+  saved edition.
 
 If a date, source independence, or material claim cannot be verified, state the
 limitation precisely or omit the story.

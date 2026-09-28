@@ -10,3 +10,7 @@ venv/
 
 # Local harness run output (transcripts/logs — never commit)
 runs/
+
+# Local-only newsletter organization watch (see AGENTS.md: no employer
+# information in this repository — the watchlist and its editions stay local)
+knowledge/ai/.employer-watch/

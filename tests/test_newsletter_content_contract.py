@@ -8,6 +8,10 @@ TEMPLATE = (
     ROOT
     / "skills/ai/creating-ai-newsletters/references/newsletter-template.md"
 )
+EMPLOYER_WATCH = (
+    ROOT / "skills/ai/creating-ai-newsletters/references/employer-watch.md"
+)
+WATCH_DIR = "knowledge/ai/.employer-watch"
 
 
 class NewsletterContentContractTests(unittest.TestCase):
@@ -48,6 +52,26 @@ class NewsletterContentContractTests(unittest.TestCase):
 
     def test_contract_forbids_cross_section_duplicates(self) -> None:
         self.assertIn("same event in more than one of", self.template)
+
+    def test_employer_watch_is_documented_as_local_only(self) -> None:
+        self.assertTrue(EMPLOYER_WATCH.is_file(), f"{EMPLOYER_WATCH} missing")
+        self.assertIn(WATCH_DIR, self.skill)
+        self.assertIn("references/employer-watch.md", self.skill)
+        self.assertIn("never reaches the committed edition", self.skill)
+
+    def test_employer_watch_directory_is_gitignored(self) -> None:
+        """AGENTS.md forbids employer information in this repository, so the
+        watchlist and its editions must never become committable."""
+        ignored = (ROOT / ".gitignore").read_text(encoding="utf-8").splitlines()
+        self.assertIn(f"{WATCH_DIR}/", [line.strip() for line in ignored])
+
+    def test_employer_watch_never_enters_a_published_section(self) -> None:
+        watch = EMPLOYER_WATCH.read_text(encoding="utf-8")
+        self.assertIn("not a standing topic", watch)
+        self.assertIn("Leakage guard", watch)
+        for section in ("## AI Tools", "## Other AI Stories", "## AI at Work"):
+            with self.subTest(section=section):
+                self.assertNotIn(section, watch)
 
 
 if __name__ == "__main__":
