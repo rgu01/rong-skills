@@ -28,5 +28,13 @@ Each row pairs a past failure with the behaviour that replaces it.
 | Running independent searches one at a time | Batch mark queries, standing-topic queries, bucket queries, and feed sweeps concurrently; only source checks and scoring serialize. |
 | Opening a page to learn a date the snippet already ruled out | Screen on the snippet or URL date first and record a snippet-level rejection. |
 | Trusting an aggregator's date or attribution | Re-derive both from the primary source; aggregators are discovery aids. |
+| Treating a primary article's publication date as the date of every feature it mentions | Find the feature's actual release date; a roundup of earlier updates does not create a new release. |
+| Writing only agent-platform releases and omitting model progress | Search coding-model releases and post-training results independently, then compare tested capability and cost. |
+| Calling a coding benchmark firmware verification | State which requirements, compiler checks, model-checker properties, timing tests, and hardware tests remain unverified. |
+| Adding an older requirements-to-logic paper as this week's breakthrough | Keep the weekly date gate; report no qualifying formal-methods event and identify the open verification gap. |
 | Emailing the edition by default | Email is opt-in; send only when this run's request asks for it. |
 | Composing an email body before checking the connector | Confirm the connector exists, then compose. |
+| Letting one vendor's launch week fill the edition | Admit at most two new stories from one organization. Pick the two strongest for the reader and skip the rest. |
+| Admitting a generic agent-infrastructure product, such as a web search API or a payment gateway, as an AI Tool | Require a direct use in coding or in the development pipeline. Otherwise reject it, or keep it in Other AI Stories only with Impact 2. |
+| Filing a formal-methods tool release under AI Tools | An event lands in one section. Put it in `Correctness and Formal Methods`. |
+| Reporting that a checker passed without saying what stays unverified | State the property, what the checker proved, and the requirement-fidelity gap. |

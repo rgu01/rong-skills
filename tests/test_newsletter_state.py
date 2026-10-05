@@ -101,6 +101,19 @@ def current_edition(
     )
 
 
+def insert_correctness_section(
+    content: str,
+    stories: list[tuple[str, str, bool, str]],
+    before: str = "## Other AI Stories",
+) -> str:
+    section = edition(stories).split("## New Stories\n\n", 1)[1].split(
+        "## Follow-ups to Interesting Stories", 1
+    )[0]
+    return content.replace(
+        before, f"## Correctness and Formal Methods\n\n{section}{before}", 1
+    )
+
+
 class NewsletterStateTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp_dir = tempfile.TemporaryDirectory()
@@ -235,6 +248,97 @@ class NewsletterStateTests(unittest.TestCase):
         self.assertTrue(
             any("mixed story section contract" in item for item in result["errors"])
         )
+
+    def test_validate_accepts_correctness_section_between_tools_and_other(
+        self,
+    ) -> None:
+        content = insert_correctness_section(
+            current_edition(
+                [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+                [("other-story", "Other story", False, "https://example.com/o")],
+            ),
+            [("formal-story", "Formal story", False, "https://example.com/f")],
+        )
+        path = self.write_edition("2026-07-24", content)
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(result["contract"], "current")
+
+    def test_validate_rejects_correctness_section_in_wrong_order(self) -> None:
+        base = current_edition(
+            [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+            [("other-story", "Other story", False, "https://example.com/o")],
+        )
+        for before in ("## AI Tools", "## Follow-ups to Interesting Stories"):
+            with self.subTest(before=before):
+                content = insert_correctness_section(
+                    base,
+                    [("formal-story", "Formal story", False, "https://example.com/f")],
+                    before=before,
+                )
+                path = self.write_edition("2026-07-24", content)
+
+                result = newsletter_state.validate_edition(path)
+
+                self.assertTrue(
+                    any(
+                        "incorrect current story section order" in item
+                        for item in result["errors"]
+                    ),
+                    result["errors"],
+                )
+
+    def test_scan_parses_marks_in_correctness_section(self) -> None:
+        content = insert_correctness_section(
+            current_edition(
+                [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+                [("other-story", "Other story", False, "https://example.com/o")],
+            ),
+            [("formal-story", "Formal story", True, "https://example.com/f")],
+        )
+        self.write_edition("2026-07-24", content)
+
+        result = newsletter_state.scan_archive(self.archive, date(2026, 7, 24))
+
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(
+            [item["anchor"] for item in result["interests"]], ["formal-story"]
+        )
+
+    def test_correctness_section_rejects_story_without_checkbox(self) -> None:
+        content = insert_correctness_section(
+            current_edition(
+                [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+                [("other-story", "Other story", False, "https://example.com/o")],
+            ),
+            [("formal-story", "Formal story", False, "https://example.com/f")],
+        ).replace("- [ ] Interesting\n\n**Underlying event date:** 2026-07-23\n\n**What happened**\n\nThe model shipped on 2026-07-23.\n该模型于 2026-07-23 发布。\n\n**Sources:** [Release](https://example.com/f)", "No checkbox here.")
+        path = self.write_edition("2026-07-24", content)
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertTrue(
+            any("malformed checkbox/story association" in e for e in result["errors"]),
+            result["errors"],
+        )
+
+    def test_validate_accepts_current_edition_without_correctness_section(
+        self,
+    ) -> None:
+        path = self.write_edition(
+            "2026-07-24",
+            current_edition(
+                [("agent-tool", "Agent tool", False, "https://example.com/tool")],
+                [("other-story", "Other story", False, "https://example.com/o")],
+            ),
+        )
+
+        result = newsletter_state.validate_edition(path)
+
+        self.assertEqual(result["errors"], [])
+        self.assertEqual(result["contract"], "current")
 
     def test_checkbox_outside_new_stories_is_not_an_interest(self) -> None:
         content = edition().replace(

@@ -29,13 +29,16 @@ COMMON_REQUIRED_SECTIONS = (
     "Sources",
 )
 LEGACY_STORY_SECTIONS = ("New Stories",)
-# `AI at Work` is optional: an edition omits the heading entirely when no
-# organization changed its employee AI-use stance inside the window.
+# `Correctness and Formal Methods` and `AI at Work` are optional: an edition
+# omits the heading entirely when no story qualifies.
 CURRENT_REQUIRED_STORY_SECTIONS = ("AI Tools", "Other AI Stories")
-CURRENT_OPTIONAL_STORY_SECTIONS = ("AI at Work",)
+CURRENT_OPTIONAL_STORY_SECTIONS = ("Correctness and Formal Methods", "AI at Work")
+# Document order, not required-then-optional order.
 CURRENT_STORY_SECTIONS = (
-    *CURRENT_REQUIRED_STORY_SECTIONS,
-    *CURRENT_OPTIONAL_STORY_SECTIONS,
+    "AI Tools",
+    "Correctness and Formal Methods",
+    "Other AI Stories",
+    "AI at Work",
 )
 KNOWN_STORY_SECTIONS = (*CURRENT_STORY_SECTIONS, *LEGACY_STORY_SECTIONS)
 

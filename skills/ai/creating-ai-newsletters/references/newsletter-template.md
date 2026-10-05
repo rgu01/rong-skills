@@ -17,6 +17,12 @@ edition contract.
 {Second source-grounded briefing sentence in its origin language.}
 {If English-origin: its faithful Simplified Chinese translation. If Chinese-origin: omit this line.}
 
+{Optional third source-grounded briefing sentence in its origin language.}
+{If English-origin: its faithful Simplified Chinese translation. If Chinese-origin: omit this line.}
+
+{Optional fourth source-grounded briefing sentence in its origin language.}
+{If English-origin: its faithful Simplified Chinese translation. If Chinese-origin: omit this line.}
+
 ## AI Tools
 
 <a id="story-{stable-lowercase-hyphenated-slug}"></a>
@@ -29,21 +35,68 @@ edition contract.
 
 **{What happened label in the story's origin language}**
 
-{For English origin: state what happened and its exact event date in one English sentence.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: state what happened and its exact event date in one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: state the date and event in one Chinese sentence only.}
+{For Chinese origin: state the date and event in one or two Chinese sentences.}
 
 **{Why it matters label in the story's origin language}**
 
-{For English origin: one English sentence explaining which agent-lifecycle problem the tool addresses and why it matters to practitioners.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: one or two English sentences explaining which agent-lifecycle problem the tool addresses and why it matters to practitioners.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: one Chinese sentence explaining which agent-lifecycle problem the tool addresses and why it matters to practitioners.}
+{For Chinese origin: one or two Chinese sentences explaining which agent-lifecycle problem the tool addresses and why it matters to practitioners.}
+
+**{Embedded-code lens label in the story's origin language}** {Only for a relevant tool or model.}
+
+{One concrete use and one independent check still needed; mark any proposed application as an inference, not a shipped feature.}
+{If English-origin: its immediate Simplified Chinese translation.}
 
 **{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
 
 {Repeat for five to seven independent AI Tools stories, or fewer only when fewer qualify.}
+
+## Correctness and Formal Methods
+
+<a id="story-{stable-lowercase-hyphenated-slug}"></a>
+
+### {Headline in the strongest eligible primary source's language}
+
+- [ ] Interesting
+
+**{Underlying event date label in the story's origin language}:** {Exact material event date or date range}
+
+**{What happened label in the story's origin language}**
+
+{For English origin: state what happened and its exact event date in one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
+
+{For Chinese origin: state the date and event in one or two Chinese sentences.}
+
+**{Property checked label in the story's origin language}**
+
+{For English origin: one or two English sentences naming the requirement or property, and the tool or method that checks it.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
+
+{For Chinese origin: one or two Chinese sentences.}
+
+**{What the checker proved label in the story's origin language}**
+
+{For English origin: one or two English sentences stating what the checker proved.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
+
+{For Chinese origin: one or two Chinese sentences.}
+
+**{Still unverified label in the story's origin language}**
+
+{For English origin: one or two English sentences stating what stays unverified, such as requirement fidelity: does the formal property capture the natural-language intent?}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
+
+{For Chinese origin: one or two Chinese sentences.}
+
+**{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
+
+{Repeat for one to four independent stories. Omit this heading and all of its blocks when nothing qualifies.}
 
 ## Other AI Stories
 
@@ -57,17 +110,22 @@ edition contract.
 
 **{What happened label in the story's origin language}**
 
-{For English origin: state what happened and its exact event date in one English sentence.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: state what happened and its exact event date in one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: state the date and event in one Chinese sentence only.}
+{For Chinese origin: state the date and event in one or two Chinese sentences.}
 
 **{Why it matters label in the story's origin language}**
 
-{For English origin: one English sentence.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: one Chinese sentence only.}
+{For Chinese origin: one or two Chinese sentences.}
+
+**{Embedded-code lens label in the story's origin language}** {Only for a relevant tool or model.}
+
+{One concrete use and one independent check still needed; mark any proposed application as an inference, not a shipped feature.}
+{If English-origin: its immediate Simplified Chinese translation.}
 
 **{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
 
@@ -87,17 +145,17 @@ edition contract.
 
 **{What happened label in the story's origin language}**
 
-{For English origin: state which organization changed its employee AI-use stance, what the stance now is, which employees and tools it covers, and its exact event date, in one English sentence.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: state which organization changed its employee AI-use stance, what the stance now is, which employees and tools it covers, and its exact event date, in one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: the same content in one Chinese sentence only.}
+{For Chinese origin: the same content in one or two Chinese sentences.}
 
 **{Why it matters label in the story's origin language}**
 
-{For English origin: one English sentence on what the stance signals for practitioners and peer organizations.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: one or two English sentences on what the stance signals for practitioners and peer organizations.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: one Chinese sentence only.}
+{For Chinese origin: one or two Chinese sentences.}
 
 **{Sources label in the story's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
 
@@ -113,17 +171,17 @@ edition contract.
 
 **{What changed label in the follow-up's origin language}**
 
-{For English origin: one English sentence describing the meaningful in-window update.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: one or two English sentences describing the meaningful in-window update.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: one Chinese sentence only.}
+{For Chinese origin: one or two Chinese sentences.}
 
 **{Why it matters label in the follow-up's origin language}**
 
-{For English origin: one English sentence.}
-{Its immediate Simplified Chinese translation.}
+{For English origin: one or two English sentences.}
+{Its immediate Simplified Chinese translation, one Chinese sentence per English sentence.}
 
-{For Chinese origin: one Chinese sentence only.}
+{For Chinese origin: one or two Chinese sentences.}
 
 **{Sources label in the follow-up's origin language}:** [{Eligible primary source name}]({primary_url}) · [{Optional eligible secondary context name}]({secondary_url})
 
@@ -150,9 +208,11 @@ edition contract.
 
 ## Contract
 
-- The `##` section headings and their order are fixed. `AI at Work` is the one
-  optional heading: include it only when a story qualifies.
-- Every `AI Tools`, `Other AI Stories`, and `AI at Work` block has one unique stable anchor
+- The `##` section headings and their order are fixed. `Correctness and
+  Formal Methods` and `AI at Work` are the optional headings: include each one
+  only when a story qualifies.
+- Every `AI Tools`, `Correctness and Formal Methods`, `Other AI Stories`, and
+  `AI at Work` block has one unique stable anchor
   immediately before its `###` headline and one `- [ ] Interesting`
   immediately after that headline.
   Blank lines may separate these elements; no other nonblank content may.
@@ -163,11 +223,19 @@ edition contract.
 - Follow-up and tracked-interest blocks link to the original anchor and never
   contain an interest checkbox.
 - `AI Tools` contains five to seven independent stories and `Other AI Stories`
-  contains three to five, unless fewer pass the evidence gate. `AI at Work`
-  carries every qualifying story. These counts are independent, and the
-  follow-up section has no numerical limit.
+  contains three to five, unless fewer pass the evidence gate. `Correctness and
+  Formal Methods` contains one to four. `AI at Work` carries every qualifying
+  story. These counts are independent, and the follow-up section has no
+  numerical limit.
+- Diversity cap: the new-story sections together hold at most two stories from
+  one organization. Follow-ups do not count. A vendor launch week does not
+  change the cap.
 - Never publish the same event in more than one of `AI Tools`,
-  `Other AI Stories`, and `AI at Work`.
+  `Correctness and Formal Methods`, `Other AI Stories`, and `AI at Work`. A
+  formal-methods tool release goes in `Correctness and Formal Methods`, not in
+  `AI Tools`.
+- Every `Correctness and Formal Methods` story states the property checked,
+  the tool or method, what the checker proved, and what stays unverified.
 - Every `AI at Work` story names one organization and classifies its stance as
   encouraging, discouraging, or disallowing employee AI use.
 - Include every active interest in `Tracked Interests`, even with no update,
@@ -189,8 +257,13 @@ edition contract.
   compact source list. Tracked-interest relative links are not source links.
 - Use only eligible non-government-operated sources. A government-action story
   cites at least two reputable independent non-government sources.
-- Keep the executive brief to two source-grounded sentences.
+- Keep the executive brief to two to four source-grounded sentences.
 - `Watch Next Week` introduces no new factual claim or source.
+- The optional `Embedded-code lens` does not claim a firmware feature or
+  certification unless the cited source demonstrates it. Explain the proposed
+  workflow and its remaining requirement, compiler, timing, or hardware check.
+  A contextual, separately dated paper may support this lens when explicitly
+  labeled background outside the coverage window; never count it as a new story.
 - For ordinary generation, save the completed Markdown without overwriting at
   `knowledge/ai/AI-newsletter/YYYY-MM-DD-ai-newsletter.md`, validate it with the
   state helper, and return the cleanup result, a clickable path, and a digest of

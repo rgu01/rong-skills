@@ -20,16 +20,21 @@ class NewsletterContentContractTests(unittest.TestCase):
         cls.skill = SKILL.read_text(encoding="utf-8")
         cls.template = TEMPLATE.read_text(encoding="utf-8")
 
-    def test_skill_prioritizes_agent_lifecycle_tools(self) -> None:
+    def test_skill_prioritizes_coding_and_pipeline_tools(self) -> None:
+        flat = " ".join(self.skill.split())
         for phrase in (
-            "agent orchestration",
-            "deployment",
-            "observability",
-            "evaluation",
-            "governance",
-            "MCP",
+            "coding agents",
+            "CI/CD",
+            "code review",
+            "test generation",
+            "sandboxes",
+            "supply-chain",
+            "General agent infrastructure without a direct coding or "
+            "pipeline use does not qualify",
         ):
-            self.assertIn(phrase, self.skill)
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, flat)
+        self.assertNotIn("blog.cloudflare.com", self.skill)
 
     def test_skill_requires_independent_story_counts(self) -> None:
         self.assertIn("five to seven AI Tools", self.skill)
@@ -40,6 +45,7 @@ class NewsletterContentContractTests(unittest.TestCase):
         headings = [
             "## Executive Brief",
             "## AI Tools",
+            "## Correctness and Formal Methods",
             "## Other AI Stories",
             "## Follow-ups to Interesting Stories",
             "## Tracked Interests",
@@ -69,7 +75,12 @@ class NewsletterContentContractTests(unittest.TestCase):
         watch = EMPLOYER_WATCH.read_text(encoding="utf-8")
         self.assertIn("not a standing topic", watch)
         self.assertIn("Leakage guard", watch)
-        for section in ("## AI Tools", "## Other AI Stories", "## AI at Work"):
+        for section in (
+            "## AI Tools",
+            "## Correctness and Formal Methods",
+            "## Other AI Stories",
+            "## AI at Work",
+        ):
             with self.subTest(section=section):
                 self.assertNotIn(section, watch)
 

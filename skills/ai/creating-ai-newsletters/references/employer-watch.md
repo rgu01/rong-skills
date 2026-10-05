@@ -57,10 +57,15 @@ defaults to `[en, zh]`.
 
 ## Research
 
-Build the query set from `name` plus every alias and brand, crossed with the
-AI topics the reader cares about, in each configured language. Issue these
-queries inside the same parallel batches as the mark, bucket, and vendor-feed
-queries; they are independent of all of them.
+Only use an approved private research channel for this track. Do not send an
+employer's name, alias, domain, or other work identifier to a public search
+service or third-party tool. Without private retrieval, skip this optional
+track and write no local edition; the public edition can continue.
+
+When private retrieval is available, build the query set from `name` plus
+every alias and brand, crossed with the AI topics the reader cares about, in
+each configured language. Issue these queries inside the same parallel batches
+as the mark, bucket, and vendor-feed queries.
 
 Useful query shapes, per name and language:
 
@@ -118,14 +123,16 @@ archive, so a mark here would track nothing.
 
 **{What happened label}**
 
-{One sentence in the origin language.}
-{Its immediate Simplified Chinese translation, for English origin only.}
+{One or two sentences in the origin language.}
+{Its immediate Simplified Chinese translation, for English origin only, one
+Chinese sentence per English sentence.}
 
 **{Why it matters label}**
 
-{One sentence in the origin language, on what the event changes for the
-reader's own work.}
-{Its immediate Simplified Chinese translation, for English origin only.}
+{One or two sentences in the origin language, on what the event changes for
+the reader's own work.}
+{Its immediate Simplified Chinese translation, for English origin only, one
+Chinese sentence per English sentence.}
 
 **{Sources label}:** [{Primary source name}]({primary_url}) · [{Optional secondary}]({secondary_url})
 
