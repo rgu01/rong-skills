@@ -12,6 +12,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 TOPICS = {"formal-methods", "ai", "engineering"}
+# knowledge/ also holds papers/, one summary per research paper.
+KNOWLEDGE_TOPICS = TOPICS | {"papers"}
 
 EXPECTED_SKILLS = {
     "formal-methods": {"formal-specs-lilo", "uppaal"},
@@ -60,7 +62,7 @@ class SkillLayoutTests(unittest.TestCase):
 
 class KnowledgeLayoutTests(unittest.TestCase):
     def test_knowledge_root_holds_only_topic_directories(self) -> None:
-        self.assertEqual(TOPICS, _subdirs(ROOT / "knowledge"))
+        self.assertEqual(KNOWLEDGE_TOPICS, _subdirs(ROOT / "knowledge"))
 
     def test_no_note_sits_directly_under_knowledge_root(self) -> None:
         stray = sorted(p.name for p in (ROOT / "knowledge").glob("*.md"))
@@ -74,6 +76,22 @@ class KnowledgeLayoutTests(unittest.TestCase):
                 "specforge-learning-notes.md",
             },
             "ai": {"llm-tokens-and-attention.md"},
+            "papers": {
+                "2018-formalise-autonomous-wheel-loader.md",
+                "2019-nfm-two-layer-framework-autonomous-vehicles.md",
+                "2020-fmics-mission-plan-synthesis.md",
+                "2020-sac-tamaa-mission-planning.md",
+                "2021-fm-collision-avoidance-nonlinear-vehicles.md",
+                "2021-isola-probabilistic-mission-planning.md",
+                "2022-phd-thesis-scalable-synthesis-verification.md",
+                "2022-scp-strategy-synthesis-compression.md",
+                "2022-sttt-verifiable-strategy-synthesis.md",
+                "2023-aisola-formal-models-chatgpt.md",
+                "2023-amost-policy-synthesis-test-generation.md",
+                "2024-forte-guess-and-then-check.md",
+                "2024-live-ml-and-model-checking.md",
+                "2024-tosem-mission-plans-complex-road-conditions.md",
+            },
         }
         for topic, notes in expected.items():
             with self.subTest(topic=topic):

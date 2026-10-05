@@ -60,6 +60,7 @@ knowledge/
   ai/
     AI-newsletter/    # dated newsletter editions (see below)
   engineering/        # reserved
+  papers/             # one summary per research paper (see below)
 ```
 
 Each skill is a directory under `skills/<topic>/` containing a `SKILL.md` with YAML frontmatter (`name`, `description`) and the skill body. The topic directory is organizational only — runtimes discover a skill by the directory you symlink, not by its position in this tree.
@@ -80,7 +81,7 @@ python scripts/compare_tokenizers.py claude-opus-4-8 claude-haiku-4-5
 
 ## Knowledge
 
-Study notes and reference write-ups live under `knowledge/`, grouped by the same topics as the skills.
+Study notes and reference write-ups live under `knowledge/`, grouped by the same topics as the skills. `knowledge/papers/` also holds one summary per research paper.
 
 ### Formal methods
 
@@ -100,6 +101,27 @@ Study notes and reference write-ups live under `knowledge/`, grouped by the same
 ### Engineering
 
 Empty for now; reserved for future engineering notes.
+
+### Papers
+
+Each file summarizes one paper for retrieval by an AI assistant: YAML metadata, self-contained key facts with PDF page references, the scope of the paper, results, and reviewer notes on requirement fidelity.
+
+| Paper | Topic |
+|------|-------|
+| [`2018-formalise-autonomous-wheel-loader.md`](knowledge/papers/2018-formalise-autonomous-wheel-loader.md) | FormaliSE'18 — UPPAAL timed-automata model of an autonomous wheel loader's control system, with A* and dipole-field collision avoidance as C functions; 16 TCTL queries. |
+| [`2019-nfm-two-layer-framework-autonomous-vehicles.md`](knowledge/papers/2019-nfm-two-layer-framework-autonomous-vehicles.md) | NFM'19 — a two-layer verification framework for autonomous vehicles: a static planning layer and a dynamic execution layer. The paper builds the dynamic layer as hybrid automata in UPPAAL SMC. |
+| [`2020-sac-tamaa-mission-planning.md`](knowledge/papers/2020-sac-tamaa-mission-planning.md) | SAC'20 — TAMAA, a tool that synthesizes mission plans (milestone paths plus task schedules) with UPPAAL and Theta* travel times. |
+| [`2020-fmics-mission-plan-synthesis.md`](knowledge/papers/2020-fmics-mission-plan-synthesis.md) | FMICS'20 — MCRL, which combines model checking and reinforcement learning to synthesize mission plans for many agents. |
+| [`2021-isola-probabilistic-mission-planning.md`](knowledge/papers/2021-isola-probabilistic-mission-planning.md) | ISoLA'21 — MCRL extended to stochastic timed automata, with statistical model checking in UPPAAL SMC. |
+| [`2021-fm-collision-avoidance-nonlinear-vehicles.md`](knowledge/papers/2021-fm-collision-avoidance-nonlinear-vehicles.md) | FM'21 — two theorems reduce collision-avoidance checks of nonlinear vehicles to discrete-time timed automata in UPPAAL STRATEGO. |
+| [`2022-sttt-verifiable-strategy-synthesis.md`](knowledge/papers/2022-sttt-verifiable-strategy-synthesis.md) | STTT 2022 — mission-plan synthesis for many agents by timed games in UPPAAL TIGA, and by MCRL (Q-learning plus model checking) in UPPAAL STRATEGO. |
+| [`2022-scp-strategy-synthesis-compression.md`](knowledge/papers/2022-scp-strategy-synthesis-compression.md) | SCP 2022 — MoCReL: strategy synthesis with reinforcement learning, verification by model checking, and strategy compression. |
+| [`2022-phd-thesis-scalable-synthesis-verification.md`](knowledge/papers/2022-phd-thesis-scalable-synthesis-verification.md) | PhD thesis 2022 — research questions, contributions, and the six included papers (A–F), with links to their summaries. |
+| [`2023-amost-policy-synthesis-test-generation.md`](knowledge/papers/2023-amost-policy-synthesis-test-generation.md) | A-MOST'23 — mission-policy synthesis from timed games, plus reference-trajectory test cases for the tracking controller, in UPPAAL Stratego. |
+| [`2023-aisola-formal-models-chatgpt.md`](knowledge/papers/2023-aisola-formal-models-chatgpt.md) | AISoLA'23 — how well ChatGPT and Copilot explain and build formal models; error types and a student study. |
+| [`2024-live-ml-and-model-checking.md`](knowledge/papers/2024-live-ml-and-model-checking.md) | LiVe'24 — a short position paper on combining machine learning and model checking in safety-critical systems. |
+| [`2024-forte-guess-and-then-check.md`](knowledge/papers/2024-forte-guess-and-then-check.md) | FORTE'24 — Guess and then Check: three-phase synthesis of safe and secure controllers for cyber-physical systems. |
+| [`2024-tosem-mission-plans-complex-road-conditions.md`](knowledge/papers/2024-tosem-mission-plans-complex-road-conditions.md) | TOSEM 2024 (submitted manuscript) — the MALTA toolset: path planning plus UPPAAL-based task scheduling under complex road conditions. |
 
 ### AI newsletter archive
 

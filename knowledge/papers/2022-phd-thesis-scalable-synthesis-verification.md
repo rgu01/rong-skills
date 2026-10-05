@@ -332,9 +332,9 @@ These files give separate summaries of the included papers:
 |---|---|
 | A (NFM'19) | `2019-nfm-two-layer-framework-autonomous-vehicles.md` |
 | B (STTT'22) | `2022-sttt-verifiable-strategy-synthesis.md` |
-| C (TOSEM) | no separate summary |
+| C (TOSEM) | `2024-tosem-mission-plans-complex-road-conditions.md` |
 | D (ISoLA'21) | `2021-isola-probabilistic-mission-planning.md` |
-| E (SCP) | no separate summary |
+| E (SCP) | `2022-scp-strategy-synthesis-compression.md` |
 | F (FM'21) | `2021-fm-collision-avoidance-nonlinear-vehicles.md` |
 
 The notes below give only the role of each paper in the thesis.
