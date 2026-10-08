@@ -192,7 +192,7 @@ students** (see the "Build your own skill" slide): it serves as the instructor's
 the model of what a good skill looks like; students who want one build their own.
 
 - **Location & convention:** `skills/uppaal/SKILL.md` in this repo, matching the existing
-  `skills/qna/` layout. Add a row to the repo `README.md` skills table and to the symlink
+  `skills/answer-better/` layout. Add a row to the repo `README.md` skills table and to the symlink
   install snippet.
 - **Authoritative source:** <https://docs.uppaal.org/> (latest), **not** the deck Annex.
   Verify exact XML element structure against the `language-reference/` and

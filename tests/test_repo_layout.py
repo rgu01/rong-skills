@@ -17,7 +17,7 @@ KNOWLEDGE_TOPICS = TOPICS | {"papers"}
 
 EXPECTED_SKILLS = {
     "formal-methods": {"formal-specs-lilo", "uppaal"},
-    "ai": {"creating-ai-newsletters", "qna"},
+    "ai": {"creating-ai-newsletters", "answer-better"},
     "engineering": set(),
 }
 

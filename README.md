@@ -27,7 +27,7 @@ and language names are genericized. The only identity that appears here is
 | Skill | Purpose |
 |-------|---------|
 | [`creating-ai-newsletters`](skills/ai/creating-ai-newsletters/SKILL.md) | Save a source-verified English/Simplified-Chinese weekly AI newsletter about AI agents in coding and CI/CD pipelines, and about AI correctness and formal methods. It tracks checkbox-marked interests, researches qualifying follow-ups, and sends email only on request. |
-| [`qna`](skills/ai/qna/SKILL.md) | Pace long answers instead of dumping them — deliver a big explanation one part at a time, checking in with the user before continuing. Invoked with `/qna` (opt-in per question). |
+| [`answer-better`](skills/ai/answer-better/SKILL.md) | Pace long answers instead of dumping them — deliver a big explanation one part at a time, checking in with the user before continuing. |
 
 ### Engineering
 
@@ -51,7 +51,7 @@ skills/
       agents/openai.yaml
       references/newsletter-template.md
       scripts/newsletter_state.py
-    qna/
+    answer-better/
       SKILL.md        # one skill per directory; SKILL.md is the entry point
   engineering/        # reserved
 

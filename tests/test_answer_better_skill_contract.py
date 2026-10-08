@@ -3,7 +3,7 @@ import unittest
 
 
 ROOT = Path(__file__).parents[1]
-SKILL = ROOT / "skills/ai/qna/SKILL.md"
+SKILL = ROOT / "skills/ai/answer-better/SKILL.md"
 
 
 class QnaSkillContractTests(unittest.TestCase):

@@ -1,10 +1,10 @@
 ---
-name: qna
+name: answer-better
 description: Use when a single reply would run long — explaining a block of code, a document or article, a system's design, or any multi-part question whose full answer is a wall of text the user must scroll and wait through before reaching the part they care about.
 disable-model-invocation: true
 ---
 
-# QnA — pace long answers instead of dumping them
+# Answer Better — pace long answers instead of dumping them
 
 ## Core principle
 A big answer delivered all at once forces the user to wait through — and scroll past — text they may not even need. Deliver it in checkpoints: one part at a time, continuing only when the user signals they're ready.
